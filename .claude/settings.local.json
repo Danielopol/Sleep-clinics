@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run dev:*)",
+      "Bash(npm install:*)",
+      "Bash(python:*)",
+      "Bash(node:*)",
+      "Bash(taskkill /F /PID 28036)",
+      "Bash(taskkill //F //PID 28036)",
+      "Bash(timeout 10 bash:*)",
+      "Bash(curl http://localhost:3001/api/clinics)",
+      "Bash(curl:*)",
+      "Bash(npx shadcn-ui@latest list)",
+      "Bash(npx shadcn add --help:*)",
+      "mcp__playwright__browser_run_code",
+      "mcp__playwright__browser_wait_for",
+      "mcp__playwright__browser_type",
+      "mcp__playwright__browser_click",
+      "Bash(npm run build:*)"
+    ]
+  }
+}

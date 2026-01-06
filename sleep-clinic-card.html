@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleep Clinic Card Component</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        :root {
+            /* Calming sleep-focused color palette */
+            --midnight: #0f172a;
+            --deep-navy: #1e293b;
+            --twilight: #334155;
+            --soft-slate: #64748b;
+            --mist: #94a3b8;
+            --cloud: #e2e8f0;
+            --pearl: #f8fafc;
+            
+            /* Accent colors - serene blues and teals */
+            --dream-blue: #0ea5e9;
+            --dream-blue-light: #38bdf8;
+            --dream-blue-dark: #0284c7;
+            --healing-teal: #14b8a6;
+            --healing-teal-light: #2dd4bf;
+            --calm-indigo: #6366f1;
+            --aurora: linear-gradient(135deg, #0ea5e9 0%, #14b8a6 50%, #6366f1 100%);
+            --aurora-soft: linear-gradient(135deg, rgba(14, 165, 233, 0.1) 0%, rgba(20, 184, 166, 0.1) 50%, rgba(99, 102, 241, 0.1) 100%);
+            
+            /* Semantic colors */
+            --success: #10b981;
+            --warning: #f59e0b;
+            
+            /* Typography */
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'DM Sans', -apple-system, sans-serif;
+            
+            /* Spacing */
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+            --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.07), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+            --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.05);
+            --shadow-glow: 0 0 40px rgba(14, 165, 233, 0.15);
+            
+            /* Border radius */
+            --radius-sm: 0.5rem;
+            --radius-md: 0.75rem;
+            --radius-lg: 1rem;
+            --radius-xl: 1.5rem;
+            
+            /* Transitions */
+            --transition-fast: 150ms ease;
+            --transition-base: 250ms ease;
+            --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+            
+            /* Light mode specific */
+            --bg-primary: linear-gradient(180deg, #f0f9ff 0%, #e0f2fe 50%, #f0fdfa 100%);
+            --bg-card: white;
+            --bg-contact-panel: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
+        }
+        
+        /* Dark mode styles */
+        [data-theme="dark"] {
+            --bg-primary: linear-gradient(180deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            --bg-card: #1e293b;
+            --bg-contact-panel: linear-gradient(135deg, #334155 0%, #1e293b 100%);
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border-color: #475569;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+            --shadow-glow: 0 0 40px rgba(14, 165, 233, 0.25);
+            --aurora-soft: linear-gradient(135deg, rgba(14, 165, 233, 0.2) 0%, rgba(20, 184, 166, 0.2) 50%, rgba(99, 102, 241, 0.2) 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-primary);
+            min-height: 100vh;
+            padding: var(--space-2xl);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background var(--transition-base), color var(--transition-base);
+        }
+        
+        /* Dark Mode Toggle Button */
+        .theme-toggle {
+            position: fixed;
+            top: var(--space-lg);
+            right: var(--space-lg);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: none;
+            background: var(--bg-card);
+            box-shadow: var(--shadow-lg);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            transition: all var(--transition-fast);
+            z-index: 100;
+        }
+        
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .theme-toggle .fa-sun {
+            display: none;
+        }
+        
+        [data-theme="dark"] .theme-toggle .fa-sun {
+            display: block;
+        }
+        
+        [data-theme="dark"] .theme-toggle .fa-moon {
+            display: none;
+        }
+        
+        /* Page title for demo */
+        .page-header {
+            text-align: center;
+            margin-bottom: var(--space-2xl);
+        }
+        
+        .page-header h1 {
+            font-family: var(--font-display);
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: 600;
+            background: var(--aurora);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--space-sm);
+        }
+        
+        .page-header p {
+            color: var(--text-secondary);
+            font-size: 1.0625rem;
+        }
+        
+        /* Grid container for cards */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(700px, 1fr));
+            gap: var(--space-xl);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* ===== CLINIC CARD COMPONENT ===== */
+        .clinic-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            transition: transform var(--transition-slow), box-shadow var(--transition-slow), background var(--transition-base);
+            position: relative;
+        }
+        
+        .clinic-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--aurora);
+            z-index: 10;
+        }
+        
+        .clinic-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl), var(--shadow-glow);
+        }
+        
+        /* Top Section - Hero + Contact Side by Side */
+        .card-top {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+        
+        /* Hero Image Section */
+        .card-hero {
+            position: relative;
+            min-height: 320px;
+            overflow: hidden;
+        }
+        
+        .card-hero img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform var(--transition-slow);
+        }
+        
+        .clinic-card:hover .card-hero img {
+            transform: scale(1.08);
+        }
+        
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                180deg, 
+                rgba(15, 23, 42, 0) 0%,
+                rgba(15, 23, 42, 0.1) 50%,
+                rgba(15, 23, 42, 0.7) 100%
+            );
+        }
+        
+        /* Status Badge */
+        .status-badge {
+            position: absolute;
+            top: var(--space-md);
+            left: var(--space-md);
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            padding: var(--space-xs) var(--space-sm);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--success);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .status-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.2); }
+        }
+        
+        /* Rating Badge */
+        .rating-badge {
+            position: absolute;
+            top: var(--space-md);
+            right: var(--space-md);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: var(--space-xs) var(--space-sm);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border-radius: 100px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--warning);
+            box-shadow: var(--shadow-md);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .rating-badge:hover {
+            transform: scale(1.08);
+            box-shadow: var(--shadow-lg);
+            background: rgba(255, 255, 255, 1);
+        }
+        
+        .rating-badge i {
+            font-size: 0.75rem;
+        }
+        
+        /* Clinic Name on Hero */
+        .hero-content {
+            position: absolute;
+            bottom: var(--space-lg);
+            left: var(--space-lg);
+            right: var(--space-lg);
+        }
+        
+        .clinic-name {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: white;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            margin-bottom: 4px;
+            line-height: 1.2;
+        }
+        
+        .clinic-type {
+            font-size: 0.8125rem;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 500;
+            letter-spacing: 0.02em;
+        }
+        
+        /* Contact Panel - Right Side */
+        .contact-panel {
+            padding: var(--space-lg);
+            background: var(--bg-contact-panel);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: background var(--transition-base);
+        }
+        
+        /* Card Body */
+        .card-body {
+            padding: var(--space-lg);
+        }
+        
+        /* Quick Info Pills */
+        .quick-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-lg);
+        }
+        
+        .info-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: var(--aurora-soft);
+            border-radius: 100px;
+            font-size: 0.8125rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+        
+        .info-pill i {
+            color: var(--dream-blue);
+            font-size: 0.75rem;
+        }
+        
+        /* Contact Section */
+        .contact-section {
+            display: grid;
+            gap: var(--space-md);
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-sm);
+        }
+        
+        .contact-icon {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-card);
+            border-radius: var(--radius-sm);
+            color: var(--dream-blue);
+            font-size: 0.875rem;
+            box-shadow: var(--shadow-sm);
+            flex-shrink: 0;
+        }
+        
+        .contact-details {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .contact-label {
+            font-size: 0.6875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        
+        .contact-value {
+            font-size: 0.875rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+        
+        .contact-value a {
+            color: var(--dream-blue);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+        
+        .contact-value a:hover {
+            color: var(--dream-blue-dark);
+        }
+        
+        /* Hours Section */
+        .hours-section {
+            margin-top: var(--space-lg);
+        }
+        
+        .hours-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            padding: var(--space-sm) 0;
+        }
+        
+        .hours-title {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .hours-title i {
+            color: var(--healing-teal);
+        }
+        
+        .hours-status {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 100px;
+        }
+        
+        .hours-status.open {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+        
+        .hours-status.closed {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+        
+        .hours-toggle {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            transition: transform var(--transition-fast);
+        }
+        
+        .hours-list {
+            display: grid;
+            gap: 6px;
+            padding-top: var(--space-sm);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height var(--transition-slow);
+        }
+        
+        .hours-section.expanded .hours-list {
+            max-height: 300px;
+        }
+        
+        .hours-section.expanded .hours-toggle {
+            transform: rotate(180deg);
+        }
+        
+        .hours-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8125rem;
+            padding: 4px 0;
+        }
+        
+        .hours-day {
+            color: var(--text-secondary);
+        }
+        
+        .hours-time {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+        
+        .hours-row.today {
+            background: rgba(14, 165, 233, 0.08);
+            margin: 0 -8px;
+            padding: 4px 8px;
+            border-radius: var(--radius-sm);
+        }
+        
+        .hours-row.today .hours-day {
+            color: var(--dream-blue);
+            font-weight: 600;
+        }
+        
+        /* Services Tags */
+        .services-section {
+            margin-bottom: var(--space-lg);
+        }
+        
+        .services-title {
+            font-size: 0.6875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-bottom: var(--space-sm);
+        }
+        
+        .services-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        
+        .service-tag {
+            padding: 4px 10px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 100px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: all var(--transition-fast);
+        }
+        
+        .service-tag:hover {
+            border-color: var(--dream-blue);
+            color: var(--dream-blue);
+            background: rgba(14, 165, 233, 0.05);
+        }
+        
+        /* Description */
+        .description {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: var(--space-lg);
+        }
+        
+        /* CTA Buttons */
+        .cta-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-sm);
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-sm);
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all var(--transition-fast);
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+        }
+        
+        .btn-primary {
+            background: var(--aurora);
+            color: white;
+            box-shadow: 0 4px 14px rgba(14, 165, 233, 0.35);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(14, 165, 233, 0.45);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1.5px solid var(--border-color);
+        }
+        
+        .btn-secondary:hover {
+            border-color: var(--dream-blue);
+            color: var(--dream-blue);
+            background: rgba(14, 165, 233, 0.03);
+        }
+        
+        .btn-full {
+            grid-column: 1 / -1;
+        }
+        
+        /* Mini Map Section */
+        .mini-map {
+            margin-top: var(--space-md);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            height: 120px;
+            position: relative;
+            background: linear-gradient(135deg, #e0f2fe 0%, #ccfbf1 100%);
+        }
+        
+        .mini-map iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            filter: saturate(0.9) contrast(1.05);
+        }
+        
+        .mini-map-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 70%, rgba(255,255,255,0.8) 100%);
+            pointer-events: none;
+        }
+        
+        /* Reviews Section */
+        .reviews-section {
+            margin-top: var(--space-lg);
+            padding-top: var(--space-lg);
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .reviews-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-md);
+        }
+        
+        .reviews-title {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-family: var(--font-display);
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .reviews-title i {
+            color: #4285F4;
+        }
+        
+        .reviews-summary {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+        
+        .reviews-score {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .reviews-stars {
+            display: flex;
+            gap: 2px;
+            color: var(--warning);
+            font-size: 0.875rem;
+        }
+        
+        .reviews-count {
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+        }
+        
+        .reviews-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+        
+        .review-card {
+            padding: var(--space-md);
+            background: var(--bg-contact-panel);
+            border-radius: var(--radius-md);
+            transition: background var(--transition-base);
+        }
+        
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .review-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--aurora);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+        
+        .review-author-info {
+            flex: 1;
+        }
+        
+        .review-author {
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: var(--text-primary);
+        }
+        
+        .review-meta {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+        
+        .review-rating {
+            display: flex;
+            gap: 2px;
+            color: var(--warning);
+            font-size: 0.6875rem;
+        }
+        
+        .review-text {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        .reviews-cta {
+            margin-top: var(--space-md);
+            text-align: center;
+        }
+        
+        .reviews-cta a {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--dream-blue);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+        
+        .reviews-cta a:hover {
+            color: var(--dream-blue-dark);
+        }
+        
+        /* ===== RESPONSIVE STYLES ===== */
+        @media (max-width: 768px) {
+            body {
+                padding: var(--space-md);
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .clinic-card {
+                max-width: 100%;
+            }
+            
+            .card-top {
+                grid-template-columns: 1fr;
+            }
+            
+            .card-hero {
+                min-height: 200px;
+            }
+            
+            .clinic-name {
+                font-size: 1.25rem;
+            }
+            
+            .cta-section {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .clinic-card {
+            animation: fadeInUp 0.6s ease backwards;
+        }
+        
+        .cards-grid .clinic-card:nth-child(1) { animation-delay: 0.1s; }
+        .cards-grid .clinic-card:nth-child(2) { animation-delay: 0.2s; }
+        .cards-grid .clinic-card:nth-child(3) { animation-delay: 0.3s; }
+        .cards-grid .clinic-card:nth-child(4) { animation-delay: 0.4s; }
+        
+        /* Focus states for accessibility */
+        .btn:focus-visible,
+        .hours-header:focus-visible {
+            outline: 2px solid var(--dream-blue);
+            outline-offset: 2px;
+        }
+        
+        /* Print styles */
+        @media print {
+            .clinic-card {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid var(--cloud);
+            }
+            
+            .btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+        <i class="fas fa-moon"></i>
+        <i class="fas fa-sun"></i>
+    </button>
+    
+    <header class="page-header">
+        <h1>Find Your Perfect Sleep Clinic</h1>
+        <p>Discover trusted sleep medicine specialists near you</p>
+    </header>
+    
+    <div class="cards-grid">
+        <!-- Clinic Card 1 -->
+        <article class="clinic-card">
+            <div class="card-top">
+                <div class="card-hero">
+                    <img src="https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?w=800&q=80" alt="DreamWell Sleep Clinic building exterior">
+                    <div class="hero-overlay"></div>
+                    <a href="#reviews" class="rating-badge"><i class="fas fa-star"></i> 4.9</a>
+                    <div class="hero-content">
+                        <h2 class="clinic-name">DreamWell Sleep Clinic</h2>
+                        <p class="clinic-type">Sleep Medicine &amp; Diagnostic Center</p>
+                    </div>
+                </div>
+                
+                <div class="contact-panel">
+                    <div class="contact-section">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-location-dot"></i>
+                            </div>
+                            <div class="contact-details">
+                                <span class="contact-label">Address</span>
+                                <span class="contact-value">
+                                    1520 Aurora Avenue North, Suite 200<br>
+                                    Seattle, WA 98103
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contact-details">
+                                <span class="contact-label">Phone</span>
+                                <span class="contact-value">
+                                    <a href="tel:+12065551234">(206) 555-1234</a>
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-fax"></i>
+                            </div>
+                            <div class="contact-details">
+                                <span class="contact-label">Fax</span>
+                                <span class="contact-value">(206) 555-1235</span>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-details">
+                                <span class="contact-label">Email</span>
+                                <span class="contact-value">
+                                    <a href="mailto:info@dreamwellsleepclinic.com">info@dreamwellsleepclinic.com</a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="hours-section" onclick="this.classList.toggle('expanded')">
+                        <div class="hours-header" tabindex="0" role="button" aria-expanded="false">
+                            <span class="hours-title">
+                                <i class="far fa-clock"></i>
+                                Hours of Operation
+                            </span>
+                            <span class="hours-status open">Open Now</span>
+                            <i class="fas fa-chevron-down hours-toggle"></i>
+                        </div>
+                        <div class="hours-list">
+                            <div class="hours-row">
+                                <span class="hours-day">Monday</span>
+                                <span class="hours-time">7:00 AM – 6:00 PM</span>
+                            </div>
+                            <div class="hours-row">
+                                <span class="hours-day">Tuesday</span>
+                                <span class="hours-time">7:00 AM – 6:00 PM</span>
+                            </div>
+                            <div class="hours-row">
+                                <span class="hours-day">Wednesday</span>
+                                <span class="hours-time">7:00 AM – 6:00 PM</span>
+                            </div>
+                            <div class="hours-row">
+                                <span class="hours-day">Thursday</span>
+                                <span class="hours-time">7:00 AM – 6:00 PM</span>
+                            </div>
+                            <div class="hours-row today">
+                                <span class="hours-day">Friday</span>
+                                <span class="hours-time">7:00 AM – 5:00 PM</span>
+                            </div>
+                            <div class="hours-row">
+                                <span class="hours-day">Saturday</span>
+                                <span class="hours-time">8:00 AM – 12:00 PM</span>
+                            </div>
+                            <div class="hours-row">
+                                <span class="hours-day">Sunday</span>
+                                <span class="hours-time">Closed</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card-body">
+                <div class="quick-info">
+                    <span class="info-pill"><i class="fas fa-check-circle"></i> AASM Accredited</span>
+                </div>
+                
+                <div class="services-section">
+                    <span class="services-title">Services</span>
+                    <div class="services-tags">
+                        <span class="service-tag">Sleep Apnea</span>
+                        <span class="service-tag">Insomnia</span>
+                        <span class="service-tag">Sleep Studies</span>
+                        <span class="service-tag">CPAP Therapy</span>
+                        <span class="service-tag">Narcolepsy</span>
+                    </div>
+                </div>
+                
+                <p class="description">
+                    DreamWell Sleep Clinic specializes in comprehensive sleep disorder diagnosis and treatment. Our board-certified sleep medicine physicians use state-of-the-art technology to help you achieve restful, restorative sleep. We treat all sleep conditions including sleep apnea, insomnia, restless leg syndrome, and circadian rhythm disorders.
+                </p>
+                
+                <div class="cta-section">
+                    <a href="https://www.dreamwellsleepclinic.com" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                        <i class="fas fa-globe"></i>
+                        Visit Website
+                    </a>
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=1520+Aurora+Avenue+North+Suite+200+Seattle+WA+98103" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                        <i class="fas fa-directions"></i>
+                        Directions
+                    </a>
+                </div>
+                
+                <div class="mini-map">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2687.5!2d-122.3447!3d47.6583!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDfCsDM5JzMwLjAiTiAxMjLCsDIwJzQxLjAiVw!5e0!3m2!1sen!2sus!4v1234567890" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <div class="mini-map-overlay"></div>
+                </div>
+                
+                <div class="reviews-section" id="reviews">
+                    <div class="reviews-header">
+                        <h3 class="reviews-title">
+                            <i class="fab fa-google"></i>
+                            Google Reviews
+                        </h3>
+                        <div class="reviews-summary">
+                            <span class="reviews-score">4.9</span>
+                            <div class="reviews-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="reviews-count">(127 reviews)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="reviews-list">
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="review-avatar">MJ</div>
+                                <div class="review-author-info">
+                                    <span class="review-author">Michael Johnson</span>
+                                    <div class="review-meta">
+                                        <div class="review-rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <span>2 weeks ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="review-text">Life-changing experience! After years of struggling with sleep apnea, the team at DreamWell finally helped me get the restful sleep I desperately needed. Dr. Chen was incredibly thorough and took the time to explain everything. Highly recommend!</p>
+                        </div>
+                        
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="review-avatar">SR</div>
+                                <div class="review-author-info">
+                                    <span class="review-author">Sarah Rodriguez</span>
+                                    <div class="review-meta">
+                                        <div class="review-rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <span>1 month ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="review-text">The staff here is amazing. From scheduling to the actual sleep study, everything was smooth and professional. The facility is clean and comfortable—I was nervous about sleeping in a lab but they made it feel like a nice hotel room.</p>
+                        </div>
+                        
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="review-avatar">DT</div>
+                                <div class="review-author-info">
+                                    <span class="review-author">David Thompson</span>
+                                    <div class="review-meta">
+                                        <div class="review-rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <span>2 months ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="review-text">Very knowledgeable doctors and helpful support staff. The only reason for 4 stars instead of 5 is the wait time for my initial appointment was about 3 weeks. But once I got in, the care was exceptional.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="reviews-cta">
+                        <a href="https://www.google.com/maps/place/DreamWell+Sleep+Clinic" target="_blank" rel="noopener noreferrer">
+                            View all reviews on Google
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+
+    <script>
+        // Theme toggle functionality
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+        
+        // Check for saved theme preference or default to light
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        
+        // Simple script for hours toggle accessibility
+        document.querySelectorAll('.hours-header').forEach(header => {
+            header.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    header.click();
+                    header.setAttribute('aria-expanded', 
+                        header.parentElement.classList.contains('expanded'));
+                }
+            });
+        });
+    </script>
+</body>
+</html>
