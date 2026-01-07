@@ -42,3 +42,6 @@ Thumbs.db
 
 # Misc
 *.log
+
+# Generated data (rebuilt from Excel on each deploy)
+data/
