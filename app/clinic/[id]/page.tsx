@@ -1,21 +1,8 @@
 import { Navigation } from "@/components/navigation"
 import { ClinicDetailCard } from "@/components/clinic-detail-card"
-import { Clinic } from "@/lib/data"
+import { getClinicById } from "@/lib/clinics"
 import { notFound } from "next/navigation"
 import Link from "next/link"
-
-async function getClinics(): Promise<Clinic[]> {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
-  const response = await fetch(`${baseUrl}/api/clinics`, {
-    cache: 'no-store' // Ensure fresh data on each request
-  })
-
-  if (!response.ok) {
-    throw new Error('Failed to fetch clinics')
-  }
-
-  return response.json()
-}
 
 export default async function ClinicDetailPage({
   params,
@@ -23,8 +10,7 @@ export default async function ClinicDetailPage({
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
-  const clinics = await getClinics()
-  const clinic = clinics.find((c) => c.id === Number.parseInt(id))
+  const clinic = getClinicById(Number.parseInt(id))
 
   if (!clinic) {
     notFound()
