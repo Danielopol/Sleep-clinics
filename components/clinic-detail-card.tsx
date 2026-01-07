@@ -23,6 +23,11 @@ function isClinicOpen(hours: Record<string, string> | undefined): boolean {
     return false
   }
 
+  // Handle "Open 24 hours" case
+  if (todayHours.toLowerCase().includes('24 hour') || todayHours.toLowerCase().includes('24-hour')) {
+    return true
+  }
+
   // Try to parse the hours string (e.g., "7:30 a.m. - 4:30 p.m." or "7:00 AM – 6:00 PM")
   const timeRegex = /(\d{1,2}):?(\d{2})?\s*(a\.?m\.?|p\.?m\.?)/gi
   const times = todayHours.match(timeRegex)

@@ -9,11 +9,15 @@ import { Footer } from "@/components/footer"
 import { Clinic } from "@/lib/data"
 import { useState, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
+import { ChevronDown } from "lucide-react"
+
+const CLINICS_PER_PAGE = 20
 
 export default function HomePage() {
   const searchParams = useSearchParams()
   const [clinics, setClinics] = useState<Clinic[]>([])
   const [filteredClinics, setFilteredClinics] = useState<Clinic[]>([])
+  const [visibleCount, setVisibleCount] = useState(CLINICS_PER_PAGE)
   const [loading, setLoading] = useState(true)
   const [metadata, setMetadata] = useState<{ states: string[], cities: string[], specialties: string[], services: string[] }>({
     states: [],
@@ -65,6 +69,7 @@ export default function HomePage() {
           clinic.city.toLowerCase().includes(query.toLowerCase()),
       )
       setFilteredClinics(filtered)
+      setVisibleCount(CLINICS_PER_PAGE) // Reset pagination on search
     } else {
       setFilteredClinics(clinics)
     }
@@ -97,7 +102,15 @@ export default function HomePage() {
     }
 
     setFilteredClinics(filtered)
+    setVisibleCount(CLINICS_PER_PAGE) // Reset pagination on filter change
   }
+
+  const handleShowMore = () => {
+    setVisibleCount(prev => prev + CLINICS_PER_PAGE)
+  }
+
+  const visibleClinics = filteredClinics.slice(0, visibleCount)
+  const hasMoreClinics = visibleCount < filteredClinics.length
 
   return (
     <div className="min-h-screen">
@@ -128,17 +141,35 @@ export default function HomePage() {
                 </div>
               ) : (
                 <>
-                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 animate-[fadeInUp_0.6s_ease_backwards]">
-                    {filteredClinics.map((clinic, index) => (
+                  {/* Results count */}
+                  <p className="text-sm text-[var(--text-secondary)] mb-4">
+                    Showing {visibleClinics.length} of {filteredClinics.length} clinics
+                  </p>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    {visibleClinics.map((clinic, index) => (
                       <div
                         key={clinic.id}
-                        style={{ animationDelay: `${index * 0.1}s` }}
-                        className="animate-[fadeInUp_0.6s_ease_backwards]"
+                        className="animate-[fadeInUp_0.4s_ease_backwards]"
+                        style={{ animationDelay: `${Math.min(index, 5) * 0.05}s` }}
                       >
                         <ClinicCard clinic={clinic} />
                       </div>
                     ))}
                   </div>
+
+                  {/* Show More Button */}
+                  {hasMoreClinics && (
+                    <div className="flex justify-center mt-8">
+                      <button
+                        onClick={handleShowMore}
+                        className="group flex items-center gap-2 px-6 py-3 bg-[#7C9070] hover:bg-[#6B7F60] text-white rounded-xl font-semibold transition-all duration-200 shadow-md shadow-[#7C9070]/20"
+                      >
+                        Show More
+                        <ChevronDown className="w-4 h-4 transition-transform group-hover:translate-y-0.5" />
+                      </button>
+                    </div>
+                  )}
 
                   {filteredClinics.length === 0 && (
                     <div className="text-center py-12">
