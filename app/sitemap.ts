@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next'
 import { getClinicsData } from '@/lib/clinics'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://sleep-clinics.vercel.app'
+  const baseUrl = 'https://ussleepclinics.com'
 
   // Get all clinics for dynamic pages
   const clinics = getClinicsData()
