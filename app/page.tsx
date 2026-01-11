@@ -64,9 +64,9 @@ export default function HomePage() {
     if (query && clinics.length > 0) {
       const filtered = clinics.filter(
         (clinic) =>
-          clinic.name.toLowerCase().includes(query.toLowerCase()) ||
-          clinic.specialty.some((s) => s.toLowerCase().includes(query.toLowerCase())) ||
-          clinic.city.toLowerCase().includes(query.toLowerCase()),
+          String(clinic.name || '').toLowerCase().includes(query.toLowerCase()) ||
+          (clinic.specialty || []).some((s) => String(s || '').toLowerCase().includes(query.toLowerCase())) ||
+          String(clinic.city || '').toLowerCase().includes(query.toLowerCase()),
       )
       setFilteredClinics(filtered)
       setVisibleCount(CLINICS_PER_PAGE) // Reset pagination on search

@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   title: "Sleep Clinic Directory - Find Expert Sleep Care Near You",
   description:
     "Access a comprehensive network of Sleep Specialists and Clinics offering advanced diagnostic testing and personalized treatment plans.",
+  referrer: "no-referrer",
   generator: "v0.app",
   icons: {
     icon: [

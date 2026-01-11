@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { ArrowRight, MapPin, Phone } from "lucide-react"
 import Link from "next/link"
 import type { Clinic } from "@/lib/data"
@@ -8,7 +9,19 @@ interface ClinicCardProps {
   clinic: Clinic
 }
 
+const PLACEHOLDER_IMAGE = "/images/clinic-placeholder.svg"
+
+function getImageUrl(url: string | undefined): string {
+  if (!url) return PLACEHOLDER_IMAGE
+  // Proxy Google images to avoid referrer blocking
+  if (url.includes('googleusercontent.com') || url.includes('googleapis.com')) {
+    return `/api/image-proxy?url=${encodeURIComponent(url)}`
+  }
+  return url
+}
+
 export function ClinicCard({ clinic }: ClinicCardProps) {
+  const [imgSrc, setImgSrc] = useState(getImageUrl(clinic.image))
   const fullAddress = `${clinic.address}, ${clinic.city}, ${clinic.state} ${clinic.zip}`
   const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`
   // Show only the first phone number on the card
@@ -19,8 +32,9 @@ export function ClinicCard({ clinic }: ClinicCardProps) {
       {/* Image Section */}
       <div className="relative h-44 overflow-hidden">
         <img
-          src={clinic.image || "/placeholder.svg"}
+          src={imgSrc}
           alt={clinic.name}
+          onError={() => setImgSrc(PLACEHOLDER_IMAGE)}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent"></div>

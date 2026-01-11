@@ -58,8 +58,20 @@ function isClinicOpen(hours: Record<string, string> | undefined): boolean {
   return currentMinutes >= openTime && currentMinutes < closeTime
 }
 
+const PLACEHOLDER_IMAGE = "/images/clinic-placeholder.svg"
+
+function getImageUrl(url: string | undefined): string {
+  if (!url) return PLACEHOLDER_IMAGE
+  // Proxy Google images to avoid referrer blocking
+  if (url.includes('googleusercontent.com') || url.includes('googleapis.com')) {
+    return `/api/image-proxy?url=${encodeURIComponent(url)}`
+  }
+  return url
+}
+
 export function ClinicDetailCard({ clinic }: ClinicDetailCardProps) {
   const [hoursExpanded, setHoursExpanded] = useState(false)
+  const [imgSrc, setImgSrc] = useState(getImageUrl(clinic.image))
   const fullAddress = `${clinic.address}, ${clinic.city}, ${clinic.state} ${clinic.zip}`
   const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`
   const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(fullAddress)}`
@@ -80,8 +92,9 @@ export function ClinicDetailCard({ clinic }: ClinicDetailCardProps) {
         {/* Hero Image Section */}
         <div className="relative min-h-80 overflow-hidden">
           <img
-            src={clinic.image || "/placeholder.svg"}
+            src={imgSrc}
             alt={clinic.name}
+            onError={() => setImgSrc(PLACEHOLDER_IMAGE)}
             className="w-full h-full object-cover transition-transform duration-[var(--transition-slow)] hover:scale-110"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[rgba(15,23,42,0.7)] via-[rgba(15,23,42,0.1)] to-transparent"></div>
