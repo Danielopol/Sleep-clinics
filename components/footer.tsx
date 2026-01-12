@@ -4,10 +4,12 @@ import Link from "next/link"
 import Image from "next/image"
 import { Mail, Phone, Send, Moon, ArrowRight } from "lucide-react"
 import { useState } from "react"
+import { SleepDisordersModal } from "./sleep-disorders-modal"
 
 export function Footer() {
   const [email, setEmail] = useState("")
   const [subscribed, setSubscribed] = useState(false)
+  const [showDisordersModal, setShowDisordersModal] = useState(false)
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault()
@@ -149,8 +151,16 @@ export function Footer() {
               Resources
             </h4>
             <ul className="space-y-3">
+              <li>
+                <button
+                  onClick={() => setShowDisordersModal(true)}
+                  className="group text-slate-400 hover:text-white transition-colors text-sm flex items-center gap-2"
+                >
+                  <ArrowRight className="w-3 h-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 text-violet-400" />
+                  <span>Sleep Disorders Guide</span>
+                </button>
+              </li>
               {[
-                { label: "Sleep Disorders Guide", href: "/blog" },
                 { label: "AASM Accreditation", href: "/about" },
                 { label: "Treatment Options", href: "/blog" },
                 { label: "Find a Clinic", href: "/" },
@@ -244,6 +254,12 @@ export function Footer() {
           </div>
         </div>
       </div>
+
+      {/* Sleep Disorders Modal */}
+      <SleepDisordersModal
+        isOpen={showDisordersModal}
+        onClose={() => setShowDisordersModal(false)}
+      />
     </footer>
   )
 }
