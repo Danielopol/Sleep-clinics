@@ -17,11 +17,48 @@ export default function SubmitPage() {
     website: "",
     description: "",
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle")
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("Form submitted:", formData)
-    alert("Thank you for your submission! We'll review your clinic information.")
+    setIsSubmitting(true)
+    setSubmitStatus("idle")
+
+    try {
+      const response = await fetch("/api/submit-clinic", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+
+      if (response.ok) {
+        setSubmitStatus("success")
+        setFormData({
+          clinicName: "",
+          address: "",
+          city: "",
+          state: "",
+          zip: "",
+          phone: "",
+          specialty: "",
+          website: "",
+          description: "",
+        })
+        alert("Thank you for your submission! We'll review your clinic information.")
+      } else {
+        setSubmitStatus("error")
+        alert("There was an error submitting your form. Please try again.")
+      }
+    } catch (error) {
+      console.error("Submission error:", error)
+      setSubmitStatus("error")
+      alert("There was an error submitting your form. Please try again.")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -57,7 +94,7 @@ export default function SubmitPage() {
                 required
                 value={formData.clinicName}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f5a623]"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f5a623] text-gray-900"
               />
             </div>
 
@@ -69,7 +106,7 @@ export default function SubmitPage() {
                 required
                 value={formData.address}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f5a623]"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f5a623] text-gray-900"
               />
             </div>
 
@@ -82,7 +119,7 @@ export default function SubmitPage() {
                   required
                   value={formData.city}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f5a623]"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f5a623] text-gray-900"
                 />
               </div>
 
@@ -94,7 +131,7 @@ export default function SubmitPage() {
                   required
                   value={formData.state}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f5a623]"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f5a623] text-gray-900"
                 />
               </div>
 
@@ -106,7 +143,7 @@ export default function SubmitPage() {
                   required
                   value={formData.zip}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f5a623]"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f5a623] text-gray-900"
                 />
               </div>
             </div>
@@ -119,7 +156,7 @@ export default function SubmitPage() {
                 required
                 value={formData.phone}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f5a623]"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f5a623] text-gray-900"
               />
             </div>
 
@@ -130,7 +167,7 @@ export default function SubmitPage() {
                 required
                 value={formData.specialty}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f5a623]"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f5a623] text-gray-900"
               >
                 <option value="">Select a specialty</option>
                 <option value="Sleep Medicine">Sleep Medicine</option>
@@ -147,7 +184,7 @@ export default function SubmitPage() {
                 name="website"
                 value={formData.website}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f5a623]"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f5a623] text-gray-900"
               />
             </div>
 
@@ -158,15 +195,16 @@ export default function SubmitPage() {
                 rows={4}
                 value={formData.description}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f5a623]"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f5a623] text-gray-900"
               />
             </div>
 
             <button
               type="submit"
-              className="w-full bg-[#f5a623] hover:bg-[#e8941f] text-white py-4 rounded-lg transition-colors font-medium text-lg"
+              disabled={isSubmitting}
+              className="w-full bg-[#f5a623] hover:bg-[#e8941f] text-white py-4 rounded-lg transition-colors font-medium text-lg disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Submit Clinic
+              {isSubmitting ? "Submitting..." : "Submit Clinic"}
             </button>
           </form>
         </div>
