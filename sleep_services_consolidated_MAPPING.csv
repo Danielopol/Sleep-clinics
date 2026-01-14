@@ -1,0 +1,40 @@
+Main Category,Category Number,Consolidated Service Name,Original Terms
+PAP THERAPIES,1,CPAP Therapy,"CPAP Therapy, CPAP therapy, CPAP Clinic / CPAP Clinics, CPAP Management Program, CPAP Titration / CPAP Titration Therapy, CPAP overnight Sleep Studies, Continuous positive airway pressure therapy (CPAP), Non-invasive CPAP Therapy"
+PAP THERAPIES,2,BiPAP/BPAP Therapy,"BiPAP Therapy / BiPAP therapy, BPAP Therapy, BIPAP Therapy & Supplies, Bilevel PAP therapy"
+PAP THERAPIES,3,CPAP/BiPAP Therapy,"CPAP/BiPAP Therapy, CPAP/BiPAP test, PAP Therapy, Positive airway pressure (PAP) via CPAP and BiPAP therapy"
+PAP THERAPIES,4,Adaptive Servo-Ventilation (ASV),Adaptive servo-ventilation (ASV)
+EQUIPMENT & SUPPLIES,5,CPAP Equipment & Supplies,"CPAP Equipment / CPAP Products, CPAPs & Supplies, Supplies / Supply and Resupply, Therapy Devices, Mask Fitting"
+EQUIPMENT & SUPPLIES,6,Durable Medical Equipment (DME),"Set-up and Delivery of Durable Medical Equipment, Home & Portable Oxygen, Nebulizers"
+SLEEP TESTING,7,In-Lab Sleep Testing (Polysomnography),"In-Lab Testing / In-Lab Sleep Testing / In-lab sleep testing, Inpatient Sleep Testing, Polysomnography / Polysomnogram / Polysomnograms, Overnight Polysomnography / Overnight sleep studies, Sleep Studies (Polysomnograms), Sleep Laboratory"
+SLEEP TESTING,8,Home Sleep Testing,"Home Sleep Testing, Home Sleeping Apnea Testing, Home Sleep Studies / Home Studies, In-home sleep testing, Home Sleep Test Devices"
+SLEEP TESTING,9,Sleep Studies ,"Sleep Studies, Sleep studies"
+SLEEP TESTING,10,Multiple Sleep Latency Test (MSLT),"Multiple Sleep Latency Test, Multiple Sleep Latency Testing, Multiple sleep latency test"
+SLEEP TESTING,11,Maintenance of Wakefulness Test (MWT),"Maintenance Wakefulness Test, Maintenance of Wakefulness Test"
+DIAGNOSIS,12,Sleep Disorders Diagnosis,"Sleep Disorders Diagnosis, Sleep Disorders Diagnostic, Sleep Disorders Care, Sleep Disorders evaluations, Sleep Disorders Testing, Sleep Disorders Diagnosis and Management, Sleep Disorders Diagnosis and Treatment"
+DIAGNOSIS,13,Daytime Sleepiness Evaluation,"Daytime Sleepiness Evaluation, Excessive Daytime Sleepiness, Sleepiness, Chronic Fatigue, Drowsy Driving"
+DIAGNOSIS,14,Sleep-Disordered Breathing,Sleep-disordered breathing
+CONDITION-SPECIFIC TREATMENTS,15,Sleep Apnea Treatment,"Sleep Apnea Treatment / Sleep Apnea treatment, Obstructive Sleep Apnea Treatment / Obstructive sleep apnea Treatment, Obstructive Sleep Apnea Syndrome Treatment, Central Sleep Apnea Treatment, Sleep Apnea Diagnosis and Treatment, Sleep Apnea Testing"
+CONDITION-SPECIFIC TREATMENTS,16,Insomnia Treatment,"Insomnia Treatment / Insomnia treatment, Insomnia management by behavioral intervention or medication therapy"
+CONDITION-SPECIFIC TREATMENTS,17,Narcolepsy Treatment,Narcolepsy Treatment
+CONDITION-SPECIFIC TREATMENTS,18,Restless Leg Syndrome Treatment,"Restless Leg Syndrome Treatment, Restless Legs Syndrome Treatment"
+CONDITION-SPECIFIC TREATMENTS,19,Periodic Limb Movement Disorder Treatment,"Periodic Limb Movement, Periodic Limb Movement Treatment, Periodic Limb Movements Disorder Treatment"
+CONDITION-SPECIFIC TREATMENTS,20,Parasomnias Treatment,"Parasomnias Treatment, Night terrors / Sleep terrors Treatment, Sleepwalking / Sleep Walking Treatment / Sleep walking Treatment, Sleep Talking, Acting out dreams, Nocturnal eating"
+CONDITION-SPECIFIC TREATMENTS,21,REM Behavior Disorder Treatment,"REM Behavior Disorder (RBD), REM Behavior Disorder Treatment"
+CONDITION-SPECIFIC TREATMENTS,22,Circadian Rhythm Disorder Treatment,"Circadian Rhythm Disorder, Shift Work Sleep Disorder"
+CONDITION-SPECIFIC TREATMENTS,23,Hypersomnia Treatment,"Hypersomnia, Idiopathic hypersomnia"
+CONDITION-SPECIFIC TREATMENTS,24,Snoring Treatment,Snoring Treatment
+THERAPIES & INTERVENTIONS,25,Behavioral Sleep Medicine,"Behavioral Sleep Medicine, Behavioral Therapy"
+THERAPIES & INTERVENTIONS,26,Oral Appliance Therapy,"Oral Appliances / Oral appliances, Oral Devices, Oral Appliance Studies, Dental appliance, Mandibular advancement devices"
+THERAPIES & INTERVENTIONS,27,Dental Sleep Medicine,Dental Sleep Medicine
+THERAPIES & INTERVENTIONS,28,Inspire Therapy (Upper Airway Stimulation),"Inspire Therapy, Inspire Surgery, Inspire Device Evaluations, Inspire Upper Airway Stimulation, Inspired Upper Airway Stimulation monitoring"
+THERAPIES & INTERVENTIONS,29,Sleep Apnea Surgery,Sleep Apnea Surgery
+THERAPIES & INTERVENTIONS,30,ExciteOSA Therapy,ExciteOSA
+THERAPIES & INTERVENTIONS,31,iNAP Therapy,iNAP
+THERAPIES & INTERVENTIONS,32,Non-Invasive Ventilation,Non-invasive ventilation
+THERAPIES & INTERVENTIONS,33,Sleep Disorders Therapy ,"Sleep Disorders Therapy, Sleep Disorders Treatments, Treatment Options, Treatment Plans for Sleep Disorders Diagnosis, Treatment for Sleep Disorders Diagnosis, Sleep Medicine & Treatments"
+CLINICAL SERVICES,34,Sleep Medicine Consultation,"Sleep Medicine / Sleep medicine, Sleep Clinic, Sleep Consultation, Consultations / In-person consultations, Specialist Consultation, Sleep Specialists"
+CLINICAL SERVICES,35,Pediatric Sleep Medicine,"Pediatric Sleep Medicine / Pediatric sleep medicine, Pediatric Sleep / Pediatric Sleep Health, Pediatric Sleep Studies, Pediatric Sleep Disorders Diagnosis"
+CLINICAL SERVICES,36,Virtual/Telemedicine Consultations,Video consultations
+CLINICAL SERVICES,37,Neurological Evaluation,Neurological Evaluation
+CLINICAL SERVICES,38,Pulmonary Medicine,"Pulmonary Medicine, Pulmonary Rehabilitation, Pulmonary & Sleep Medicine / Pulmonary and Sleep, Respiratory Therapy"
+CLINICAL SERVICES,39,Sleep Disorders Education,Sleep Disorders Education
