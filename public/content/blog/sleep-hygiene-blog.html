@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Art of Sleep | A Guide to Better Rest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --midnight: #0f1729;
+            --deep-ocean: #1a2744;
+            --twilight: #2d3a5c;
+            --lavender-mist: #8b9dc3;
+            --soft-cream: #f5f0e8;
+            --warm-gold: #d4a574;
+            --pale-rose: #e8d5d5;
+            --moonlight: #e8edf5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--midnight);
+            color: var(--moonlight);
+            line-height: 1.8;
+            font-size: 17px;
+            overflow-x: hidden;
+        }
+
+        /* Animated stars background */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: twinkle 4s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.2); }
+        }
+
+        /* Header */
+        header {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(180deg, var(--midnight) 0%, var(--deep-ocean) 50%, var(--twilight) 100%);
+            overflow: hidden;
+        }
+
+        .moon {
+            position: absolute;
+            top: 10%;
+            right: 15%;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle at 30% 30%, var(--soft-cream) 0%, var(--pale-rose) 50%, var(--lavender-mist) 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 80px rgba(245, 240, 232, 0.4), 0 0 120px rgba(245, 240, 232, 0.2);
+            animation: float 8s ease-in-out infinite;
+            opacity: 0;
+            animation: moonrise 2s ease-out 0.5s forwards, float 8s ease-in-out 2.5s infinite;
+        }
+
+        @keyframes moonrise {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+
+        .eyebrow {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--warm-gold);
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeUp 1s ease-out 0.3s forwards;
+        }
+
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 400;
+            line-height: 1.1;
+            color: var(--soft-cream);
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeUp 1s ease-out 0.5s forwards;
+        }
+
+        h1 em {
+            font-style: italic;
+            color: var(--lavender-mist);
+        }
+
+        .subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-style: italic;
+            color: var(--lavender-mist);
+            max-width: 500px;
+            margin: 0 auto 3rem;
+            opacity: 0;
+            animation: fadeUp 1s ease-out 0.7s forwards;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--lavender-mist);
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            opacity: 0;
+            animation: fadeUp 1s ease-out 1s forwards;
+        }
+
+        .scroll-indicator span {
+            display: block;
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--lavender-mist), transparent);
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 0.3; height: 40px; }
+            50% { opacity: 1; height: 60px; }
+        }
+
+        /* Main content */
+        main {
+            position: relative;
+            z-index: 1;
+            background: linear-gradient(180deg, var(--twilight) 0%, var(--deep-ocean) 100%);
+        }
+
+        .content-wrapper {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 6rem 2rem;
+        }
+
+        /* Intro section */
+        .intro {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            line-height: 1.9;
+            color: var(--soft-cream);
+            margin-bottom: 4rem;
+            padding-bottom: 4rem;
+            border-bottom: 1px solid rgba(139, 157, 195, 0.2);
+        }
+
+        .intro::first-letter {
+            float: left;
+            font-size: 5rem;
+            line-height: 0.8;
+            padding-right: 0.8rem;
+            color: var(--warm-gold);
+            font-weight: 500;
+        }
+
+        /* Section styling */
+        section {
+            margin-bottom: 4rem;
+        }
+
+        h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 500;
+            color: var(--soft-cream);
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 80%;
+            background: linear-gradient(to bottom, var(--warm-gold), var(--lavender-mist));
+            border-radius: 2px;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            color: var(--moonlight);
+            opacity: 0.9;
+        }
+
+        /* Tips cards */
+        .tips-grid {
+            display: grid;
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .tip-card {
+            background: rgba(45, 58, 92, 0.5);
+            border: 1px solid rgba(139, 157, 195, 0.15);
+            border-radius: 16px;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .tip-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--warm-gold), var(--lavender-mist));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .tip-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(139, 157, 195, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .tip-card:hover::before {
+            opacity: 1;
+        }
+
+        .tip-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.5rem;
+            font-weight: 600;
+            color: var(--warm-gold);
+            opacity: 0.3;
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            line-height: 1;
+        }
+
+        .tip-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--soft-cream);
+            margin-bottom: 1rem;
+        }
+
+        .tip-card p {
+            font-size: 0.95rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .tip-card ul {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .tip-card ul li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            color: var(--moonlight);
+            opacity: 0.85;
+        }
+
+        .tip-card ul li::before {
+            content: '○';
+            position: absolute;
+            left: 0;
+            color: var(--lavender-mist);
+            font-size: 0.6rem;
+            top: 0.4em;
+        }
+
+        .action-step {
+            background: rgba(212, 165, 116, 0.1);
+            border-left: 3px solid var(--warm-gold);
+            padding: 1rem 1.25rem;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.9rem;
+        }
+
+        .action-step strong {
+            color: var(--warm-gold);
+            font-weight: 500;
+        }
+
+        /* Blockquote */
+        blockquote {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-style: italic;
+            color: var(--soft-cream);
+            text-align: center;
+            padding: 4rem 2rem;
+            margin: 4rem -2rem;
+            position: relative;
+            background: linear-gradient(135deg, rgba(45, 58, 92, 0.4) 0%, rgba(26, 39, 68, 0.4) 100%);
+        }
+
+        blockquote::before {
+            content: '"';
+            position: absolute;
+            top: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 6rem;
+            color: var(--warm-gold);
+            opacity: 0.3;
+            line-height: 1;
+        }
+
+        /* CTA section */
+        .cta-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            margin-top: 4rem;
+            background: radial-gradient(ellipse at center, rgba(139, 157, 195, 0.1) 0%, transparent 70%);
+            border-radius: 24px;
+        }
+
+        .cta-section h2 {
+            padding-left: 0;
+            text-align: center;
+        }
+
+        .cta-section h2::before {
+            display: none;
+        }
+
+        .cta-section p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.25rem;
+            max-width: 500px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Footer */
+        footer {
+            position: relative;
+            z-index: 1;
+            background: var(--midnight);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .footer-text {
+            font-size: 0.85rem;
+            color: var(--lavender-mist);
+            opacity: 0.6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .moon {
+                width: 80px;
+                height: 80px;
+                top: 5%;
+                right: 10%;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .intro {
+                font-size: 1.25rem;
+            }
+
+            .intro::first-letter {
+                font-size: 3.5rem;
+            }
+
+            .tip-card {
+                padding: 2rem 1.5rem;
+            }
+
+            blockquote {
+                font-size: 1.4rem;
+                padding: 3rem 1.5rem;
+                margin: 3rem -1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Stars background -->
+    <div class="stars" id="stars"></div>
+
+    <header>
+        <div class="moon"></div>
+        <div class="header-content">
+            <p class="eyebrow">A Guide to Better Rest</p>
+            <h1>The Art of <em>Sleep</em></h1>
+            <p class="subtitle">Small changes to your daily routine can lead to dramatically better rest</p>
+        </div>
+        <div class="scroll-indicator">
+            Begin
+            <span></span>
+        </div>
+    </header>
+
+    <main>
+        <div class="content-wrapper">
+            <p class="intro">Sleep hygiene refers to the habits and practices that are conducive to sleeping well on a regular basis. While it might seem like quality sleep should come naturally, many of us have developed habits that interfere with our body's ability to rest and recover. The good news? Small changes to your daily routine can lead to dramatically better sleep.</p>
+
+            <section>
+                <h2>Why Sleep Hygiene Matters</h2>
+                <p>Poor sleep hygiene can lead to a cascade of negative effects on your health and daily life. Chronic sleep deprivation is linked to increased risk of obesity, heart disease, diabetes, and mental health issues. On the flip side, practicing good sleep hygiene can improve immune function, enhance memory and cognitive performance, and boost mood and emotional well-being.</p>
+            </section>
+
+            <section>
+                <h2>10 Tips for Better Sleep</h2>
+                
+                <div class="tips-grid">
+                    <article class="tip-card">
+                        <span class="tip-number">01</span>
+                        <h3>Maintain a Consistent Sleep Schedule</h3>
+                        <p>Your body's internal clock, or circadian rhythm, thrives on consistency. Going to bed and waking up at the same time every day—even on weekends—helps regulate your sleep-wake cycle.</p>
+                        <div class="action-step">
+                            <strong>Action step:</strong> Set a consistent bedtime and wake time, allowing for 7-9 hours of sleep. Use an alarm for both if needed.
+                        </div>
+                    </article>
+
+                    <article class="tip-card">
+                        <span class="tip-number">02</span>
+                        <h3>Create a Relaxing Bedtime Routine</h3>
+                        <p>A calming pre-sleep routine signals to your body that it's time to wind down. This could include activities like:</p>
+                        <ul>
+                            <li>Taking a warm bath or shower</li>
+                            <li>Reading a book (physical, not on a screen)</li>
+                            <li>Practicing gentle stretching or yoga</li>
+                            <li>Listening to calming music or nature sounds</li>
+                            <li>Meditation or deep breathing exercises</li>
+                        </ul>
+                        <div class="action-step">
+                            <strong>Action step:</strong> Start your wind-down routine 30-60 minutes before bed.
+                        </div>
+                    </article>
+
+                    <article class="tip-card">
+                        <span class="tip-number">03</span>
+                        <h3>Optimize Your Sleep Environment</h3>
+                        <p>Your bedroom should be a sleep sanctuary. Consider these factors:</p>
+                        <ul>
+                            <li>Temperature: Keep your room cool, ideally between 65-68°F (18-20°C)</li>
+                            <li>Darkness: Use blackout curtains or a sleep mask</li>
+                            <li>Quiet: Use earplugs or a white noise machine if needed</li>
+                            <li>Comfort: Invest in a quality mattress and pillows</li>
+                        </ul>
+                        <div class="action-step">
+                            <strong>Action step:</strong> Audit your bedroom and make one improvement this week.
+                        </div>
+                    </article>
+
+                    <article class="tip-card">
+                        <span class="tip-number">04</span>
+                        <h3>Limit Screen Time Before Bed</h3>
+                        <p>The blue light emitted by phones, tablets, computers, and TVs suppresses melatonin production, making it harder to fall asleep.</p>
+                        <div class="action-step">
+                            <strong>Action step:</strong> Put away electronic devices at least 1 hour before bedtime. If you must use them, enable night mode or blue light filters.
+                        </div>
+                    </article>
+
+                    <article class="tip-card">
+                        <span class="tip-number">05</span>
+                        <h3>Watch Your Caffeine Intake</h3>
+                        <p>Caffeine can stay in your system for 8-10 hours. Even if you can fall asleep after drinking coffee in the evening, the caffeine may reduce the quality of your deep sleep.</p>
+                        <div class="action-step">
+                            <strong>Action step:</strong> Avoid caffeine after 2 PM, or at least 6 hours before your bedtime.
+                        </div>
+                    </article>
+
+                    <article class="tip-card">
+                        <span class="tip-number">06</span>
+                        <h3>Be Mindful of Alcohol</h3>
+                        <p>While alcohol might help you fall asleep initially, it disrupts sleep later in the night. It reduces REM sleep, increases bathroom trips, and can worsen sleep apnea and snoring.</p>
+                        <div class="action-step">
+                            <strong>Action step:</strong> If you choose to drink, limit alcohol and finish at least 3-4 hours before bed.
+                        </div>
+                    </article>
+
+                    <article class="tip-card">
+                        <span class="tip-number">07</span>
+                        <h3>Exercise Regularly—But Time It Right</h3>
+                        <p>Regular physical activity can improve sleep quality and duration. However, vigorous exercise too close to bedtime can be stimulating.</p>
+                        <div class="action-step">
+                            <strong>Action step:</strong> Aim for at least 30 minutes of moderate exercise most days, but finish workouts 3-4 hours before bed.
+                        </div>
+                    </article>
+
+                    <article class="tip-card">
+                        <span class="tip-number">08</span>
+                        <h3>Mind Your Meals</h3>
+                        <p>Going to bed too hungry or too full can interfere with sleep. Heavy, rich meals within a few hours of bed can cause discomfort and indigestion.</p>
+                        <div class="action-step">
+                            <strong>Action step:</strong> Finish eating 2-3 hours before bed. If you need a bedtime snack, choose something light like a small portion of nuts or yogurt.
+                        </div>
+                    </article>
+
+                    <article class="tip-card">
+                        <span class="tip-number">09</span>
+                        <h3>Limit Naps</h3>
+                        <p>While napping can be beneficial, long or late-day naps can interfere with nighttime sleep.</p>
+                        <div class="action-step">
+                            <strong>Action step:</strong> If you nap, keep it to 20-30 minutes and before 3 PM.
+                        </div>
+                    </article>
+
+                    <article class="tip-card">
+                        <span class="tip-number">10</span>
+                        <h3>Manage Stress and Worry</h3>
+                        <p>An active mind is one of the biggest barriers to good sleep. Racing thoughts and anxiety can keep you awake for hours.</p>
+                        <div class="action-step">
+                            <strong>Action step:</strong> Try keeping a worry journal by your bed. Write down concerns and tomorrow's to-do list to clear your mind. Practice relaxation techniques like progressive muscle relaxation or guided imagery.
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section>
+                <h2>When Sleep Hygiene Isn't Enough</h2>
+                <p>If you've implemented these strategies consistently for several weeks and still struggle with sleep, it may be time to consult a sleep specialist. Underlying sleep disorders like insomnia, sleep apnea, or restless leg syndrome require professional evaluation and treatment.</p>
+            </section>
+
+            <blockquote>
+                Good sleep is not just about quantity—it's about quality. Creating the right conditions for sleep is one of the most important investments you can make in your health.
+            </blockquote>
+
+            <section class="cta-section">
+                <h2>Start Tonight</h2>
+                <p>You don't have to implement all these changes at once. Pick one or two tips that resonate with you and focus on those first. Small, consistent changes often lead to the most lasting improvements.</p>
+                <p>Remember, better sleep is within your reach. Take the first step tonight, and your body and mind will thank you tomorrow.</p>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p class="footer-text">Rest well. Live well.</p>
+    </footer>
+
+    <script>
+        // Generate stars
+        const starsContainer = document.getElementById('stars');
+        const starCount = 100;
+
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 4 + 's';
+            star.style.animationDuration = (3 + Math.random() * 3) + 's';
+            starsContainer.appendChild(star);
+        }
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.tip-card').forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

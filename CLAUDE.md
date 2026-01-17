@@ -47,6 +47,49 @@ The API supports two modes:
 - `/blog/[slug]` - Individual blog post
 - `/submit` - Clinic submission form
 
+### Blog System
+
+#### Adding Blog Posts
+
+Blog posts are stored in `content/blog/` as Markdown files with frontmatter. The system supports automatic image detection.
+
+**Creating a new blog post:**
+
+1. Create a Markdown file: `content/blog/your-post-slug.md`
+2. Add frontmatter with metadata:
+   ```md
+   ---
+   title: "Your Post Title"
+   date: "2024-01-17"
+   excerpt: "Brief description of your post"
+   author: "Daniel Marin"  # Optional, defaults to "Daniel Marin" if omitted
+   tags: ["Tag1", "Tag2"]
+   ---
+
+   Your content here...
+   ```
+
+**Adding Images:**
+
+You have two options for adding images to blog posts:
+
+1. **Auto-detection (Recommended)**: Place an image with the same filename as your markdown file in the same directory
+   - Example: `understanding-sleep-apnea.md` + `understanding-sleep-apnea.png`
+   - Supported formats: `.png`, `.jpg`, `.jpeg`, `.gif`, `.webp`
+   - The system automatically detects and uses the image
+   - No need to specify `image:` in frontmatter
+
+2. **Manual specification**: Add the `image:` field in frontmatter
+   ```md
+   ---
+   image: "/content/blog/your-image.png"
+   ---
+   ```
+
+**Image paths:**
+- Blog images in `content/blog/` should use path: `/content/blog/filename.ext`
+- Falls back to `/modern-medical-clinic-reception-area.jpg` if no image found
+
 ### Environment Variables
 
 - `NEXT_PUBLIC_BASE_URL` - Base URL for API calls in server components (defaults to `http://localhost:3000`)

@@ -1,9 +1,8 @@
 ---
 title: "10 Evidence-Based Tips for Better Sleep Hygiene"
-date: "2024-12-20"
+date: "2025-01-17"
 excerpt: "Struggling to get quality sleep? Discover science-backed strategies to improve your sleep hygiene and wake up feeling refreshed. These simple changes can transform your nights."
-image: "/comfortable-bedroom-with-gray-bedding.jpg"
-author: "Dr. Michael Chen"
+author: "Daniel Marin"
 tags: ["Sleep Hygiene", "Sleep Tips", "Healthy Sleep", "Lifestyle"]
 ---
 

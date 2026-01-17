@@ -64,13 +64,31 @@ export function getPostBySlug(slug: string): BlogPost | null {
     const fileContents = fs.readFileSync(fullPath, 'utf8')
     const { data } = matter(fileContents)
 
+    // Auto-detect image with same filename as blog post
+    let imagePath = data.image
+    if (!imagePath) {
+      const imageExtensions = ['.png', '.jpg', '.jpeg', '.gif', '.webp']
+      const publicDir = path.join(process.cwd(), 'public', 'content', 'blog')
+      for (const ext of imageExtensions) {
+        const potentialImagePath = path.join(publicDir, `${slug}${ext}`)
+        if (fs.existsSync(potentialImagePath)) {
+          imagePath = `/content/blog/${slug}${ext}`
+          break
+        }
+      }
+      // Fallback to default image if no matching image found
+      if (!imagePath) {
+        imagePath = '/modern-medical-clinic-reception-area.jpg'
+      }
+    }
+
     return {
       slug,
       title: data.title || 'Untitled',
-      date: data.date || new Date().toISOString().split('T')[0],
+      date: data.date || new Date().toLocaleDateString('en-CA'),
       excerpt: data.excerpt || '',
-      image: data.image || '/modern-medical-clinic-reception-area.jpg',
-      author: data.author,
+      image: imagePath,
+      author: data.author || 'Daniel Marin',
       tags: data.tags,
     }
   } catch (error) {
@@ -94,13 +112,31 @@ export async function getPostWithContent(slug: string): Promise<BlogPostWithCont
       .process(content)
     const contentHtml = processedContent.toString()
 
+    // Auto-detect image with same filename as blog post
+    let imagePath = data.image
+    if (!imagePath) {
+      const imageExtensions = ['.png', '.jpg', '.jpeg', '.gif', '.webp']
+      const publicDir = path.join(process.cwd(), 'public', 'content', 'blog')
+      for (const ext of imageExtensions) {
+        const potentialImagePath = path.join(publicDir, `${slug}${ext}`)
+        if (fs.existsSync(potentialImagePath)) {
+          imagePath = `/content/blog/${slug}${ext}`
+          break
+        }
+      }
+      // Fallback to default image if no matching image found
+      if (!imagePath) {
+        imagePath = '/modern-medical-clinic-reception-area.jpg'
+      }
+    }
+
     return {
       slug,
       title: data.title || 'Untitled',
-      date: data.date || new Date().toISOString().split('T')[0],
+      date: data.date || new Date().toLocaleDateString('en-CA'),
       excerpt: data.excerpt || '',
-      image: data.image || '/modern-medical-clinic-reception-area.jpg',
-      author: data.author,
+      image: imagePath,
+      author: data.author || 'Daniel Marin',
       tags: data.tags,
       content: contentHtml,
     }

@@ -1,9 +1,8 @@
 ---
 title: "Understanding Sleep Apnea: Symptoms, Causes, and Treatment Options"
-date: "2024-12-28"
+date: "2025-01-17"
 excerpt: "Sleep apnea affects millions of Americans, yet many cases go undiagnosed. Learn about the warning signs, risk factors, and modern treatment options available to help you breathe easier and sleep better."
-image: "/modern-medical-clinic-reception-area.jpg"
-author: "Dr. Sarah Mitchell"
+author: "Daniel Marin"
 tags: ["Sleep Apnea", "CPAP Therapy", "Sleep Disorders", "Treatment"]
 ---
 
