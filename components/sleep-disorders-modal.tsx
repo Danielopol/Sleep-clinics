@@ -28,15 +28,15 @@ export function SleepDisordersModal({ isOpen, onClose }: SleepDisordersModalProp
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* Backdrop */}
+    <div className="fixed inset-0 z-40 flex items-start justify-center pt-20">
+      {/* Backdrop - transparent to show hero background */}
       <div
-        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/40"
         onClick={onClose}
       />
 
       {/* Modal */}
-      <div className="relative bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 rounded-2xl shadow-2xl w-[95vw] max-w-6xl max-h-[90vh] overflow-hidden border border-slate-700/50">
+      <div className="relative bg-gradient-to-b from-slate-900/95 via-slate-900/95 to-slate-950/95 backdrop-blur-md rounded-2xl shadow-2xl w-[95vw] max-w-6xl max-h-[calc(100vh-6rem)] overflow-hidden border border-slate-700/50">
         {/* Header */}
         <div className="sticky top-0 z-10 bg-gradient-to-r from-[#1a365d] via-[#1e4976] to-[#1a365d] px-6 py-4 border-b border-slate-700/50">
           <div className="flex items-center justify-between">

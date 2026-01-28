@@ -4,16 +4,12 @@ import Link from "next/link"
 import Image from "next/image"
 import { Mail, Phone, Send, Moon, ArrowRight } from "lucide-react"
 import { useState } from "react"
-import { SleepDisordersModal } from "./sleep-disorders-modal"
-import { TreatmentOptionsModal } from "./treatment-options-modal"
 
 export function Footer() {
   const [email, setEmail] = useState("")
   const [subscribed, setSubscribed] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [showDisordersModal, setShowDisordersModal] = useState(false)
-  const [showTreatmentModal, setShowTreatmentModal] = useState(false)
-
+  
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!email) return
@@ -180,25 +176,25 @@ export function Footer() {
             </h4>
             <ul className="space-y-3">
               <li>
-                <button
-                  onClick={() => setShowDisordersModal(true)}
+                <Link
+                  href="/sleep-disorders"
                   className="group text-slate-400 hover:text-white transition-colors text-sm flex items-center gap-2"
                 >
                   <ArrowRight className="w-3 h-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 text-violet-400" />
                   <span>Sleep Disorders Guide</span>
-                </button>
+                </Link>
               </li>
               <li>
-                <button
-                  onClick={() => setShowTreatmentModal(true)}
+                <Link
+                  href="/treatment-options"
                   className="group text-slate-400 hover:text-white transition-colors text-sm flex items-center gap-2"
                 >
                   <ArrowRight className="w-3 h-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 text-violet-400" />
                   <span>Treatment Options</span>
-                </button>
+                </Link>
               </li>
               {[
-                { label: "AASM Accreditation", href: "/about" },
+                { label: "AASM Accreditation", href: "/aasm-accreditation" },
                 { label: "Find a Clinic", href: "/" },
               ].map((link, index) => (
                 <li key={index}>
@@ -291,17 +287,6 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Sleep Disorders Modal */}
-      <SleepDisordersModal
-        isOpen={showDisordersModal}
-        onClose={() => setShowDisordersModal(false)}
-      />
-
-      {/* Treatment Options Modal */}
-      <TreatmentOptionsModal
-        isOpen={showTreatmentModal}
-        onClose={() => setShowTreatmentModal(false)}
-      />
-    </footer>
+      </footer>
   )
 }

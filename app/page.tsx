@@ -7,110 +7,148 @@ import { ClinicCard } from "@/components/clinic-card"
 import { FAQSection } from "@/components/faq-section"
 import { Footer } from "@/components/footer"
 import { Clinic } from "@/lib/data"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback, useRef } from "react"
 import { useSearchParams } from "next/navigation"
-import { ChevronDown } from "lucide-react"
+import { ChevronDown, Loader2 } from "lucide-react"
 
 const CLINICS_PER_PAGE = 20
+
+interface PaginationInfo {
+  page: number
+  limit: number
+  total: number
+  totalPages: number
+  hasMore: boolean
+}
+
+interface Filters {
+  specialty: string
+  state: string
+  city: string
+  selectedFilters: string[]
+  accreditation?: string
+}
 
 export default function HomePage() {
   const searchParams = useSearchParams()
   const [clinics, setClinics] = useState<Clinic[]>([])
-  const [filteredClinics, setFilteredClinics] = useState<Clinic[]>([])
-  const [visibleCount, setVisibleCount] = useState(CLINICS_PER_PAGE)
+  const [pagination, setPagination] = useState<PaginationInfo | null>(null)
   const [loading, setLoading] = useState(true)
+  const [loadingMore, setLoadingMore] = useState(false)
   const [metadata, setMetadata] = useState<{ states: string[], cities: string[], specialties: string[], services: string[] }>({
     states: [],
     cities: [],
     specialties: [],
     services: []
   })
+  const [currentFilters, setCurrentFilters] = useState<Filters>({
+    specialty: '',
+    state: '',
+    city: '',
+    selectedFilters: []
+  })
 
-  // Fetch clinics and metadata from API on mount
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true)
+  // Build API URL with filters
+  const buildApiUrl = useCallback((page: number, filters: Filters, searchQuery?: string | null) => {
+    const params = new URLSearchParams()
+    params.set('page', page.toString())
+    params.set('limit', CLINICS_PER_PAGE.toString())
 
-        // Fetch clinics and metadata in parallel
-        const [clinicsResponse, metadataResponse] = await Promise.all([
-          fetch('/api/clinics'),
-          fetch('/api/clinics?type=metadata')
-        ])
-
-        if (!clinicsResponse.ok || !metadataResponse.ok) {
-          throw new Error('Failed to fetch data')
-        }
-
-        const clinicsData = await clinicsResponse.json()
-        const metadataData = await metadataResponse.json()
-
-        setClinics(clinicsData)
-        setFilteredClinics(clinicsData)
-        setMetadata(metadataData)
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      } finally {
-        setLoading(false)
-      }
+    if (searchQuery) {
+      params.set('q', searchQuery)
+    }
+    if (filters.state) {
+      params.set('state', filters.state)
+    }
+    if (filters.city) {
+      params.set('city', filters.city)
+    }
+    if (filters.specialty) {
+      params.set('specialty', filters.specialty)
+    }
+    if (filters.selectedFilters.length > 0) {
+      params.set('services', filters.selectedFilters.join(','))
+    }
+    if (filters.accreditation) {
+      params.set('accreditation', filters.accreditation)
     }
 
-    fetchData()
+    return `/api/clinics?${params.toString()}`
   }, [])
 
-  // Handle search query changes
+  // Fetch clinics with pagination
+  const fetchClinics = useCallback(async (page: number, filters: Filters, searchQuery?: string | null, append = false) => {
+    try {
+      if (page === 1) {
+        setLoading(true)
+      } else {
+        setLoadingMore(true)
+      }
+
+      const url = buildApiUrl(page, filters, searchQuery)
+      const response = await fetch(url)
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch clinics')
+      }
+
+      const data = await response.json()
+
+      if (append) {
+        setClinics(prev => [...prev, ...data.clinics])
+      } else {
+        setClinics(data.clinics)
+      }
+      setPagination(data.pagination)
+    } catch (error) {
+      console.error('Error fetching clinics:', error)
+    } finally {
+      setLoading(false)
+      setLoadingMore(false)
+    }
+  }, [buildApiUrl])
+
+  // Fetch metadata on mount
+  useEffect(() => {
+    const fetchMetadata = async () => {
+      try {
+        const response = await fetch('/api/clinics?type=metadata')
+        if (response.ok) {
+          const data = await response.json()
+          setMetadata(data)
+        }
+      } catch (error) {
+        console.error('Error fetching metadata:', error)
+      }
+    }
+    fetchMetadata()
+  }, [])
+
+  // Initial fetch and search query changes
   useEffect(() => {
     const query = searchParams.get("q")
-    if (query && clinics.length > 0) {
-      const filtered = clinics.filter(
-        (clinic) =>
-          String(clinic.name || '').toLowerCase().includes(query.toLowerCase()) ||
-          (clinic.specialty || []).some((s) => String(s || '').toLowerCase().includes(query.toLowerCase())) ||
-          String(clinic.city || '').toLowerCase().includes(query.toLowerCase()),
-      )
-      setFilteredClinics(filtered)
-      setVisibleCount(CLINICS_PER_PAGE) // Reset pagination on search
-    } else {
-      setFilteredClinics(clinics)
-    }
-  }, [searchParams, clinics])
+    const accreditation = searchParams.get("accreditation")
 
-  const handleFilterChange = (filters: {
-    specialty: string
-    state: string
-    city: string
-    selectedFilters: string[]
-  }) => {
-    let filtered = [...clinics]
-
-    if (filters.specialty) {
-      filtered = filtered.filter((clinic) => clinic.services?.includes(filters.specialty))
+    // Update filters with URL params
+    const filtersWithAccreditation = {
+      ...currentFilters,
+      accreditation: accreditation || undefined
     }
 
-    if (filters.state) {
-      filtered = filtered.filter((clinic) => clinic.state === filters.state)
-    }
+    fetchClinics(1, filtersWithAccreditation, query)
+  }, [searchParams, fetchClinics, currentFilters])
 
-    if (filters.city) {
-      filtered = filtered.filter((clinic) => clinic.city === filters.city)
-    }
-
-    if (filters.selectedFilters.length > 0) {
-      filtered = filtered.filter((clinic) =>
-        filters.selectedFilters.some((filter) => clinic.services?.includes(filter)),
-      )
-    }
-
-    setFilteredClinics(filtered)
-    setVisibleCount(CLINICS_PER_PAGE) // Reset pagination on filter change
+  const handleFilterChange = (filters: Filters) => {
+    setCurrentFilters(filters)
+    // fetchClinics will be triggered by the useEffect above due to currentFilters change
   }
 
   const handleShowMore = () => {
-    setVisibleCount(prev => prev + CLINICS_PER_PAGE)
+    if (pagination && pagination.hasMore && !loadingMore) {
+      const query = searchParams.get("q")
+      fetchClinics(pagination.page + 1, currentFilters, query, true)
+    }
   }
-
-  const visibleClinics = filteredClinics.slice(0, visibleCount)
-  const hasMoreClinics = visibleCount < filteredClinics.length
 
   return (
     <div className="min-h-screen">
@@ -143,15 +181,15 @@ export default function HomePage() {
                 <>
                   {/* Results count */}
                   <p className="text-sm text-[var(--text-secondary)] mb-4">
-                    Showing {visibleClinics.length} of {filteredClinics.length} clinics
+                    Showing {clinics.length} of {pagination?.total || 0} clinics
                   </p>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                    {visibleClinics.map((clinic, index) => (
+                    {clinics.map((clinic, index) => (
                       <div
                         key={clinic.id}
                         className="animate-[fadeInUp_0.4s_ease_backwards]"
-                        style={{ animationDelay: `${Math.min(index, 5) * 0.05}s` }}
+                        style={{ animationDelay: `${Math.min(index % CLINICS_PER_PAGE, 5) * 0.05}s` }}
                       >
                         <ClinicCard clinic={clinic} />
                       </div>
@@ -159,19 +197,29 @@ export default function HomePage() {
                   </div>
 
                   {/* Show More Button */}
-                  {hasMoreClinics && (
+                  {pagination?.hasMore && (
                     <div className="flex justify-center mt-8">
                       <button
                         onClick={handleShowMore}
-                        className="group flex items-center gap-2 px-6 py-3 bg-[#7C9070] hover:bg-[#6B7F60] text-white rounded-xl font-semibold transition-all duration-200 shadow-md shadow-[#7C9070]/20"
+                        disabled={loadingMore}
+                        className="group flex items-center gap-2 px-6 py-3 bg-[#7C9070] hover:bg-[#6B7F60] disabled:bg-[#7C9070]/70 text-white rounded-xl font-semibold transition-all duration-200 shadow-md shadow-[#7C9070]/20"
                       >
-                        Show More
-                        <ChevronDown className="w-4 h-4 transition-transform group-hover:translate-y-0.5" />
+                        {loadingMore ? (
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                            Loading...
+                          </>
+                        ) : (
+                          <>
+                            Show More
+                            <ChevronDown className="w-4 h-4 transition-transform group-hover:translate-y-0.5" />
+                          </>
+                        )}
                       </button>
                     </div>
                   )}
 
-                  {filteredClinics.length === 0 && (
+                  {clinics.length === 0 && (
                     <div className="text-center py-12">
                       <p className="text-[var(--text-secondary)] text-lg">
                         No clinics found matching your criteria. Please adjust your filters.
