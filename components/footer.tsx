@@ -276,10 +276,10 @@ export function Footer() {
               © {currentYear} Sleep Clinics Directory. All rights reserved.
             </p>
             <div className="flex items-center gap-6">
-              <Link href="/about" className="text-slate-500 hover:text-slate-300 text-sm transition-colors">
+              <Link href="/privacy-policy" className="text-slate-500 hover:text-slate-300 text-sm transition-colors">
                 Privacy Policy
               </Link>
-              <Link href="/about" className="text-slate-500 hover:text-slate-300 text-sm transition-colors">
+              <Link href="/terms-of-service" className="text-slate-500 hover:text-slate-300 text-sm transition-colors">
                 Terms of Service
               </Link>
             </div>

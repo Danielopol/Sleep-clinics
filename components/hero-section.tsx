@@ -53,7 +53,7 @@ export function HeroSection() {
               <div className="relative flex items-center bg-white/95 dark:bg-white/95 rounded-full shadow-[var(--shadow-xl)] border border-[var(--dream-blue)]/20 backdrop-blur-sm">
                 <input
                   type="text"
-                  placeholder="Search city, state, or service..."
+                  placeholder="Search clinic, city, state, or service..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="flex-1 min-w-0 px-5 sm:px-8 py-4 bg-transparent text-[#1e293b] placeholder-[#64748b] focus:outline-none text-base sm:text-lg font-medium dark:text-[#1e293b] dark:placeholder-[#64748b]"
