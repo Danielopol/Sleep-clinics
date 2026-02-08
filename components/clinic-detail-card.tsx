@@ -58,7 +58,7 @@ function isClinicOpen(hours: Record<string, string> | undefined): boolean {
   return currentMinutes >= openTime && currentMinutes < closeTime
 }
 
-const PLACEHOLDER_IMAGE = "/images/clinic-placeholder.svg"
+const PLACEHOLDER_IMAGE = "/images/Sleep%20clinic%20default.png"
 
 function getImageUrl(url: string | undefined): string {
   if (!url) return PLACEHOLDER_IMAGE
