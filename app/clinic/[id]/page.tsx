@@ -66,11 +66,13 @@ export default async function ClinicDetailPage({
             postalCode: clinic.zip,
             addressCountry: "US",
           },
-          geo: {
-            "@type": "GeoCoordinates",
-            latitude: clinic.coordinates.lat,
-            longitude: clinic.coordinates.lng,
-          },
+          ...(clinic.coordinates && {
+            geo: {
+              "@type": "GeoCoordinates",
+              latitude: clinic.coordinates.lat,
+              longitude: clinic.coordinates.lng,
+            },
+          }),
           ...(clinic.website && { sameAs: clinic.website }),
           ...(clinic.rating && {
             aggregateRating: {
