@@ -8,7 +8,7 @@ export interface Clinic {
   phone: string
   specialty: string[]
   image: string
-  coordinates: { lat: number; lng: number }
+  coordinates?: { lat: number; lng: number }
   // Extended fields for enhanced card design
   clinicType?: string
   rating?: number
