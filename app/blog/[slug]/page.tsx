@@ -6,6 +6,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { BlogCard } from "@/components/blog-card"
+import { JsonLd } from "@/components/json-ld"
 import { Cormorant_Garamond, DM_Sans } from 'next/font/google'
 
 const cormorant = Cormorant_Garamond({
@@ -39,8 +40,18 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 
   return {
-    title: `${post.title} | Sleep Health Blog`,
+    title: post.title,
     description: post.excerpt,
+    alternates: {
+      canonical: `https://www.ussleepclinics.com/blog/${slug}`,
+    },
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      url: `https://www.ussleepclinics.com/blog/${slug}`,
+      type: "article",
+      ...(post.image && { images: [{ url: post.image }] }),
+    },
   }
 }
 
@@ -64,6 +75,34 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   return (
       <div className={`${dmSans.variable} ${cormorant.variable} min-h-screen bg-gradient-to-b from-[#0f1729] via-[#1a2744] to-[#2d3a5c] font-[family-name:var(--font-dm-sans)]`}>
+        <JsonLd
+          data={{
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            headline: post.title,
+            description: post.excerpt,
+            image: post.image ? `https://www.ussleepclinics.com${post.image}` : undefined,
+            datePublished: post.date,
+            author: {
+              "@type": "Person",
+              name: post.author || "Daniel Marin",
+            },
+            publisher: {
+              "@type": "Organization",
+              name: "Sleep Care Directory",
+              logo: {
+                "@type": "ImageObject",
+                url: "https://www.ussleepclinics.com/images/Logo.png",
+              },
+            },
+            mainEntityOfPage: {
+              "@type": "WebPage",
+              "@id": `https://www.ussleepclinics.com/blog/${slug}`,
+            },
+            wordCount: wordCount,
+            ...(post.tags && post.tags.length > 0 && { keywords: post.tags.join(", ") }),
+          }}
+        />
         <Navigation />
 
         {/* Hero Header */}

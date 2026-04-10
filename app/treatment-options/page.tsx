@@ -3,6 +3,22 @@ import { Footer } from "@/components/footer"
 import { allTreatments } from "@/lib/treatment-options-content"
 import { Stethoscope, ChevronRight } from "lucide-react"
 import Link from "next/link"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Sleep Treatment Options - Therapies & Solutions Guide",
+  description:
+    "Explore evidence-based sleep treatment options including CPAP therapy, CBT-I, oral appliances, medications, and more. Find the right treatment for your sleep disorder.",
+  alternates: {
+    canonical: "https://www.ussleepclinics.com/treatment-options",
+  },
+  openGraph: {
+    title: "Sleep Treatment Options - Therapies & Solutions Guide",
+    description:
+      "Explore evidence-based sleep treatment options including CPAP therapy, CBT-I, oral appliances, and more.",
+    url: "https://www.ussleepclinics.com/treatment-options",
+  },
+}
 
 // Group treatments by category
 function getTreatmentsByCategory() {

@@ -2,17 +2,39 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
+import { JsonLd } from "@/components/json-ld"
 import "./globals.css"
 
 // <CHANGE> Using Inter font as specified in the requirements
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Sleep Clinic Directory - Find Expert Sleep Care Near You",
+  metadataBase: new URL("https://www.ussleepclinics.com"),
+  title: {
+    default: "Sleep Clinic Directory - Find Expert Sleep Care Near You",
+    template: "%s | Sleep Care Directory",
+  },
   description:
-    "Access a comprehensive network of Sleep Specialists and Clinics offering advanced diagnostic testing and personalized treatment plans.",
+    "Find sleep clinics near you from 4,000+ verified providers. Search AASM-accredited sleep centers, compare specialists, and get expert treatment for sleep apnea, insomnia, and more.",
   referrer: "no-referrer",
-  generator: "v0.app",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    siteName: "Sleep Care Directory",
+    title: "Sleep Clinic Directory - Find Expert Sleep Care Near You",
+    description:
+      "Find sleep clinics near you from 4,000+ verified providers. Search AASM-accredited sleep centers, compare specialists, and get expert treatment for sleep apnea, insomnia, and more.",
+    url: "https://www.ussleepclinics.com",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sleep Clinic Directory - Find Expert Sleep Care Near You",
+    description:
+      "Find sleep clinics near you from 4,000+ verified providers. AASM-accredited sleep centers for sleep apnea, insomnia, and more.",
+  },
+  alternates: {
+    canonical: "https://www.ussleepclinics.com",
+  },
 }
 
 export default function RootLayout({
@@ -23,6 +45,40 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} antialiased`}>
+        <JsonLd
+          data={{
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "Sleep Care Directory",
+            url: "https://www.ussleepclinics.com",
+            logo: "https://www.ussleepclinics.com/images/Logo.png",
+            description:
+              "The nation's largest directory of verified sleep clinics and AASM-accredited sleep centers. Find expert sleep care providers near you.",
+            contactPoint: {
+              "@type": "ContactPoint",
+              email: "valentin.marin83@gmail.com",
+              contactType: "customer service",
+            },
+            sameAs: ["https://x.com/DanielGPT2022"],
+          }}
+        />
+        <JsonLd
+          data={{
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: "Sleep Care Directory",
+            url: "https://www.ussleepclinics.com",
+            potentialAction: {
+              "@type": "SearchAction",
+              target: {
+                "@type": "EntryPoint",
+                urlTemplate:
+                  "https://www.ussleepclinics.com/?q={search_term_string}",
+              },
+              "query-input": "required name=search_term_string",
+            },
+          }}
+        />
         {children}
         <Analytics />
       </body>

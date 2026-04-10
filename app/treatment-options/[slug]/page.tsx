@@ -4,6 +4,7 @@ import { getTreatmentBySlug, getAllTreatmentSlugs } from "@/lib/treatment-option
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import { Metadata } from "next"
+import { JsonLd } from "@/components/json-ld"
 import {
   Stethoscope,
   Heart,
@@ -37,8 +38,16 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${treatment.name} - Benefits, Side Effects & Tips | Sleep Care Directory`,
+    title: `${treatment.name} - Benefits, Side Effects & Tips`,
     description: treatment.description,
+    alternates: {
+      canonical: `https://www.ussleepclinics.com/treatment-options/${slug}`,
+    },
+    openGraph: {
+      title: `${treatment.name} - Benefits, Side Effects & Tips`,
+      description: treatment.description,
+      url: `https://www.ussleepclinics.com/treatment-options/${slug}`,
+    },
   }
 }
 
@@ -56,6 +65,33 @@ export default async function TreatmentPage({
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-800">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "MedicalWebPage",
+          name: treatment.name,
+          description: treatment.description,
+          url: `https://www.ussleepclinics.com/treatment-options/${slug}`,
+          lastReviewed: treatment.lastReviewed,
+          reviewedBy: {
+            "@type": "Person",
+            name: treatment.reviewedBy,
+          },
+          about: {
+            "@type": "MedicalTherapy",
+            name: treatment.name,
+            description: treatment.overview,
+          },
+          breadcrumb: {
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: "https://www.ussleepclinics.com" },
+              { "@type": "ListItem", position: 2, name: "Treatment Options", item: "https://www.ussleepclinics.com/treatment-options" },
+              { "@type": "ListItem", position: 3, name: treatment.name },
+            ],
+          },
+        }}
+      />
       <Navigation />
 
       {/* Hero Section */}

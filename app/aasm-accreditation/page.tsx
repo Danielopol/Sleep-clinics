@@ -14,6 +14,22 @@ import {
   ExternalLink
 } from "lucide-react"
 import Link from "next/link"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "AASM Accreditation - Quality Standards in Sleep Medicine",
+  description:
+    "Learn about AASM accreditation, the gold standard for sleep disorder centers. Understand accreditation standards, types, and how to verify a sleep center's accreditation status.",
+  alternates: {
+    canonical: "https://www.ussleepclinics.com/aasm-accreditation",
+  },
+  openGraph: {
+    title: "AASM Accreditation - Quality Standards in Sleep Medicine",
+    description:
+      "Learn about AASM accreditation, the gold standard for sleep disorder centers. Understand what it means for your care.",
+    url: "https://www.ussleepclinics.com/aasm-accreditation",
+  },
+}
 
 export default function AASMAccreditationPage() {
   return (

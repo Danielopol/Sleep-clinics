@@ -3,6 +3,38 @@ import { ClinicDetailCard } from "@/components/clinic-detail-card"
 import { getClinicById } from "@/lib/clinics"
 import { notFound } from "next/navigation"
 import Link from "next/link"
+import { Metadata } from "next"
+import { JsonLd } from "@/components/json-ld"
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}): Promise<Metadata> {
+  const { id } = await params
+  const clinic = getClinicById(Number.parseInt(id))
+
+  if (!clinic) {
+    return { title: "Clinic Not Found" }
+  }
+
+  const title = `${clinic.name} - Sleep Clinic in ${clinic.city}, ${clinic.state}`
+  const description = clinic.description
+    || `${clinic.name} is a sleep clinic located in ${clinic.city}, ${clinic.state}. Specializing in ${clinic.specialty?.join(", ") || "sleep medicine"}. Call ${clinic.phone} to schedule an appointment.`
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: `https://www.ussleepclinics.com/clinic/${id}`,
+    },
+    openGraph: {
+      title,
+      description,
+      url: `https://www.ussleepclinics.com/clinic/${id}`,
+    },
+  }
+}
 
 export default async function ClinicDetailPage({
   params,
@@ -18,6 +50,40 @@ export default async function ClinicDetailPage({
 
   return (
     <div className="min-h-screen bg-[image:var(--bg-primary)]">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "MedicalClinic",
+          name: clinic.name,
+          description: clinic.description || `Sleep clinic in ${clinic.city}, ${clinic.state}`,
+          url: `https://www.ussleepclinics.com/clinic/${id}`,
+          telephone: clinic.phone,
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: clinic.address,
+            addressLocality: clinic.city,
+            addressRegion: clinic.state,
+            postalCode: clinic.zip,
+            addressCountry: "US",
+          },
+          geo: {
+            "@type": "GeoCoordinates",
+            latitude: clinic.coordinates.lat,
+            longitude: clinic.coordinates.lng,
+          },
+          ...(clinic.website && { sameAs: clinic.website }),
+          ...(clinic.rating && {
+            aggregateRating: {
+              "@type": "AggregateRating",
+              ratingValue: clinic.rating,
+              reviewCount: clinic.reviewCount || 0,
+            },
+          }),
+          ...(clinic.services && clinic.services.length > 0 && {
+            medicalSpecialty: clinic.services,
+          }),
+        }}
+      />
       <Navigation />
 
       {/* Hero Section with new gradient */}

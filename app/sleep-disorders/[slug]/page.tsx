@@ -4,6 +4,7 @@ import { getDisorderBySlug, getAllDisorderSlugs } from "@/lib/sleep-disorders-co
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import { Metadata } from "next"
+import { JsonLd } from "@/components/json-ld"
 import {
   Moon,
   Stethoscope,
@@ -36,8 +37,16 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${disorder.name} - Symptoms, Causes & Treatment | Sleep Care Directory`,
+    title: `${disorder.name} - Symptoms, Causes & Treatment`,
     description: disorder.description,
+    alternates: {
+      canonical: `https://www.ussleepclinics.com/sleep-disorders/${slug}`,
+    },
+    openGraph: {
+      title: `${disorder.name} - Symptoms, Causes & Treatment`,
+      description: disorder.description,
+      url: `https://www.ussleepclinics.com/sleep-disorders/${slug}`,
+    },
   }
 }
 
@@ -55,6 +64,38 @@ export default async function SleepDisorderPage({
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-800">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "MedicalWebPage",
+          name: disorder.name,
+          description: disorder.description,
+          url: `https://www.ussleepclinics.com/sleep-disorders/${slug}`,
+          lastReviewed: disorder.lastReviewed,
+          reviewedBy: {
+            "@type": "Person",
+            name: disorder.reviewedBy,
+          },
+          about: {
+            "@type": "MedicalCondition",
+            name: disorder.name,
+            description: disorder.overview,
+            signOrSymptom: disorder.symptoms.map((s) => ({
+              "@type": "MedicalSignOrSymptom",
+              name: s.name,
+              description: s.description,
+            })),
+          },
+          breadcrumb: {
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: "https://www.ussleepclinics.com" },
+              { "@type": "ListItem", position: 2, name: "Sleep Disorders", item: "https://www.ussleepclinics.com/sleep-disorders" },
+              { "@type": "ListItem", position: 3, name: disorder.name },
+            ],
+          },
+        }}
+      />
       <Navigation />
 
       {/* Hero Section */}

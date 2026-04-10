@@ -3,6 +3,22 @@ import { BlogHeader } from "@/components/blog-header"
 import { BlogCard } from "@/components/blog-card"
 import { getAllPosts } from "@/lib/blog"
 import { Moon } from "lucide-react"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Sleep Health Blog - Expert Tips & Insights",
+  description:
+    "Expert articles on sleep disorders, treatment options, and wellness tips. Learn about sleep apnea, insomnia, CPAP therapy, and more from sleep health professionals.",
+  alternates: {
+    canonical: "https://www.ussleepclinics.com/blog",
+  },
+  openGraph: {
+    title: "Sleep Health Blog - Expert Tips & Insights",
+    description:
+      "Expert articles on sleep disorders, treatment options, and wellness tips from sleep health professionals.",
+    url: "https://www.ussleepclinics.com/blog",
+  },
+}
 
 export default function BlogPage() {
   const posts = getAllPosts()

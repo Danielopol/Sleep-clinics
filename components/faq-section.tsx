@@ -54,9 +54,26 @@ const faqData = [
   }
 ]
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqData.map((faq) => ({
+    "@type": "Question",
+    name: faq.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: faq.answer,
+    },
+  })),
+}
+
 export function FAQSection() {
   return (
     <section className="relative py-20 overflow-hidden">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       {/* Background with subtle gradient and pattern */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--cloud)]/50 to-[var(--pearl)] dark:from-transparent dark:via-[var(--deep-navy)]/50 dark:to-[var(--midnight)]" />
 

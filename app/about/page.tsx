@@ -18,6 +18,22 @@ import {
   ArrowRight
 } from "lucide-react"
 import Link from "next/link"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "About Us - Our Mission to Connect You with Sleep Care",
+  description:
+    "Learn about Sleep Care Directory's mission to connect individuals with expert sleep care professionals and over 4,000 AASM-accredited clinics nationwide.",
+  alternates: {
+    canonical: "https://www.ussleepclinics.com/about",
+  },
+  openGraph: {
+    title: "About Sleep Care Directory",
+    description:
+      "Connecting you with expert sleep care professionals and accredited clinics nationwide. Over 4,000 verified sleep clinics.",
+    url: "https://www.ussleepclinics.com/about",
+  },
+}
 
 export default function AboutPage() {
   return (

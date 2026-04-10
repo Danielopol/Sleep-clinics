@@ -3,6 +3,22 @@ import { Footer } from "@/components/footer"
 import { sleepDisordersData } from "@/lib/sleep-disorders"
 import { Moon, ChevronRight } from "lucide-react"
 import Link from "next/link"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Sleep Disorders Guide - Symptoms, Causes & Treatments",
+  description:
+    "Comprehensive guide to sleep disorders including insomnia, sleep apnea, narcolepsy, restless legs syndrome, and more. Learn symptoms, causes, diagnosis, and treatment options.",
+  alternates: {
+    canonical: "https://www.ussleepclinics.com/sleep-disorders",
+  },
+  openGraph: {
+    title: "Sleep Disorders Guide - Symptoms, Causes & Treatments",
+    description:
+      "Comprehensive guide to sleep disorders including insomnia, sleep apnea, narcolepsy, and more.",
+    url: "https://www.ussleepclinics.com/sleep-disorders",
+  },
+}
 
 // Helper function to generate slug from disorder name
 function generateSlug(name: string): string {
