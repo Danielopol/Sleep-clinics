@@ -1,6 +1,6 @@
 import { Navigation } from "@/components/navigation"
 import { ClinicDetailCard } from "@/components/clinic-detail-card"
-import { getClinicBySlug, getClinicById, getClinicsData } from "@/lib/clinics"
+import { getClinicBySlug, getClinicById, getClinicsData, formatOpeningHours } from "@/lib/clinics"
 import { notFound, permanentRedirect } from "next/navigation"
 import Link from "next/link"
 import { Metadata } from "next"
@@ -90,7 +90,17 @@ export default async function ClinicDetailPage({
               longitude: clinic.coordinates.lng,
             },
           }),
+          ...(clinic.image && { image: clinic.image }),
           ...(clinic.website && { sameAs: clinic.website }),
+          ...(clinic.accreditation && clinic.accreditation.length > 0 && {
+            hasCredential: clinic.accreditation.map(name => ({
+              "@type": "EducationalOccupationalCredential",
+              name,
+            })),
+          }),
+          ...(clinic.hours && formatOpeningHours(clinic.hours).length > 0 && {
+            openingHours: formatOpeningHours(clinic.hours),
+          }),
           ...(clinic.rating && {
             aggregateRating: {
               "@type": "AggregateRating",
