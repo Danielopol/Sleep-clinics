@@ -30,3 +30,8 @@ export function getClinicById(id: number): Clinic | undefined {
   const clinics = getClinicsData()
   return clinics.find(c => c.id === id)
 }
+
+export function getClinicBySlug(slug: string): Clinic | undefined {
+  const clinics = getClinicsData()
+  return clinics.find(c => c.slug === slug)
+}

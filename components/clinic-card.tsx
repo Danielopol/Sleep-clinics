@@ -78,7 +78,7 @@ export function ClinicCard({ clinic }: ClinicCardProps) {
         {/* Action Buttons */}
         <div className="flex gap-2 mt-auto">
           <Link
-            href={`/clinic/${clinic.id}`}
+            href={`/clinic/${clinic.slug ?? clinic.id}`}
             className="flex-1 bg-[#7C9070] hover:bg-[#6B7F60] text-white py-2.5 px-4 rounded-lg transition-all duration-200 font-medium text-sm flex items-center justify-center gap-2 shadow-sm shadow-[#7C9070]/20"
           >
             View Details

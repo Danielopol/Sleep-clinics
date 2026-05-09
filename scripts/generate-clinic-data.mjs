@@ -40,6 +40,17 @@ function parseArrayField(field) {
   return String(field).split(';').map(item => item.trim()).filter(item => item.length > 0);
 }
 
+// Generate URL slug from clinic name, city, and state
+function generateSlug(name, city, state) {
+  return `${name} ${city} ${state}`
+    .toLowerCase()
+    .replace(/&/g, 'and')
+    .replace(/[^a-z0-9\s]/g, '')
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+}
+
 // Function to parse Google reviews from Excel columns
 function parseGoogleReviews(row) {
   const reviews = [];
@@ -95,6 +106,23 @@ const clinics = rawData.map((row, index) => {
     reviews: googleReviews.length > 0 ? googleReviews : undefined
   };
 }).filter(clinic => clinic.name);
+
+// Add unique slugs (deduplicate by appending -2, -3 for collisions)
+const slugCounts = {};
+for (const clinic of clinics) {
+  const base = generateSlug(clinic.name, clinic.city, clinic.state);
+  slugCounts[base] = (slugCounts[base] || 0) + 1;
+}
+const slugSeen = {};
+for (const clinic of clinics) {
+  const base = generateSlug(clinic.name, clinic.city, clinic.state);
+  if (slugCounts[base] > 1) {
+    slugSeen[base] = (slugSeen[base] || 0) + 1;
+    clinic.slug = slugSeen[base] === 1 ? base : `${base}-${slugSeen[base]}`;
+  } else {
+    clinic.slug = base;
+  }
+}
 
 // Generate metadata
 const states = [...new Set(clinics.map(c => c.state).filter(Boolean))].sort();

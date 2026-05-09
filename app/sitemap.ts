@@ -97,7 +97,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // Clinic detail pages
   const clinicPages: MetadataRoute.Sitemap = clinics.map((clinic) => ({
-    url: `${baseUrl}/clinic/${clinic.id}`,
+    url: `${baseUrl}/clinic/${clinic.slug ?? clinic.id}`,
     lastModified: new Date(),
     changeFrequency: 'weekly' as const,
     priority: 0.7,

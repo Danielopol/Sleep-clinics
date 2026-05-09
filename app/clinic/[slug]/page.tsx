@@ -1,18 +1,25 @@
 import { Navigation } from "@/components/navigation"
 import { ClinicDetailCard } from "@/components/clinic-detail-card"
-import { getClinicById } from "@/lib/clinics"
+import { getClinicBySlug, getClinicsData } from "@/lib/clinics"
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import { Metadata } from "next"
 import { JsonLd } from "@/components/json-ld"
 
+export async function generateStaticParams() {
+  const clinics = getClinicsData()
+  return clinics
+    .filter(c => c.slug)
+    .map(c => ({ slug: c.slug! }))
+}
+
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ id: string }>
+  params: Promise<{ slug: string }>
 }): Promise<Metadata> {
-  const { id } = await params
-  const clinic = getClinicById(Number.parseInt(id))
+  const { slug } = await params
+  const clinic = getClinicBySlug(slug)
 
   if (!clinic) {
     return { title: "Clinic Not Found" }
@@ -26,12 +33,12 @@ export async function generateMetadata({
     title,
     description,
     alternates: {
-      canonical: `https://www.ussleepclinics.com/clinic/${id}`,
+      canonical: `https://www.ussleepclinics.com/clinic/${slug}`,
     },
     openGraph: {
       title,
       description,
-      url: `https://www.ussleepclinics.com/clinic/${id}`,
+      url: `https://www.ussleepclinics.com/clinic/${slug}`,
     },
   }
 }
@@ -39,10 +46,10 @@ export async function generateMetadata({
 export default async function ClinicDetailPage({
   params,
 }: {
-  params: Promise<{ id: string }>
+  params: Promise<{ slug: string }>
 }) {
-  const { id } = await params
-  const clinic = getClinicById(Number.parseInt(id))
+  const { slug } = await params
+  const clinic = getClinicBySlug(slug)
 
   if (!clinic) {
     notFound()
@@ -56,7 +63,7 @@ export default async function ClinicDetailPage({
           "@type": "MedicalClinic",
           name: clinic.name,
           description: clinic.description || `Sleep clinic in ${clinic.city}, ${clinic.state}`,
-          url: `https://www.ussleepclinics.com/clinic/${id}`,
+          url: `https://www.ussleepclinics.com/clinic/${slug}`,
           telephone: clinic.phone,
           address: {
             "@type": "PostalAddress",

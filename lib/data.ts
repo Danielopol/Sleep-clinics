@@ -1,5 +1,6 @@
 export interface Clinic {
   id: number
+  slug?: string
   name: string
   address: string
   city: string
