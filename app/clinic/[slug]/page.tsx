@@ -1,7 +1,7 @@
 import { Navigation } from "@/components/navigation"
 import { ClinicDetailCard } from "@/components/clinic-detail-card"
-import { getClinicBySlug, getClinicsData } from "@/lib/clinics"
-import { notFound } from "next/navigation"
+import { getClinicBySlug, getClinicById, getClinicsData } from "@/lib/clinics"
+import { notFound, permanentRedirect } from "next/navigation"
 import Link from "next/link"
 import { Metadata } from "next"
 import { JsonLd } from "@/components/json-ld"
@@ -19,7 +19,9 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
-  const clinic = getClinicBySlug(slug)
+  const clinic = /^\d+$/.test(slug)
+    ? getClinicById(Number(slug))
+    : getClinicBySlug(slug)
 
   if (!clinic) {
     return { title: "Clinic Not Found" }
@@ -49,6 +51,14 @@ export default async function ClinicDetailPage({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
+
+  // Handle legacy numeric ID URLs — permanently redirect to slug URL
+  if (/^\d+$/.test(slug)) {
+    const clinic = getClinicById(Number(slug))
+    if (clinic?.slug) permanentRedirect(`/clinic/${clinic.slug}`)
+    notFound()
+  }
+
   const clinic = getClinicBySlug(slug)
 
   if (!clinic) {
