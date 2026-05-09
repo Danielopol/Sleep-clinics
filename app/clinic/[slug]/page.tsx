@@ -113,6 +113,9 @@ export default async function ClinicDetailPage({
           </Link>
           <h1 className="font-[var(--font-display)] text-4xl font-bold bg-gradient-to-r from-[var(--dream-blue)] via-[var(--healing-teal)] to-[var(--calm-indigo)] bg-clip-text text-transparent mt-4">
             {clinic.name}
+            <span className="block text-2xl font-normal text-white/70 mt-1">
+              Sleep Clinic in {clinic.city}, {clinic.state}
+            </span>
           </h1>
         </div>
       </section>
