@@ -6,6 +6,16 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  async redirects() {
+    return [
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'ussleepclinics.com' }],
+        destination: 'https://www.ussleepclinics.com/:path*',
+        permanent: true,
+      },
+    ]
+  },
 }
 
 export default nextConfig
