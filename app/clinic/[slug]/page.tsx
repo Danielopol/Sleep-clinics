@@ -45,6 +45,39 @@ export async function generateMetadata({
   }
 }
 
+// Maps disorder names (as they appear in clinic.specialty) to SEO treatment search terms
+const DISORDER_TO_TREATMENT: Record<string, string> = {
+  'insomnia': 'Insomnia Treatment',
+  'sleep apnea': 'Sleep Apnea Treatment',
+  'obstructive sleep apnea (osa)': 'Sleep Apnea Treatment',
+  'central sleep apnea (csa)': 'Sleep Apnea Treatment',
+  'narcolepsy': 'Narcolepsy Treatment',
+  'restless legs syndrome (rls)': 'Restless Legs Syndrome Treatment',
+  'restless leg syndrome': 'Restless Legs Syndrome Treatment',
+  'parasomnias': 'Parasomnia Treatment',
+  'circadian rhythm disorders': 'Circadian Rhythm Disorder Treatment',
+  'pediatric sleep disorders': 'Pediatric Sleep Disorder Treatment',
+  'snoring': 'Snoring Treatment',
+  'hypersomnia/excessive daytime sleepiness': 'Hypersomnia Treatment',
+  'periodic limb movement disorder (plmd)': 'Periodic Limb Movement Disorder Treatment',
+  'rem sleep behavior disorder (rbd)': 'REM Sleep Behavior Disorder Treatment',
+  'sleep-disordered breathing': 'Sleep-Disordered Breathing Treatment',
+  'sleep-related movement disorders': 'Sleep-Related Movement Disorder Treatment',
+}
+
+function buildAvailableServices(specialty: string[], city: string, state: string) {
+  const seen = new Set<string>()
+  const services: { "@type": string; name: string }[] = []
+  for (const s of specialty) {
+    const treatment = DISORDER_TO_TREATMENT[s.toLowerCase().trim()]
+    if (treatment && !seen.has(treatment)) {
+      seen.add(treatment)
+      services.push({ "@type": "MedicalTherapy", name: `${treatment} in ${city}, ${state}` })
+    }
+  }
+  return services
+}
+
 export default async function ClinicDetailPage({
   params,
 }: {
@@ -116,6 +149,10 @@ export default async function ClinicDetailPage({
           ...(clinic.services && clinic.services.length > 0 && {
             medicalSpecialty: clinic.services,
           }),
+          ...(clinic.specialty && clinic.specialty.length > 0 && (() => {
+            const services = buildAvailableServices(clinic.specialty, clinic.city, clinic.state)
+            return services.length > 0 ? { availableService: services } : {}
+          })()),
         }}
       />
       <Navigation />
