@@ -72,6 +72,11 @@ export default async function ClinicDetailPage({
           "@context": "https://schema.org",
           "@type": "MedicalClinic",
           name: clinic.name,
+          alternateName: [
+            `Sleep Clinic in ${clinic.city}, ${clinic.state}`,
+            `Sleep Center in ${clinic.city}, ${clinic.state}`,
+            `Sleep Lab in ${clinic.city}, ${clinic.state}`,
+          ],
           description: clinic.description || `Sleep clinic in ${clinic.city}, ${clinic.state}`,
           url: `https://www.ussleepclinics.com/clinic/${slug}`,
           telephone: clinic.phone,
