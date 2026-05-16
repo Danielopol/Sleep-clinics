@@ -27,7 +27,20 @@ export async function generateMetadata({
     return { title: "Clinic Not Found" }
   }
 
-  const title = `${clinic.name} - Sleep Clinic in ${clinic.city}, ${clinic.state}`
+  // Multi-location clinics sharing the same name+city get identical titles, which
+  // Google flags as "Duplicate without user-selected canonical". Include the street
+  // to differentiate them. Strip city/state/zip (already in the title suffix).
+  const allClinics = getClinicsData()
+  const isMultiLocation = allClinics.some(
+    c => c.id !== clinic.id && c.name === clinic.name && c.city === clinic.city
+  )
+  // Strip ", City, ST ZIP" from address end to get street+suite only
+  const streetWithSuite = clinic.address
+    .replace(new RegExp(`,\\s*${clinic.city.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')},\\s*${clinic.state}.*$`, 'i'), '')
+    .trim()
+  const locationSuffix = isMultiLocation ? ` (${streetWithSuite})` : ''
+
+  const title = `${clinic.name}${locationSuffix} - Sleep Clinic in ${clinic.city}, ${clinic.state}`
   const description = clinic.description
     || `${clinic.name} is a sleep clinic located in ${clinic.city}, ${clinic.state}. Specializing in ${clinic.specialty?.join(", ") || "sleep medicine"}. Call ${clinic.phone} to schedule an appointment.`
 
