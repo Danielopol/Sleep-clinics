@@ -20,7 +20,12 @@ function parseOfficeHours(hoursString) {
   const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
   const hours = {};
 
-  const lines = String(hoursString).split(/[\r\n]+/);
+  // Support both newline-separated and pipe-separated formats
+  const raw = String(hoursString);
+  const lines = raw.includes('|')
+    ? raw.split(/\s*\|\s*/)
+    : raw.split(/[\r\n]+/);
+
   lines.forEach(line => {
     const match = line.match(/(\w+):\s*(.+)/);
     if (match) {
