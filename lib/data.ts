@@ -10,6 +10,8 @@ export interface Clinic {
   specialty: string[]
   image: string
   coordinates?: { lat: number; lng: number }
+  coordinatesApproximate?: boolean // true when coordinates come from the ZIP centroid, not the street address
+  distance?: number // km from the user's location, set when the "near me" filter is active
   // Extended fields for enhanced card design
   clinicType?: string
   rating?: number

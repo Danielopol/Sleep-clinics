@@ -78,7 +78,7 @@ export const equipmentSupplies: TreatmentContent[] = [
     tips: [
       {
         title: "Get Professional Mask Fitting",
-        description: "Work with a trained equipment provider to find the right mask. Don't settle for an uncomfortable mask—there are many options available."
+        description: "Work with a trained equipment provider to find the right mask. Don't settle for an uncomfortable mask, there are many options available."
       },
       {
         title: "Follow Replacement Schedules",
@@ -115,7 +115,7 @@ export const equipmentSupplies: TreatmentContent[] = [
     name: "DME Services",
     category: "Equipment & Supplies",
     description: "Durable Medical Equipment providers supply, fit, and support CPAP/BiPAP equipment, offering professional setup, mask fitting, troubleshooting, and ongoing supply management.",
-    overview: "Durable Medical Equipment (DME) providers are companies that supply medical equipment prescribed by healthcare providers, including CPAP machines, masks, and supplies for sleep apnea treatment. Quality DME providers do more than just ship equipment—they provide professional fitting, education, troubleshooting support, and ongoing supply management. Choosing a good DME provider is important for successful CPAP therapy.",
+    overview: "Durable Medical Equipment (DME) providers are companies that supply medical equipment prescribed by healthcare providers, including CPAP machines, masks, and supplies for sleep apnea treatment. Quality DME providers do more than just ship equipment, they provide professional fitting, education, troubleshooting support, and ongoing supply management. Choosing a good DME provider is important for successful CPAP therapy.",
     howItWorks: "After your sleep physician prescribes CPAP therapy, a DME provider is selected to supply your equipment. The DME process typically includes: verifying your insurance coverage, obtaining necessary documentation, providing initial equipment setup and mask fitting, educating you on equipment use and care, arranging replacement supplies, and providing troubleshooting support when needed.",
     candidatesFor: "Anyone prescribed PAP therapy needs a DME provider to supply their equipment. You may have options in choosing your DME provider, and it's worth considering factors like customer service, local presence, and support quality when making this choice.",
     benefits: [
@@ -133,7 +133,7 @@ export const equipmentSupplies: TreatmentContent[] = [
       },
       {
         name: "Troubleshooting Support",
-        description: "When problems arise—mask leaks, comfort issues, equipment malfunctions—DME providers can help resolve issues and arrange repairs or replacements."
+        description: "When problems arise (mask leaks, comfort issues, equipment malfunctions), DME providers can help resolve issues and arrange repairs or replacements."
       },
       {
         name: "Automated Resupply",

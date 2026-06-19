@@ -1,16 +1,16 @@
 ---
 title: "Insomnia vs. Sleep Apnea: How to Tell the Difference"
 date: "2026-02-05"
-excerpt: "Both leave you exhausted, but insomnia and sleep apnea are fundamentally different conditions requiring different treatments. Learn how to distinguish between them — and why getting the right diagnosis matters."
+excerpt: "Both leave you exhausted, but insomnia and sleep apnea are fundamentally different conditions requiring different treatments. Learn how to distinguish between them, and why getting the right diagnosis matters."
 author: "Daniel Marin"
 tags: ["Insomnia", "Sleep Apnea", "Sleep Disorders", "Diagnosis"]
 ---
 
 You're exhausted during the day. Sleep feels broken and unrefreshing. You dread bedtime because you know another difficult night awaits.
 
-These experiences are common to both insomnia and sleep apnea — two of the most prevalent sleep disorders. But despite similar symptoms of fatigue and poor sleep quality, these conditions have fundamentally different causes and require completely different treatments.
+These experiences are common to both insomnia and sleep apnea, two of the most prevalent sleep disorders. But despite similar symptoms of fatigue and poor sleep quality, these conditions have fundamentally different causes and require completely different treatments.
 
-Treating insomnia when you actually have sleep apnea can delay proper care for years. Taking sleep medications when your real problem is a blocked airway can actually make things worse. Getting the right diagnosis isn't just about semantics — it's about getting treatment that actually works.
+Treating insomnia when you actually have sleep apnea can delay proper care for years. Taking sleep medications when your real problem is a blocked airway can actually make things worse. Getting the right diagnosis isn't just about semantics, it's about getting treatment that actually works.
 
 Here's how to tell the difference.
 
@@ -20,7 +20,7 @@ At their core, insomnia and sleep apnea are opposite problems:
 
 **Insomnia** is a disorder of being *unable* to sleep despite having the opportunity. Your brain struggles to initiate or maintain sleep, even when conditions are right for rest.
 
-**Sleep apnea** is a disorder where your sleep is *disrupted* by a physical problem — your airway repeatedly collapses, interrupting breathing and fragmenting sleep, often without your conscious awareness.
+**Sleep apnea** is a disorder where your sleep is *disrupted* by a physical problem, your airway repeatedly collapses, interrupting breathing and fragmenting sleep, often without your conscious awareness.
 
 Put simply: insomnia is a problem of sleeplessness. Sleep apnea is a problem of breathing. Both leave you tired, but for entirely different reasons.
 
@@ -42,7 +42,7 @@ Put simply: insomnia is a problem of sleeplessness. Sleep apnea is a problem of 
 
 ## Insomnia: A Closer Look
 
-Insomnia is characterized by difficulty falling asleep, staying asleep, or waking too early — along with daytime impairment as a result. To be diagnosed as a disorder, these problems must occur at least three nights per week for at least three months, despite adequate opportunity for sleep.
+Insomnia is characterized by difficulty falling asleep, staying asleep, or waking too early, along with daytime impairment as a result. To be diagnosed as a disorder, these problems must occur at least three nights per week for at least three months, despite adequate opportunity for sleep.
 
 ### Types of Insomnia
 
@@ -56,15 +56,15 @@ Many people with chronic insomnia experience a combination of these patterns.
 
 ### What Causes Insomnia?
 
-Insomnia is fundamentally a disorder of hyperarousal — an overactive stress response that prevents the brain from transitioning into sleep. Common contributing factors include:
+Insomnia is fundamentally a disorder of hyperarousal, an overactive stress response that prevents the brain from transitioning into sleep. Common contributing factors include:
 
-- **Anxiety and worry** — racing thoughts at bedtime
-- **Depression** — particularly linked to early-morning awakening
-- **Poor sleep habits** — irregular schedules, stimulating activities before bed
-- **Conditioned arousal** — the bed becomes associated with wakefulness and frustration
-- **Medical conditions** — chronic pain, GERD, restless legs syndrome
-- **Medications** — certain antidepressants, stimulants, steroids
-- **Caffeine, alcohol, nicotine** — even when consumed earlier in the day
+- **Anxiety and worry**, racing thoughts at bedtime
+- **Depression**, particularly linked to early-morning awakening
+- **Poor sleep habits**, irregular schedules, stimulating activities before bed
+- **Conditioned arousal**, the bed becomes associated with wakefulness and frustration
+- **Medical conditions**, chronic pain, GERD, restless legs syndrome
+- **Medications**, certain antidepressants, stimulants, steroids
+- **Caffeine, alcohol, nicotine**, even when consumed earlier in the day
 
 ### The Insomnia Experience
 
@@ -72,7 +72,7 @@ People with insomnia typically describe:
 
 - Lying in bed unable to "turn off" their mind
 - Watching the clock and calculating how little sleep they'll get
-- Feeling tired but "wired" — exhausted yet unable to sleep
+- Feeling tired but "wired", exhausted yet unable to sleep
 - Dreading bedtime because they anticipate another bad night
 - Frustration that sleep, which should be natural, feels impossible
 
@@ -82,7 +82,7 @@ Importantly, people with insomnia are **acutely aware** that they're not sleepin
 
 Sleep apnea is characterized by repeated pauses in breathing during sleep. In obstructive sleep apnea (the most common type), these pauses occur because the soft tissue at the back of the throat collapses, blocking the airway.
 
-Each breathing pause triggers a brief arousal — your brain wakes you just enough to restore muscle tone and reopen the airway. These arousals are usually so brief that you don't remember them, but they prevent you from reaching and maintaining deep, restorative sleep.
+Each breathing pause triggers a brief arousal, your brain wakes you just enough to restore muscle tone and reopen the airway. These arousals are usually so brief that you don't remember them, but they prevent you from reaching and maintaining deep, restorative sleep.
 
 ### The Sleep Apnea Experience
 
@@ -99,18 +99,18 @@ The critical distinction: people with sleep apnea often **have no idea** their s
 
 ### Risk Factors for Sleep Apnea
 
-- **Excess weight** — the strongest risk factor
-- **Neck circumference** — larger than 17" (men) or 16" (women)
-- **Age** — risk increases, especially after 40
-- **Male sex** — though women's risk increases after menopause
-- **Anatomical factors** — large tonsils, recessed jaw, narrow airway
-- **Family history** — genetic component to airway structure
-- **Alcohol and sedatives** — relax airway muscles
-- **Smoking** — increases inflammation and fluid retention
+- **Excess weight**, the strongest risk factor
+- **Neck circumference**, larger than 17" (men) or 16" (women)
+- **Age**, risk increases, especially after 40
+- **Male sex**, though women's risk increases after menopause
+- **Anatomical factors**, large tonsils, recessed jaw, narrow airway
+- **Family history**, genetic component to airway structure
+- **Alcohol and sedatives**, relax airway muscles
+- **Smoking**, increases inflammation and fluid retention
 
 ## When Both Conditions Coexist: COMISA
 
-Here's where things get complicated: insomnia and sleep apnea can occur together. This combination is so common it has its own name — **COMISA** (Co-Morbid Insomnia and Sleep Apnea).
+Here's where things get complicated: insomnia and sleep apnea can occur together. This combination is so common it has its own name, **COMISA** (Co-Morbid Insomnia and Sleep Apnea).
 
 Studies suggest that 30-50% of people with insomnia also have sleep apnea, and 30-40% of people with sleep apnea have clinically significant insomnia. The overlap is substantial.
 
@@ -162,7 +162,7 @@ A sleep study is the only way to definitively identify sleep apnea. A comprehens
 
 ## Why Getting the Right Diagnosis Matters
 
-The treatments for insomnia and sleep apnea are completely different — and using the wrong treatment can backfire.
+The treatments for insomnia and sleep apnea are completely different, and using the wrong treatment can backfire.
 
 ### Treating Insomnia
 
@@ -189,7 +189,7 @@ The gold-standard treatment for obstructive sleep apnea is **CPAP (Continuous Po
 
 **Using sleep medications when you have sleep apnea is dangerous.** Sedatives and hypnotics relax the muscles that keep the airway open, potentially worsening apnea and increasing oxygen desaturation. People with undiagnosed sleep apnea who take sleep aids may be putting themselves at significant risk.
 
-**Using CPAP when you only have insomnia doesn't help.** If your problem is difficulty initiating or maintaining sleep due to hyperarousal, wearing a mask that delivers pressurized air won't address the underlying issue — and may make sleep even more difficult.
+**Using CPAP when you only have insomnia doesn't help.** If your problem is difficulty initiating or maintaining sleep due to hyperarousal, wearing a mask that delivers pressurized air won't address the underlying issue, and may make sleep even more difficult.
 
 This is why accurate diagnosis matters.
 
@@ -230,8 +230,8 @@ Insomnia and sleep apnea are both common, both cause daytime impairment, and bot
 - **Insomnia** = difficulty sleeping (a problem of the brain's ability to transition to sleep)
 - **Sleep apnea** = disrupted breathing (a physical obstruction that fragments sleep)
 
-The treatments are different. Using the wrong treatment can delay relief for years — or make things worse. Getting the right diagnosis is the essential first step.
+The treatments are different. Using the wrong treatment can delay relief for years, or make things worse. Getting the right diagnosis is the essential first step.
 
-If you're struggling with poor sleep, don't guess. Get evaluated properly. A sleep specialist can determine whether you have insomnia, sleep apnea, both, or something else entirely — and create a treatment plan that actually addresses your problem.
+If you're struggling with poor sleep, don't guess. Get evaluated properly. A sleep specialist can determine whether you have insomnia, sleep apnea, both, or something else entirely, and create a treatment plan that actually addresses your problem.
 
 **Ready to find answers?** Use our [sleep clinic directory](/) to locate an accredited sleep center near you and schedule a comprehensive evaluation.

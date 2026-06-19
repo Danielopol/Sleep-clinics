@@ -99,7 +99,7 @@ const SERVICE_TO_SCHEMA: Record<string, string> = {
   'inspire therapy (upper airway stimulation)': 'Inspire Therapy',
   'sleep apnea surgery': 'Sleep Apnea Surgery',
   'pulmonary medicine': 'Pulmonary Sleep Medicine',
-  // These overlap with DISORDER_TO_TREATMENT — deduplication handles it
+  // These overlap with DISORDER_TO_TREATMENT, deduplication handles it
   'sleep apnea treatment': 'Sleep Apnea Treatment',
   'insomnia treatment': 'Insomnia Treatment',
   'narcolepsy treatment': 'Narcolepsy Treatment',
@@ -143,7 +143,7 @@ export default async function ClinicDetailPage({
 }) {
   const { slug } = await params
 
-  // Handle legacy numeric ID URLs — permanently redirect to slug URL
+  // Handle legacy numeric ID URLs, permanently redirect to slug URL
   if (/^\d+$/.test(slug)) {
     const clinic = getClinicById(Number(slug))
     if (clinic?.slug) permanentRedirect(`/clinic/${clinic.slug}`)

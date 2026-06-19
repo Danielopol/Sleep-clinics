@@ -6,7 +6,7 @@ export const diagnosisServices: TreatmentContent[] = [
     name: "Sleep Disorders Diagnosis",
     category: "Diagnosis Services",
     description: "Comprehensive evaluation by sleep specialists to identify and diagnose the full range of sleep disorders using clinical assessment, questionnaires, and diagnostic testing.",
-    overview: "Sleep disorders diagnosis involves a systematic evaluation to identify conditions affecting sleep quality, quantity, and timing. Sleep specialists use clinical interviews, validated questionnaires, physical examination, sleep diaries, and objective testing (polysomnography, home sleep tests, actigraphy) to diagnose over 80 recognized sleep disorders. Accurate diagnosis is essential because treatments differ significantly between conditions—what helps one disorder may worsen another.",
+    overview: "Sleep disorders diagnosis involves a systematic evaluation to identify conditions affecting sleep quality, quantity, and timing. Sleep specialists use clinical interviews, validated questionnaires, physical examination, sleep diaries, and objective testing (polysomnography, home sleep tests, actigraphy) to diagnose over 80 recognized sleep disorders. Accurate diagnosis is essential because treatments differ significantly between conditions, what helps one disorder may worsen another.",
     howItWorks: "The diagnostic process typically begins with a detailed sleep history covering sleep patterns, symptoms, medical history, medications, and lifestyle factors. Validated questionnaires assess sleepiness, insomnia severity, and specific symptoms. Physical examination evaluates anatomical factors and signs of sleep disorders. Based on this evaluation, appropriate objective testing is ordered. All information is synthesized to reach a diagnosis and treatment plan.",
     candidatesFor: "Anyone with persistent sleep complaints should consider evaluation: difficulty falling or staying asleep, excessive daytime sleepiness, loud snoring or witnessed breathing pauses, unusual behaviors during sleep, restless legs sensations, irregular sleep schedules, or sleep that doesn't feel refreshing despite adequate time in bed.",
     benefits: [
@@ -110,7 +110,7 @@ export const diagnosisServices: TreatmentContent[] = [
     description: "Specialized assessment to identify the cause of excessive daytime sleepiness, including screening for sleep apnea, narcolepsy, insufficient sleep, and other conditions.",
     overview: "Daytime sleepiness evaluation is a focused diagnostic approach for patients whose primary complaint is feeling excessively sleepy during the day. This symptom can result from many causes: insufficient sleep, poor sleep quality (as in sleep apnea), primary disorders of sleepiness (narcolepsy, idiopathic hypersomnia), circadian rhythm disorders, medications, or medical conditions. Systematic evaluation identifies the underlying cause so targeted treatment can restore normal alertness.",
     howItWorks: "Evaluation begins with detailed history about sleep duration, quality, schedule, and daytime symptoms. Standardized measures like the Epworth Sleepiness Scale quantify sleepiness severity. Sleep diaries and actigraphy assess sleep patterns over time. If sleep apnea is suspected, sleep testing is performed. If sleepiness persists despite adequate sleep and absence of sleep apnea, tests like the MSLT evaluate for narcolepsy or idiopathic hypersomnia.",
-    candidatesFor: "Anyone experiencing excessive daytime sleepiness—difficulty staying awake during passive activities, unintended napping, impaired concentration, or decreased productivity due to sleepiness—should be evaluated. This is especially important if sleepiness affects driving, work safety, or quality of life.",
+    candidatesFor: "Anyone experiencing excessive daytime sleepiness, difficulty staying awake during passive activities, unintended napping, impaired concentration, or decreased productivity due to sleepiness, should be evaluated. This is especially important if sleepiness affects driving, work safety, or quality of life.",
     benefits: [
       {
         name: "Identifies Root Cause",
@@ -130,7 +130,7 @@ export const diagnosisServices: TreatmentContent[] = [
       },
       {
         name: "Guides Appropriate Treatment",
-        description: "Treatment differs based on cause—CPAP for sleep apnea, stimulants for narcolepsy, sleep extension for insufficient sleep."
+        description: "Treatment differs based on cause, CPAP for sleep apnea, stimulants for narcolepsy, sleep extension for insufficient sleep."
       }
     ],
     sideEffects: [
@@ -176,7 +176,7 @@ export const diagnosisServices: TreatmentContent[] = [
     tips: [
       {
         title: "Distinguish Sleepiness from Fatigue",
-        description: "Sleepiness is difficulty staying awake; fatigue is tiredness without sleep drive. Tell your provider which you experience—treatments differ."
+        description: "Sleepiness is difficulty staying awake; fatigue is tiredness without sleep drive. Tell your provider which you experience, treatments differ."
       },
       {
         title: "Track Sleep Honestly",
@@ -184,11 +184,11 @@ export const diagnosisServices: TreatmentContent[] = [
       },
       {
         title: "Note When Sleepiness Occurs",
-        description: "Document when you're sleepiest—after meals, in meetings, while driving. Patterns help with diagnosis."
+        description: "Document when you're sleepiest, after meals, in meetings, while driving. Patterns help with diagnosis."
       },
       {
         title: "Report Near-Miss Accidents",
-        description: "If you've had close calls while driving due to sleepiness, report this—it indicates severity and guides urgency of treatment."
+        description: "If you've had close calls while driving due to sleepiness, report this, it indicates severity and guides urgency of treatment."
       },
       {
         title: "Consider Sleep Extension Trial",
@@ -289,15 +289,15 @@ export const diagnosisServices: TreatmentContent[] = [
       },
       {
         title: "Don't Dismiss Symptoms",
-        description: "Snoring isn't just annoying—it may indicate airway obstruction. Daytime sleepiness isn't normal aging. These symptoms warrant evaluation."
+        description: "Snoring isn't just annoying, it may indicate airway obstruction. Daytime sleepiness isn't normal aging. These symptoms warrant evaluation."
       },
       {
         title: "Mention Cardiovascular History",
-        description: "If you have hypertension, heart failure, atrial fibrillation, or history of stroke, mention this—SDB is common and treatable in these conditions."
+        description: "If you have hypertension, heart failure, atrial fibrillation, or history of stroke, mention this, SDB is common and treatable in these conditions."
       },
       {
         title: "Be Prepared for Treatment Discussion",
-        description: "If diagnosed with SDB, your provider will discuss treatment options. Be open to CPAP—it's highly effective when used consistently."
+        description: "If diagnosed with SDB, your provider will discuss treatment options. Be open to CPAP, it's highly effective when used consistently."
       },
       {
         title: "Follow Up on Negative Tests",

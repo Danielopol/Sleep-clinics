@@ -1,7 +1,7 @@
 "use client"
 
-import { useState } from "react"
-import { Moon, MapPin, Building2, Stethoscope, Filter, Plus, Minus } from "lucide-react"
+import { useState, useRef } from "react"
+import { Moon, MapPin, Building2, Stethoscope, Filter, Plus, Minus, LocateFixed, Loader2, X } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -9,18 +9,25 @@ import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { ScrollArea } from "@/components/ui/scroll-area"
 
+interface FilterValues {
+  specialty: string
+  state: string
+  city: string
+  selectedFilters: string[]
+  userLat?: number
+  userLng?: number
+  radius?: number // km
+}
+
 interface FilterSidebarProps {
-  onFilterChange: (filters: {
-    specialty: string
-    state: string
-    city: string
-    selectedFilters: string[]
-  }) => void
+  onFilterChange: (filters: FilterValues) => void
   states: string[]
   cities: string[]
   specialties: string[]
   services: string[]
 }
+
+const RADIUS_OPTIONS = [1, 5, 10, 25, 50, 100] // km
 
 export function FilterSidebar({ onFilterChange, states, cities, specialties, services }: FilterSidebarProps) {
   const [specialty, setSpecialty] = useState("")
@@ -29,22 +36,44 @@ export function FilterSidebar({ onFilterChange, states, cities, specialties, ser
   const [selectedFilters, setSelectedFilters] = useState<string[]>([])
   const [mapZoom, setMapZoom] = useState(10)
 
+  // "Sleep doctor near me" state
+  const [userCoords, setUserCoords] = useState<{ lat: number; lng: number } | null>(null)
+  const [radius, setRadius] = useState(25) // applied radius (km), used as a fallback default
+  const [radiusInput, setRadiusInput] = useState("") // editable text in the box (empty shows the placeholder)
+  const [locating, setLocating] = useState(false)
+  const [geoError, setGeoError] = useState<string | null>(null)
+  const radiusTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // Emit the full current filter set, with any in-flight overrides applied on top.
+  const emit = (overrides: Partial<FilterValues> = {}) => {
+    onFilterChange({
+      specialty,
+      state,
+      city,
+      selectedFilters,
+      userLat: userCoords?.lat,
+      userLng: userCoords?.lng,
+      radius: userCoords ? radius : undefined,
+      ...overrides,
+    })
+  }
+
   const handleSpecialtyChange = (value: string) => {
     const newValue = value === "all" ? "" : value
     setSpecialty(newValue)
-    onFilterChange({ specialty: newValue, state, city, selectedFilters })
+    emit({ specialty: newValue })
   }
 
   const handleStateChange = (value: string) => {
     const newValue = value === "all" ? "" : value
     setState(newValue)
-    onFilterChange({ specialty, state: newValue, city, selectedFilters })
+    emit({ state: newValue })
   }
 
   const handleCityChange = (value: string) => {
     const newValue = value === "all" ? "" : value
     setCity(newValue)
-    onFilterChange({ specialty, state, city: newValue, selectedFilters })
+    emit({ city: newValue })
   }
 
   const handleCheckboxChange = (filter: string) => {
@@ -52,7 +81,79 @@ export function FilterSidebar({ onFilterChange, states, cities, specialties, ser
       ? selectedFilters.filter((f) => f !== filter)
       : [...selectedFilters, filter]
     setSelectedFilters(updated)
-    onFilterChange({ specialty, state, city, selectedFilters: updated })
+    emit({ selectedFilters: updated })
+  }
+
+  const handleUseLocation = () => {
+    if (typeof navigator === "undefined" || !navigator.geolocation) {
+      setGeoError("Location isn't supported by your browser.")
+      return
+    }
+    // Use whatever distance is currently in the box (fall back to the applied radius).
+    const parsed = parseFloat(radiusInput)
+    const effectiveRadius = Number.isFinite(parsed) && parsed > 0 ? parsed : radius
+    setRadius(effectiveRadius)
+    setRadiusInput(String(effectiveRadius))
+    setLocating(true)
+    setGeoError(null)
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const coords = { lat: position.coords.latitude, lng: position.coords.longitude }
+        setUserCoords(coords)
+        setLocating(false)
+        emit({ userLat: coords.lat, userLng: coords.lng, radius: effectiveRadius })
+      },
+      (error) => {
+        setLocating(false)
+        setGeoError(
+          error.code === error.PERMISSION_DENIED
+            ? "Location permission denied. Enable it to find clinics near you."
+            : "Couldn't get your location. Please try again."
+        )
+      },
+      { enableHighAccuracy: false, timeout: 10000, maximumAge: 300000 }
+    )
+  }
+
+  // Apply a valid radius: update state and (if located) refetch.
+  const applyRadius = (newRadius: number) => {
+    setRadius(newRadius)
+    if (userCoords) {
+      emit({ radius: newRadius, userLat: userCoords.lat, userLng: userCoords.lng })
+    }
+  }
+
+  // Typed input: update the box immediately, debounce the actual filter update.
+  const handleRadiusInput = (value: string) => {
+    setRadiusInput(value)
+    if (radiusTimer.current) clearTimeout(radiusTimer.current)
+    const parsed = parseFloat(value)
+    if (Number.isFinite(parsed) && parsed > 0) {
+      radiusTimer.current = setTimeout(() => applyRadius(parsed), 500)
+    }
+  }
+
+  // On blur/Enter, commit a valid value. Leave an empty/invalid box empty so the placeholder shows.
+  const commitRadiusInput = () => {
+    if (radiusTimer.current) clearTimeout(radiusTimer.current)
+    const parsed = parseFloat(radiusInput)
+    if (Number.isFinite(parsed) && parsed > 0) {
+      setRadiusInput(String(parsed))
+      applyRadius(parsed)
+    }
+  }
+
+  // Quick-pick chip: apply immediately.
+  const handleQuickRadius = (r: number) => {
+    if (radiusTimer.current) clearTimeout(radiusTimer.current)
+    setRadiusInput(String(r))
+    applyRadius(r)
+  }
+
+  const handleClearLocation = () => {
+    setUserCoords(null)
+    setGeoError(null)
+    emit({ userLat: undefined, userLng: undefined, radius: undefined })
   }
 
   return (
@@ -183,6 +284,111 @@ export function FilterSidebar({ onFilterChange, states, cities, specialties, ser
                 Clear all
               </button>
             </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Sleep doctor near me */}
+      <Card className="border-0 shadow-lg bg-gradient-to-br from-white to-slate-50/80 dark:from-slate-800 dark:to-slate-900 backdrop-blur-sm overflow-hidden">
+        <CardHeader className="pb-4">
+          <div className="flex items-center gap-3">
+            <div className="p-2 rounded-lg bg-[var(--healing-teal)] text-white">
+              <LocateFixed className="h-5 w-5" />
+            </div>
+            <div>
+              <CardTitle className="text-lg text-slate-900 dark:text-white font-semibold">Sleep doctor near me</CardTitle>
+              <CardDescription className="text-slate-600 dark:text-slate-300">
+                Find clinics within a set distance
+              </CardDescription>
+            </div>
+          </div>
+        </CardHeader>
+
+        <CardContent className="space-y-4">
+          {/* Distance: type any value or pick a quick option */}
+          <div className="space-y-2">
+            <Label htmlFor="near-me-radius" className="text-sm font-medium text-slate-700 dark:text-slate-200 flex items-center gap-2">
+              <MapPin className="h-4 w-4 text-[var(--healing-teal)]" />
+              Distance
+            </Label>
+            <div className="relative flex items-center h-11 rounded-md bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus-within:border-[var(--healing-teal)] transition-colors">
+              <input
+                id="near-me-radius"
+                type="number"
+                min={1}
+                step="any"
+                inputMode="decimal"
+                value={radiusInput}
+                placeholder="Type your distance"
+                onChange={(e) => handleRadiusInput(e.target.value)}
+                onBlur={commitRadiusInput}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault()
+                    commitRadiusInput()
+                  }
+                }}
+                aria-label="Distance in kilometers"
+                className="flex-1 min-w-0 h-full bg-transparent px-3 text-slate-900 dark:text-white focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              />
+              <span className="px-3 text-sm font-medium text-slate-500 dark:text-slate-400 select-none">km</span>
+            </div>
+            <div className="flex flex-wrap gap-1.5">
+              {RADIUS_OPTIONS.map((r) => (
+                <button
+                  key={r}
+                  type="button"
+                  onClick={() => handleQuickRadius(r)}
+                  className={`px-2.5 py-1 rounded-full text-xs font-medium transition-colors ${
+                    radiusInput === String(r)
+                      ? "bg-[var(--healing-teal)] text-white"
+                      : "bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600"
+                  }`}
+                >
+                  {r} km
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Use my location button */}
+          <button
+            type="button"
+            onClick={handleUseLocation}
+            disabled={locating}
+            className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-[var(--healing-teal)] hover:bg-[var(--healing-teal)]/90 disabled:opacity-70 text-white rounded-xl font-semibold transition-all duration-200 shadow-md"
+          >
+            {locating ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Locating...
+              </>
+            ) : (
+              <>
+                <LocateFixed className="h-4 w-4" />
+                {userCoords ? "Update my location" : "Use my location"}
+              </>
+            )}
+          </button>
+
+          {/* Active state / errors */}
+          {userCoords && (
+            <div className="flex items-center justify-between gap-2 rounded-lg bg-[var(--healing-teal)]/10 px-3 py-2">
+              <span className="text-xs text-slate-700 dark:text-slate-200">
+                Showing clinics within {radius} km of you
+              </span>
+              <button
+                type="button"
+                onClick={handleClearLocation}
+                aria-label="Clear location filter"
+                className="flex-shrink-0 p-1 text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-slate-700 rounded-full transition-colors"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+          )}
+          {geoError && (
+            <p className="text-xs text-red-600 dark:text-red-400">{geoError}</p>
           )}
         </CardContent>
       </Card>

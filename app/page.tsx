@@ -27,6 +27,9 @@ interface Filters {
   city: string
   selectedFilters: string[]
   accreditation?: string
+  userLat?: number
+  userLng?: number
+  radius?: number // km
 }
 
 export default function HomePage() {
@@ -71,6 +74,11 @@ export default function HomePage() {
     }
     if (filters.accreditation) {
       params.set('accreditation', filters.accreditation)
+    }
+    if (filters.userLat != null && filters.userLng != null && filters.radius != null) {
+      params.set('lat', filters.userLat.toString())
+      params.set('lng', filters.userLng.toString())
+      params.set('radius', filters.radius.toString())
     }
 
     return `/api/clinics?${params.toString()}`

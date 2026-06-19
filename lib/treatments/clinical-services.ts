@@ -46,7 +46,7 @@ export const clinicalServices: TreatmentContent[] = [
       },
       {
         name: "May Require Testing",
-        description: "The consultation itself doesn't provide diagnosis—testing is usually needed, adding time and cost to the process."
+        description: "The consultation itself doesn't provide diagnosis, testing is usually needed, adding time and cost to the process."
       }
     ],
     variations: [
@@ -82,7 +82,7 @@ export const clinicalServices: TreatmentContent[] = [
       },
       {
         title: "Bring a Bed Partner If Possible",
-        description: "Bed partners observe things you can't—snoring, breathing pauses, movements. Their input is valuable."
+        description: "Bed partners observe things you can't, snoring, breathing pauses, movements. Their input is valuable."
       },
       {
         title: "Write Down Questions",
@@ -108,7 +108,7 @@ export const clinicalServices: TreatmentContent[] = [
     category: "Clinical Services",
     description: "Specialized sleep medicine services for infants, children, and adolescents, addressing the unique sleep disorders and developmental considerations of younger patients.",
     overview: "Pediatric sleep services provide specialized evaluation and treatment of sleep disorders in children from infancy through adolescence. Children's sleep problems differ significantly from adults in causes, presentation, and treatment approaches. Pediatric sleep specialists understand normal sleep development, recognize how sleep disorders manifest differently in children, and provide developmentally appropriate treatments that consider family dynamics and school schedules.",
-    howItWorks: "Pediatric sleep evaluation involves taking history from both parents and child (when age-appropriate), assessing development and behavior, reviewing school performance, and examining physical factors. Sleep testing is adapted for children—pediatric sleep labs are designed to be child-friendly, and scoring criteria differ from adult standards. Treatment approaches consider the child's age, development, and family circumstances.",
+    howItWorks: "Pediatric sleep evaluation involves taking history from both parents and child (when age-appropriate), assessing development and behavior, reviewing school performance, and examining physical factors. Sleep testing is adapted for children, pediatric sleep labs are designed to be child-friendly, and scoring criteria differ from adult standards. Treatment approaches consider the child's age, development, and family circumstances.",
     candidatesFor: "Children of any age with sleep problems should be evaluated by a pediatric sleep specialist when issues persist, significantly affect daytime function or behavior, involve suspected sleep apnea (snoring, breathing pauses), or don't respond to basic interventions. Particular concerns include behavioral insomnia of childhood, pediatric obstructive sleep apnea, parasomnias, and adolescent circadian rhythm issues.",
     benefits: [
       {
@@ -183,7 +183,7 @@ export const clinicalServices: TreatmentContent[] = [
       },
       {
         title: "Bring Comfort Items",
-        description: "For sleep studies, bring your child's usual bedtime items—favorite pajamas, stuffed animals, books."
+        description: "For sleep studies, bring your child's usual bedtime items, favorite pajamas, stuffed animals, books."
       },
       {
         title: "Both Parents Should Be Involved",
@@ -209,7 +209,7 @@ export const clinicalServices: TreatmentContent[] = [
     category: "Clinical Services",
     description: "Remote sleep medicine consultations and follow-up care delivered via video visits, improving access to sleep specialists regardless of location.",
     overview: "Telemedicine sleep services deliver sleep medicine care remotely through video consultations. Patients connect with board-certified sleep specialists from home, eliminating travel time and expanding access to expert care. Telemedicine is effective for initial consultations, follow-up visits, CPAP troubleshooting, CBT-I delivery, and ongoing management of chronic sleep conditions. Combined with home sleep testing, telemedicine can provide comprehensive sleep care without in-person visits.",
-    howItWorks: "Patients schedule video visits through secure telehealth platforms. During the appointment, the sleep specialist conducts a consultation similar to in-person visits—taking history, reviewing symptoms, discussing test results, and making treatment recommendations. Some elements (detailed physical examination) are limited, but most sleep medicine care can be effectively delivered remotely. Equipment prescriptions, sleep study orders, and follow-up are coordinated electronically.",
+    howItWorks: "Patients schedule video visits through secure telehealth platforms. During the appointment, the sleep specialist conducts a consultation similar to in-person visits, taking history, reviewing symptoms, discussing test results, and making treatment recommendations. Some elements (detailed physical examination) are limited, but most sleep medicine care can be effectively delivered remotely. Equipment prescriptions, sleep study orders, and follow-up are coordinated electronically.",
     candidatesFor: "Telemedicine is appropriate for most sleep medicine patients, particularly those in areas without local sleep specialists, those with mobility or transportation challenges, patients needing follow-up care, those seeking second opinions, and anyone who prefers the convenience of home-based care. In-person visits may be needed when detailed physical examination is essential or for procedures.",
     benefits: [
       {
@@ -474,7 +474,7 @@ export const clinicalServices: TreatmentContent[] = [
       },
       {
         title: "Describe Breathing Symptoms",
-        description: "Note shortness of breath patterns—when it occurs, what makes it better or worse, and how it affects sleep."
+        description: "Note shortness of breath patterns, when it occurs, what makes it better or worse, and how it affects sleep."
       },
       {
         title: "Report Morning Symptoms",
@@ -575,7 +575,7 @@ export const clinicalServices: TreatmentContent[] = [
     tips: [
       {
         title: "Ask Questions",
-        description: "There are no dumb questions. Ask about anything you don't understand—it's the educator's job to help."
+        description: "There are no dumb questions. Ask about anything you don't understand, it's the educator's job to help."
       },
       {
         title: "Take Notes or Record",
@@ -613,7 +613,7 @@ export const clinicalServices: TreatmentContent[] = [
     category: "Clinical Services",
     description: "Ongoing monitoring and management of sleep disorders after initial diagnosis and treatment, ensuring continued treatment effectiveness and addressing emerging issues.",
     overview: "Sleep follow-up care provides ongoing management after initial diagnosis and treatment of sleep disorders. Regular follow-up ensures treatments remain effective, identifies and addresses new problems, allows treatment adjustments as needs change, and monitors for complications. Sleep disorders are typically chronic conditions requiring long-term management, and regular follow-up is essential for sustained treatment success.",
-    howItWorks: "Follow-up care includes periodic appointments (in-person or via telemedicine) to review symptoms, assess treatment adherence and effectiveness, download and review therapy data (like CPAP usage), examine equipment condition, address side effects, and make treatment adjustments. The frequency of follow-up varies based on condition stability—more frequent early in treatment, then transitioning to annual or as-needed visits for stable patients.",
+    howItWorks: "Follow-up care includes periodic appointments (in-person or via telemedicine) to review symptoms, assess treatment adherence and effectiveness, download and review therapy data (like CPAP usage), examine equipment condition, address side effects, and make treatment adjustments. The frequency of follow-up varies based on condition stability, more frequent early in treatment, then transitioning to annual or as-needed visits for stable patients.",
     candidatesFor: "All patients diagnosed with sleep disorders benefit from follow-up care. It's particularly important for patients on CPAP or other device therapy, those taking sleep medications, patients with conditions that may change over time (narcolepsy, RLS), and those with chronic conditions requiring ongoing management.",
     benefits: [
       {
@@ -662,7 +662,7 @@ export const clinicalServices: TreatmentContent[] = [
       },
       {
         name: "Problem-Based Follow-Up",
-        description: "Visits scheduled when specific issues arise—new symptoms, treatment problems, equipment issues."
+        description: "Visits scheduled when specific issues arise, new symptoms, treatment problems, equipment issues."
       },
       {
         name: "Remote Monitoring",

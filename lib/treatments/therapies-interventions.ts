@@ -331,7 +331,7 @@ export const therapiesInterventions: TreatmentContent[] = [
       },
       {
         name: "No Mask or Machine",
-        description: "Inspire works from inside the body—no mask, hoses, or bedside equipment required."
+        description: "Inspire works from inside the body, no mask, hoses, or bedside equipment required."
       },
       {
         name: "High Patient Satisfaction",
@@ -791,7 +791,7 @@ export const therapiesInterventions: TreatmentContent[] = [
       },
       {
         title: "Monitor Symptoms",
-        description: "Report morning headaches, daytime sleepiness, or breathing changes—these may indicate inadequate settings."
+        description: "Report morning headaches, daytime sleepiness, or breathing changes, these may indicate inadequate settings."
       },
       {
         title: "Get Regular CO2 Checks",
@@ -799,7 +799,7 @@ export const therapiesInterventions: TreatmentContent[] = [
       },
       {
         title: "Maintain Equipment",
-        description: "NIV equipment needs the same maintenance as CPAP—clean masks, replace filters, use humidification."
+        description: "NIV equipment needs the same maintenance as CPAP, clean masks, replace filters, use humidification."
       },
       {
         title: "Have Backup Plans",
@@ -908,7 +908,7 @@ export const therapiesInterventions: TreatmentContent[] = [
       },
       {
         title: "Give It Time",
-        description: "Circadian shifts occur gradually—typically 1-2 hours per week. Expect changes over weeks, not days."
+        description: "Circadian shifts occur gradually, typically 1-2 hours per week. Expect changes over weeks, not days."
       }
     ],
     additionalResources: [

@@ -27,6 +27,18 @@ function loadData() {
   return { clinics: cachedClinics, metadata: cachedMetadata }
 }
 
+// Great-circle distance between two lat/lng points, in kilometers.
+function haversineKm(lat1: number, lng1: number, lat2: number, lng2: number) {
+  const R = 6371 // Earth radius in km
+  const toRad = (d: number) => (d * Math.PI) / 180
+  const dLat = toRad(lat2 - lat1)
+  const dLng = toRad(lng2 - lng1)
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2
+  return 2 * R * Math.asin(Math.sqrt(a))
+}
+
 function filterClinics(clinics: any[], params: {
   q?: string | null
   state?: string | null
@@ -34,6 +46,9 @@ function filterClinics(clinics: any[], params: {
   specialty?: string | null
   services?: string[] | null
   accreditation?: string | null
+  lat?: number | null
+  lng?: number | null
+  radius?: number | null
 }) {
   let filtered = clinics
 
@@ -81,6 +96,22 @@ function filterClinics(clinics: any[], params: {
     )
   }
 
+  // "Near me" distance filter: keep clinics with coordinates within `radius` km of
+  // the user's location, attach the distance, and sort nearest first.
+  if (
+    params.lat != null && params.lng != null && params.radius != null &&
+    Number.isFinite(params.lat) && Number.isFinite(params.lng) && params.radius > 0
+  ) {
+    filtered = filtered
+      .filter((clinic) => clinic.coordinates?.lat != null && clinic.coordinates?.lng != null)
+      .map((clinic) => ({
+        ...clinic,
+        distance: haversineKm(params.lat!, params.lng!, clinic.coordinates.lat, clinic.coordinates.lng),
+      }))
+      .filter((clinic) => clinic.distance <= params.radius!)
+      .sort((a, b) => a.distance - b.distance)
+  }
+
   return filtered
 }
 
@@ -108,9 +139,15 @@ export async function GET(request: Request) {
     const servicesParam = searchParams.get('services')
     const services = servicesParam ? servicesParam.split(',').filter(Boolean) : null
     const accreditation = searchParams.get('accreditation')
+    const latParam = searchParams.get('lat')
+    const lngParam = searchParams.get('lng')
+    const radiusParam = searchParams.get('radius')
+    const lat = latParam != null ? parseFloat(latParam) : null
+    const lng = lngParam != null ? parseFloat(lngParam) : null
+    const radius = radiusParam != null ? parseFloat(radiusParam) : null
 
     // Apply filters
-    const filteredClinics = filterClinics(clinics, { q, state, city, specialty, services, accreditation })
+    const filteredClinics = filterClinics(clinics, { q, state, city, specialty, services, accreditation, lat, lng, radius })
 
     // Calculate pagination
     const total = filteredClinics.length

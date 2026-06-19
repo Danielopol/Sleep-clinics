@@ -194,7 +194,7 @@ export const otherDisorders: SleepDisorderContent[] = [
     treatments: [
       {
         name: "Treat Underlying Sleep Disorders",
-        description: "CPAP for sleep apnea, medications for restless legs, treatment for parasomnias—addressing the primary sleep disorder improves continuity."
+        description: "CPAP for sleep apnea, medications for restless legs, treatment for parasomnias, addressing the primary sleep disorder improves continuity."
       },
       {
         name: "Manage Medical Conditions",

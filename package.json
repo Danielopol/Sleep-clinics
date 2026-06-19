@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "geocode": "node scripts/geocode-clinics.mjs",
     "generate-data": "node scripts/generate-clinic-data.mjs",
     "prebuild": "npm run generate-data",
     "build": "next build",

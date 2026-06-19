@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Content Style Rules
+
+- **Never use em dashes (—)** anywhere in site content: page copy, components, blog posts, and the disorder/treatment data files in `lib/`. Use a comma, parenthesis, colon, or separate sentence instead. (En dashes for numeric ranges should use a regular hyphen, e.g. `8-10 hours`.)
+
 ## Development Commands
 
 ```bash

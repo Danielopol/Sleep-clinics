@@ -348,7 +348,7 @@ export default function AboutPage() {
             <div className="w-24 h-1 bg-gradient-to-r from-[var(--dream-blue)] to-[var(--healing-teal)] mx-auto rounded-full mb-8" />
           </div>
           <p className="text-lg text-slate-600 dark:text-slate-300 leading-relaxed text-center mb-12">
-            Sleep is not a luxury—it's a biological necessity as vital as nutrition and exercise. Untreated sleep disorders
+            Sleep is not a luxury, it's a biological necessity as vital as nutrition and exercise. Untreated sleep disorders
             can contribute to serious health conditions including:
           </p>
 
@@ -410,7 +410,7 @@ export default function AboutPage() {
             to help you achieve the restful, restorative sleep you deserve.
           </p>
           <p className="text-lg text-slate-400 mb-10">
-            Start your search today and discover how professional sleep care can transform your nights—and your days.
+            Start your search today and discover how professional sleep care can transform your nights, and your days.
             <br />
             <span className="text-[var(--dream-blue-light)] font-semibold">Because when you sleep well, you live well.</span>
           </p>

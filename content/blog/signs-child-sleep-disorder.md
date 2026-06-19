@@ -1,7 +1,7 @@
 ---
 title: "Signs Your Child May Have a Sleep Disorder"
 date: "2026-02-06"
-excerpt: "Sleep problems in children often look different than in adults — and they're frequently mistaken for behavioral issues. Learn the warning signs that your child may have an undiagnosed sleep disorder and when to seek help."
+excerpt: "Sleep problems in children often look different than in adults, and they're frequently mistaken for behavioral issues. Learn the warning signs that your child may have an undiagnosed sleep disorder and when to seek help."
 author: "Daniel Marin"
 tags: ["Pediatric Sleep", "Sleep Disorders", "Children's Health", "Parents"]
 ---
@@ -10,13 +10,13 @@ When adults don't sleep well, they get tired. When children don't sleep well, th
 
 This paradox is one of the reasons sleep disorders in children are so frequently missed. The symptoms don't look like what parents expect. Instead of a drowsy child who can't keep their eyes open, you might see hyperactivity, emotional meltdowns, difficulty focusing, or behavioral problems that get labeled as ADHD, anxiety, or "just being difficult."
 
-An estimated 25-50% of children experience sleep problems at some point, and true sleep disorders affect roughly 1-4% of children. Yet pediatric sleep disorders often go undiagnosed for years — sometimes until adulthood — because the signs are misinterpreted or dismissed as normal childhood behavior.
+An estimated 25-50% of children experience sleep problems at some point, and true sleep disorders affect roughly 1-4% of children. Yet pediatric sleep disorders often go undiagnosed for years, sometimes until adulthood, because the signs are misinterpreted or dismissed as normal childhood behavior.
 
 Here's what parents need to know about recognizing sleep disorders in children.
 
 ## Why Sleep Matters Even More for Children
 
-Sleep isn't just rest for children — it's when critical development happens. During sleep, children's brains consolidate learning and memory, their bodies release growth hormone, and their immune systems strengthen.
+Sleep isn't just rest for children, it's when critical development happens. During sleep, children's brains consolidate learning and memory, their bodies release growth hormone, and their immune systems strengthen.
 
 Chronic sleep disruption in children has been linked to:
 
@@ -40,13 +40,13 @@ This is the most counterintuitive symptom. While sleep-deprived adults become sl
 - "Bouncing off the walls" in the evening
 - Hyperactivity that improves after a good night's sleep
 
-Research published in *Pediatrics* found that children with sleep-disordered breathing were significantly more likely to exhibit hyperactive behavior — and that treating the sleep problem often reduced or resolved the hyperactivity.
+Research published in *Pediatrics* found that children with sleep-disordered breathing were significantly more likely to exhibit hyperactive behavior, and that treating the sleep problem often reduced or resolved the hyperactivity.
 
 **Important:** If your child has been diagnosed with ADHD or is being evaluated for it, make sure sleep disorders have been ruled out first. The symptom overlap is substantial, and addressing a sleep problem may change the picture entirely.
 
 ### 2. Mouth Breathing and Snoring
 
-Healthy children should breathe through their nose, both awake and asleep. Chronic mouth breathing — especially during sleep — can indicate an obstructed airway.
+Healthy children should breathe through their nose, both awake and asleep. Chronic mouth breathing, especially during sleep, can indicate an obstructed airway.
 
 **What to watch for:**
 - Mouth hanging open during sleep
@@ -68,7 +68,7 @@ The connection: during apnea events, the body produces a hormone called atrial n
 - Bedwetting in a child who also snores or mouth breathes
 - Bedwetting combined with other signs on this list
 
-Studies have shown that treating sleep apnea in children with enlarged tonsils often resolves bedwetting — sometimes completely.
+Studies have shown that treating sleep apnea in children with enlarged tonsils often resolves bedwetting, sometimes completely.
 
 ### 4. Difficulty Waking Up and Morning Grogginess
 
@@ -97,7 +97,7 @@ These compensatory positions are the child's body trying to breathe better. They
 
 ### 6. Night Terrors, Sleepwalking, and Confusional Arousals
 
-Parasomnias — abnormal behaviors during sleep — are common in children and often outgrown. However, frequent or severe episodes can indicate fragmented sleep or an underlying sleep disorder.
+Parasomnias, abnormal behaviors during sleep, are common in children and often outgrown. However, frequent or severe episodes can indicate fragmented sleep or an underlying sleep disorder.
 
 **What to watch for:**
 - Night terrors: sudden screaming, intense fear, racing heart, hard to console, no memory of the episode
@@ -114,7 +114,7 @@ A child who thrashes, kicks, moves constantly, or seems unable to get comfortabl
 **What to watch for:**
 - Constant movement during sleep
 - Kicking, thrashing, or rolling frequently
-- Grinding teeth (bruxism) — can be a sign of apnea
+- Grinding teeth (bruxism), can be a sign of apnea
 - Sheets and blankets in disarray every morning
 - Legs that seem restless or "need to move" at bedtime (restless legs syndrome)
 
@@ -148,7 +148,7 @@ These symptoms are frequently attributed to behavioral or psychological causes w
 
 ### 10. Attention and Learning Difficulties
 
-Poor sleep impairs attention, concentration, working memory, and executive function — all critical for learning.
+Poor sleep impairs attention, concentration, working memory, and executive function, all critical for learning.
 
 **What to watch for:**
 - Difficulty paying attention in class
@@ -158,7 +158,7 @@ Poor sleep impairs attention, concentration, working memory, and executive funct
 - Inconsistent performance (good days and bad days)
 - Being described as "not reaching potential"
 
-A landmark study found that children who had their tonsils removed for sleep-disordered breathing showed significant improvements in behavior, quality of life, and cognition — with the largest gains in attention.
+A landmark study found that children who had their tonsils removed for sleep-disordered breathing showed significant improvements in behavior, quality of life, and cognition, with the largest gains in attention.
 
 ## Common Pediatric Sleep Disorders
 
@@ -177,7 +177,7 @@ Pediatric OSA affects an estimated 1-5% of children, with peak incidence between
 
 ### Restless Legs Syndrome (RLS)
 
-RLS in children is underdiagnosed because children often describe the sensations differently than adults — "creepy crawly," "ants in my legs," "need to move," or simply that their legs "hurt."
+RLS in children is underdiagnosed because children often describe the sensations differently than adults, "creepy crawly," "ants in my legs," "need to move," or simply that their legs "hurt."
 
 **What to watch for:**
 - Complaints about leg discomfort at bedtime
@@ -190,7 +190,7 @@ RLS in children is underdiagnosed because children often describe the sensations
 
 ### Behavioral Insomnia of Childhood
 
-This isn't a medical disorder but a pattern where children have difficulty falling or staying asleep due to behavioral factors — typically related to bedtime routines and sleep associations.
+This isn't a medical disorder but a pattern where children have difficulty falling or staying asleep due to behavioral factors, typically related to bedtime routines and sleep associations.
 
 **Two types:**
 - **Sleep-onset association type:** Child needs specific conditions to fall asleep (being rocked, parent present, TV on) and can't return to sleep without them
@@ -200,7 +200,7 @@ This isn't a medical disorder but a pattern where children have difficulty falli
 
 ### Delayed Sleep Phase Disorder
 
-Common in adolescents, this circadian rhythm disorder causes the natural sleep-wake cycle to be shifted later — the teen genuinely can't fall asleep until 1-2 AM and would naturally sleep until late morning.
+Common in adolescents, this circadian rhythm disorder causes the natural sleep-wake cycle to be shifted later, the teen genuinely can't fall asleep until 1-2 AM and would naturally sleep until late morning.
 
 **What to watch for:**
 - Inability to fall asleep at a "normal" bedtime despite trying
@@ -237,7 +237,7 @@ Seek evaluation if your child has:
 
 ### Where to Start
 
-**Your pediatrician** can do an initial assessment and refer to a specialist if needed. Be specific about what you're observing — bring a sleep diary and videos of concerning nighttime behaviors if you have them.
+**Your pediatrician** can do an initial assessment and refer to a specialist if needed. Be specific about what you're observing, bring a sleep diary and videos of concerning nighttime behaviors if you have them.
 
 **A pediatric sleep specialist** can conduct a comprehensive evaluation and order appropriate testing. Pediatric sleep studies are available at many accredited sleep centers.
 
@@ -274,9 +274,9 @@ While seeking evaluation, you can support your child's sleep:
 
 ## The Bottom Line
 
-Sleep disorders in children often hide in plain sight. The hyperactive child who can't sit still, the student who can't focus, the child with constant meltdowns — these could all be signs of a treatable sleep problem.
+Sleep disorders in children often hide in plain sight. The hyperactive child who can't sit still, the student who can't focus, the child with constant meltdowns, these could all be signs of a treatable sleep problem.
 
-Parents know their children best. If something about your child's sleep seems off — even if you can't quite articulate what — trust that instinct. A snoring child is not just a "noisy sleeper." A child who can't wake up isn't just "not a morning person." A child bouncing off the walls at bedtime isn't necessarily defiant.
+Parents know their children best. If something about your child's sleep seems off, even if you can't quite articulate what, trust that instinct. A snoring child is not just a "noisy sleeper." A child who can't wake up isn't just "not a morning person." A child bouncing off the walls at bedtime isn't necessarily defiant.
 
 Sleep disorders are treatable. Identifying and addressing them can transform a child's behavior, learning, mood, and quality of life. If you're concerned, seek evaluation.
 

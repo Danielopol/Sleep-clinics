@@ -8,7 +8,7 @@ export const conditionTreatments: TreatmentContent[] = [
     description: "Comprehensive treatment approaches for obstructive and central sleep apnea, including PAP therapy, oral appliances, surgery, and lifestyle modifications.",
     overview: "Sleep apnea treatment aims to eliminate breathing interruptions during sleep, restoring normal oxygen levels and quality sleep. Treatment selection depends on apnea type (obstructive vs. central), severity, patient anatomy, comorbidities, and preferences. CPAP remains the first-line treatment for moderate to severe obstructive sleep apnea, but alternatives exist for patients who can't tolerate or prefer not to use CPAP. Effective treatment significantly reduces cardiovascular risk and improves quality of life.",
     howItWorks: "Different treatments work through different mechanisms: PAP therapy pneumatically splints the airway open; oral appliances reposition the jaw to enlarge the airway; surgery removes or stiffens obstructing tissue; hypoglossal nerve stimulation activates tongue muscles to prevent collapse; weight loss reduces tissue pressure on the airway. The goal across all approaches is to maintain airway patency during sleep.",
-    candidatesFor: "Anyone diagnosed with sleep apnea—especially those with moderate to severe OSA (AHI ≥15), symptoms like excessive sleepiness, or cardiovascular conditions—should be treated. Treatment approach is individualized based on severity, anatomy, other medical conditions, and patient preference.",
+    candidatesFor: "Anyone diagnosed with sleep apnea, especially those with moderate to severe OSA (AHI ≥15), symptoms like excessive sleepiness, or cardiovascular conditions, should be treated. Treatment approach is individualized based on severity, anatomy, other medical conditions, and patient preference.",
     benefits: [
       {
         name: "Eliminates Apneas and Hypopneas",
@@ -82,7 +82,7 @@ export const conditionTreatments: TreatmentContent[] = [
       },
       {
         title: "Explore All Options",
-        description: "If one treatment doesn't work, others may. Don't give up on treating sleep apnea—the health benefits are significant."
+        description: "If one treatment doesn't work, others may. Don't give up on treating sleep apnea, the health benefits are significant."
       },
       {
         title: "Address Weight If Applicable",
@@ -365,7 +365,7 @@ export const conditionTreatments: TreatmentContent[] = [
     sideEffects: [
       {
         name: "Augmentation (Dopaminergic Agents)",
-        description: "Long-term dopamine agonist use can cause augmentation—symptoms becoming worse and starting earlier. This is a significant concern."
+        description: "Long-term dopamine agonist use can cause augmentation, symptoms becoming worse and starting earlier. This is a significant concern."
       },
       {
         name: "Impulse Control Disorders",
@@ -429,7 +429,7 @@ export const conditionTreatments: TreatmentContent[] = [
       },
       {
         title: "Report Changes",
-        description: "If symptoms change—become more severe, spread to arms, start earlier in the day—report to your provider. This may indicate augmentation."
+        description: "If symptoms change, become more severe, spread to arms, start earlier in the day, report to your provider. This may indicate augmentation."
       }
     ],
     additionalResources: [
@@ -745,7 +745,7 @@ export const conditionTreatments: TreatmentContent[] = [
     description: "Treatment for circadian rhythm sleep disorders including delayed sleep phase, advanced sleep phase, shift work disorder, and jet lag.",
     overview: "Circadian rhythm disorder treatment aims to realign the body's internal clock with desired sleep-wake timing. The circadian system can be shifted using precisely timed light exposure, light avoidance, and melatonin. Treatment success requires understanding each disorder's characteristics and applying interventions at the correct times. Behavioral consistency reinforces chronotherapy, while some patients may need to accommodate rather than fight their natural rhythm.",
     howItWorks: "Light is the primary synchronizer of circadian rhythms. Light exposure at strategic times shifts the clock: morning light advances rhythms (promotes earlier sleep); evening light delays them. Melatonin taken at appropriate times provides an additional signal. Consistent sleep-wake schedules reinforce the desired pattern. For shift workers, strategies optimize alertness during work and sleep during off-hours.",
-    candidatesFor: "Anyone whose sleep timing doesn't match their required schedule—whether due to delayed sleep phase (natural 'night owls'), advanced sleep phase (early birds), shift work, or frequent travel—may benefit from treatment.",
+    candidatesFor: "Anyone whose sleep timing doesn't match their required schedule, whether due to delayed sleep phase (natural 'night owls'), advanced sleep phase (early birds), shift work, or frequent travel, may benefit from treatment.",
     benefits: [
       {
         name: "Realigned Sleep Timing",
@@ -831,7 +831,7 @@ export const conditionTreatments: TreatmentContent[] = [
       },
       {
         title: "Be Patient",
-        description: "Circadian shifts take time—typically 1-2 hours of shift per week. Rapid changes are difficult and often unsuccessful."
+        description: "Circadian shifts take time, typically 1-2 hours of shift per week. Rapid changes are difficult and often unsuccessful."
       },
       {
         title: "Consider Accommodation",
@@ -866,7 +866,7 @@ export const conditionTreatments: TreatmentContent[] = [
       },
       {
         name: "Easier Waking",
-        description: "Some treatments, particularly sodium oxybate, may improve sleep inertia—the extreme difficulty waking that characterizes IH."
+        description: "Some treatments, particularly sodium oxybate, may improve sleep inertia, the extreme difficulty waking that characterizes IH."
       },
       {
         name: "Official Recognition",

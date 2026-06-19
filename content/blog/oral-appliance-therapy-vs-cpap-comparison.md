@@ -1,18 +1,18 @@
 ---
 title: "Oral Appliance Therapy vs. CPAP: Pros, Cons, and Who Each Is Best For"
 date: "2026-02-11"
-excerpt: "CPAP and oral appliances both treat sleep apnea — but they work very differently. This head-to-head comparison helps you understand which treatment might be the better fit for your situation."
+excerpt: "CPAP and oral appliances both treat sleep apnea, but they work very differently. This head-to-head comparison helps you understand which treatment might be the better fit for your situation."
 author: "Daniel Marin"
 tags: ["Sleep Apnea", "CPAP", "Oral Appliances", "Treatment Comparison"]
 ---
 
 You've been diagnosed with sleep apnea. Now comes the question that trips up so many patients: which treatment should you choose?
 
-For most people, the real decision comes down to two options — CPAP (continuous positive airway pressure) or an oral appliance. These are the two most widely used, most studied, and most accessible treatments for obstructive sleep apnea. Everything else is either more invasive (surgery), more restrictive in who qualifies (Inspire), or less proven.
+For most people, the real decision comes down to two options, CPAP (continuous positive airway pressure) or an oral appliance. These are the two most widely used, most studied, and most accessible treatments for obstructive sleep apnea. Everything else is either more invasive (surgery), more restrictive in who qualifies (Inspire), or less proven.
 
 CPAP and oral appliances both work. Both have decades of research behind them. Both are covered by most insurance plans. But they work in fundamentally different ways, succeed for different reasons, and fail for different reasons.
 
-Choosing between them isn't about picking the "better" treatment — it's about picking the better treatment *for you*. This guide breaks down everything you need to know to make that decision.
+Choosing between them isn't about picking the "better" treatment, it's about picking the better treatment *for you*. This guide breaks down everything you need to know to make that decision.
 
 ## How Each Treatment Works
 
@@ -20,7 +20,7 @@ Understanding the mechanism helps explain why each treatment has the strengths a
 
 ### CPAP: Pressurized Air
 
-CPAP delivers a continuous stream of pressurized air through a mask you wear during sleep. This air pressure acts as a pneumatic splint — it physically holds your airway open by pushing against the soft tissues that would otherwise collapse.
+CPAP delivers a continuous stream of pressurized air through a mask you wear during sleep. This air pressure acts as a pneumatic splint, it physically holds your airway open by pushing against the soft tissues that would otherwise collapse.
 
 The system includes:
 - A machine that generates pressurized air
@@ -28,7 +28,7 @@ The system includes:
 - A mask that delivers it to your airway (nasal, full-face, or nasal pillow designs)
 - Usually a humidifier to prevent dryness
 
-The pressure is calibrated during a sleep study or through auto-adjusting algorithms. When set correctly, CPAP eliminates apnea events almost completely — your AHI (apnea-hypopnea index) typically drops to under 5, often under 1.
+The pressure is calibrated during a sleep study or through auto-adjusting algorithms. When set correctly, CPAP eliminates apnea events almost completely, your AHI (apnea-hypopnea index) typically drops to under 5, often under 1.
 
 CPAP doesn't care *why* your airway collapses. Tongue falling back? CPAP holds it open. Soft palate collapsing? CPAP holds it open. Throat walls narrowing? CPAP holds them open. This universality is its superpower.
 
@@ -41,10 +41,10 @@ Your tongue is anchored to your lower jaw. When the jaw moves forward, the tongu
 A properly made oral appliance:
 - Is custom-fabricated from impressions or digital scans of your teeth
 - Has upper and lower components that connect
-- Is titratable — meaning it can be adjusted incrementally to find the optimal jaw position
+- Is titratable, meaning it can be adjusted incrementally to find the optimal jaw position
 - Is made by a dentist trained in dental sleep medicine
 
-Unlike CPAP, oral appliances don't pressurize your entire airway. They work by changing your anatomy while you sleep — moving structures out of the way rather than forcing them open.
+Unlike CPAP, oral appliances don't pressurize your entire airway. They work by changing your anatomy while you sleep, moving structures out of the way rather than forcing them open.
 
 ## Effectiveness: The Numbers
 
@@ -56,7 +56,7 @@ When used as prescribed, CPAP is extraordinarily effective:
 - Reduces AHI to normal levels (under 5) in approximately 95% of patients
 - Works for mild, moderate, and severe sleep apnea
 - Works regardless of body weight or specific anatomy
-- Improvements are immediate — the first night of proper use shows results
+- Improvements are immediate, the first night of proper use shows results
 
 The catch is in that phrase "when used as prescribed." CPAP only works while you're wearing it. Take off the mask, and your apnea returns instantly.
 
@@ -69,7 +69,7 @@ Oral appliances are effective but less universally so:
 - Work best for mild to moderate apnea; success rates drop for severe apnea
 - Effectiveness varies significantly based on individual anatomy
 
-A meta-analysis published in *Sleep* found that oral appliances reduced AHI from an average of 33 to 14 — meaningful improvement, but not the near-elimination that CPAP achieves.
+A meta-analysis published in *Sleep* found that oral appliances reduced AHI from an average of 33 to 14, meaningful improvement, but not the near-elimination that CPAP achieves.
 
 ### The Adherence Factor
 
@@ -77,7 +77,7 @@ Here's where the comparison gets complicated: CPAP's superior efficacy is offset
 
 **CPAP adherence rates:**
 - Only about 50% of patients meet the minimum adherence threshold (4+ hours/night on 70%+ of nights)
-- Many patients use CPAP inconsistently — some nights on, some nights off
+- Many patients use CPAP inconsistently, some nights on, some nights off
 - A significant percentage abandon CPAP entirely within the first year
 
 **Oral appliance adherence rates:**
@@ -89,13 +89,13 @@ This matters enormously. A treatment that works 95% of the time but is used 50% 
 
 ### Health Outcomes: What Actually Matters
 
-The ultimate question isn't which treatment produces better AHI numbers — it's which produces better health outcomes.
+The ultimate question isn't which treatment produces better AHI numbers, it's which produces better health outcomes.
 
 Several studies have compared cardiovascular outcomes, blood pressure reduction, and quality of life between CPAP and oral appliances. The surprising finding: when both treatments are used consistently, health outcomes are often similar.
 
 A randomized trial published in *JAMA* found equivalent reductions in 24-hour blood pressure between CPAP and oral appliances over 4 weeks. A study in the *American Journal of Respiratory and Critical Care Medicine* found similar improvements in endothelial function (a marker of cardiovascular health).
 
-The interpretation: for patients who will actually use an oral appliance consistently, it may be as good as CPAP for cardiovascular protection — even though it doesn't reduce AHI as dramatically.
+The interpretation: for patients who will actually use an oral appliance consistently, it may be as good as CPAP for cardiovascular protection, even though it doesn't reduce AHI as dramatically.
 
 ## Side Effects and Drawbacks
 
@@ -191,7 +191,7 @@ Beyond clinical effectiveness, how does each treatment fit into daily life?
 
 **Oral appliance:** Fits in a small case that slips into a toiletry bag. No electricity needed. Works anywhere you can sleep.
 
-**Winner: Oral appliance** — dramatically easier for travel.
+**Winner: Oral appliance**, dramatically easier for travel.
 
 ### Bed Partner Impact
 
@@ -199,7 +199,7 @@ Beyond clinical effectiveness, how does each treatment fit into daily life?
 
 **Oral appliance:** Silent. Stays in your mouth, leaving your face free. Less intrusive to the bed partner.
 
-**Winner: Oral appliance** — less impact on the relationship dynamic.
+**Winner: Oral appliance**, less impact on the relationship dynamic.
 
 ### Maintenance
 
@@ -207,7 +207,7 @@ Beyond clinical effectiveness, how does each treatment fit into daily life?
 
 **Oral appliance:** Quick daily cleaning with a brush or denture cleaner. Periodic professional cleaning. Minimal maintenance.
 
-**Winner: Oral appliance** — less daily hassle.
+**Winner: Oral appliance**, less daily hassle.
 
 ### Appearance and Self-Image
 
@@ -217,15 +217,15 @@ This matters more than many doctors acknowledge.
 
 **Oral appliance:** Invisible from the outside. Just looks like you're sleeping. Feels more like a normal person using a dental device than a patient on a medical machine.
 
-**Winner: Oral appliance** — preserves normal appearance.
+**Winner: Oral appliance**, preserves normal appearance.
 
 ### Flexibility
 
 **CPAP:** Works best with consistent use in the same sleeping environment. Taking a night off means a night of untreated apnea.
 
-**Oral appliance:** Easy to use in different situations. Some patients keep both — CPAP at home, oral appliance for travel.
+**Oral appliance:** Easy to use in different situations. Some patients keep both, CPAP at home, oral appliance for travel.
 
-**Winner: Oral appliance** — more adaptable to varied circumstances.
+**Winner: Oral appliance**, more adaptable to varied circumstances.
 
 ## Who Should Choose CPAP?
 
@@ -241,7 +241,7 @@ CPAP is likely the better choice if:
 
 **You have dental problems.** Not enough teeth, significant periodontal disease, or TMJ dysfunction may rule out oral appliances. CPAP works regardless of dental status.
 
-**You want maximum certainty.** If peace of mind matters most — knowing with near-certainty that every night your apnea is fully controlled — CPAP delivers that.
+**You want maximum certainty.** If peace of mind matters most, knowing with near-certainty that every night your apnea is fully controlled, CPAP delivers that.
 
 **Cost is the primary concern and you have good insurance.** CPAP is often covered more readily and completely than oral appliances.
 
@@ -293,11 +293,11 @@ Insurance often requires a CPAP trial before covering oral appliances. Even if y
 
 ### Step 4: Get Properly Evaluated for an Oral Appliance
 
-If CPAP doesn't work out, see a dentist trained in dental sleep medicine — ideally one who is a member of the American Academy of Dental Sleep Medicine or board-certified. A proper evaluation includes assessing your teeth, TMJ, bite, and airway.
+If CPAP doesn't work out, see a dentist trained in dental sleep medicine, ideally one who is a member of the American Academy of Dental Sleep Medicine or board-certified. A proper evaluation includes assessing your teeth, TMJ, bite, and airway.
 
 ### Step 5: Follow Up With Objective Testing
 
-Whichever treatment you choose, verify it's working. A follow-up sleep study (or home sleep test) while using your treatment tells you whether your AHI is actually controlled. Feeling better isn't enough — you need objective confirmation.
+Whichever treatment you choose, verify it's working. A follow-up sleep study (or home sleep test) while using your treatment tells you whether your AHI is actually controlled. Feeling better isn't enough, you need objective confirmation.
 
 ### Step 6: Reassess Periodically
 
@@ -320,7 +320,7 @@ Bodies change. Weight changes. Dental health changes. What works now may need ad
 
 ## The Bottom Line
 
-CPAP and oral appliances are both legitimate, evidence-based treatments for obstructive sleep apnea. Neither is universally "better" — each has situations where it excels.
+CPAP and oral appliances are both legitimate, evidence-based treatments for obstructive sleep apnea. Neither is universally "better", each has situations where it excels.
 
 **Choose CPAP if:** Your apnea is severe, you need guaranteed effectiveness, you tolerate the mask well, or dental issues rule out oral appliances.
 

@@ -16,7 +16,7 @@ export const sleepTesting: TreatmentContent[] = [
       },
       {
         name: "Professional Oversight",
-        description: "A trained technologist monitors your study and can intervene if needed—adjusting sensors, noting events, or initiating CPAP if part of a split-night study."
+        description: "A trained technologist monitors your study and can intervene if needed, adjusting sensors, noting events, or initiating CPAP if part of a split-night study."
       },
       {
         name: "Accurate Sleep Staging",
@@ -78,7 +78,7 @@ export const sleepTesting: TreatmentContent[] = [
     tips: [
       {
         title: "Maintain Normal Routine",
-        description: "Follow your usual daytime routine before the study. Don't nap, avoid caffeine after noon, and don't use alcohol—you want the study to reflect your typical sleep."
+        description: "Follow your usual daytime routine before the study. Don't nap, avoid caffeine after noon, and don't use alcohol, you want the study to reflect your typical sleep."
       },
       {
         title: "Bring Comfort Items",
@@ -115,8 +115,8 @@ export const sleepTesting: TreatmentContent[] = [
     name: "Home Sleep Testing (HST)",
     category: "Sleep Testing",
     description: "A simplified sleep study performed in your own home using a portable monitoring device to diagnose obstructive sleep apnea in appropriate candidates.",
-    overview: "Home Sleep Testing (HST), also called Home Sleep Apnea Testing (HSAT) or out-of-center sleep testing, allows patients to complete a sleep study in the comfort of their own bed. A portable device monitors key parameters—typically airflow, breathing effort, oxygen saturation, and heart rate—to detect obstructive sleep apnea. HST is appropriate for many patients with suspected moderate to severe OSA without significant comorbidities, offering convenience and lower cost compared to in-lab studies.",
-    howItWorks: "You pick up a small portable device from your sleep clinic or have it mailed to you. At home, you follow instructions to apply sensors—typically a nasal cannula for airflow, a belt for breathing effort, and a finger probe for oxygen and heart rate. You wear the device during a typical night's sleep, then return it for data download and analysis by a sleep physician.",
+    overview: "Home Sleep Testing (HST), also called Home Sleep Apnea Testing (HSAT) or out-of-center sleep testing, allows patients to complete a sleep study in the comfort of their own bed. A portable device monitors key parameters, typically airflow, breathing effort, oxygen saturation, and heart rate, to detect obstructive sleep apnea. HST is appropriate for many patients with suspected moderate to severe OSA without significant comorbidities, offering convenience and lower cost compared to in-lab studies.",
+    howItWorks: "You pick up a small portable device from your sleep clinic or have it mailed to you. At home, you follow instructions to apply sensors, typically a nasal cannula for airflow, a belt for breathing effort, and a finger probe for oxygen and heart rate. You wear the device during a typical night's sleep, then return it for data download and analysis by a sleep physician.",
     candidatesFor: "HST is appropriate for patients with a high pretest probability of moderate to severe obstructive sleep apnea without significant comorbidities. It's not recommended for patients with significant cardiopulmonary disease, potential central sleep apnea, neuromuscular disease, chronic opioid use, or when other sleep disorders are suspected. Your sleep physician will determine if HST is appropriate for you.",
     benefits: [
       {
@@ -234,7 +234,7 @@ export const sleepTesting: TreatmentContent[] = [
       },
       {
         name: "Treatment Guidance",
-        description: "Results help determine appropriate treatment—whether CPAP, oral appliance, surgery, or medication—and the specific parameters needed."
+        description: "Results help determine appropriate treatment, whether CPAP, oral appliance, surgery, or medication, and the specific parameters needed."
       },
       {
         name: "Insurance Requirements",
@@ -278,7 +278,7 @@ export const sleepTesting: TreatmentContent[] = [
       },
       {
         name: "Split-Night Study",
-        description: "Combined diagnostic and titration study—diagnosis first half, CPAP titration second half—for patients with severe OSA."
+        description: "Combined diagnostic and titration study, diagnosis first half, CPAP titration second half, for patients with severe OSA."
       },
       {
         name: "Multiple Sleep Latency Test (MSLT)",

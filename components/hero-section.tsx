@@ -2,18 +2,36 @@
 
 import type React from "react"
 
-import { Search } from "lucide-react"
-import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { Search, X } from "lucide-react"
+import { useState, useEffect } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
 
 export function HeroSection() {
-  const [searchQuery, setSearchQuery] = useState("")
+  const searchParams = useSearchParams()
   const router = useRouter()
+  const [searchQuery, setSearchQuery] = useState(searchParams.get("q") ?? "")
+
+  // Keep the input in sync with the URL query (e.g. back/forward navigation)
+  useEffect(() => {
+    setSearchQuery(searchParams.get("q") ?? "")
+  }, [searchParams])
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
-    if (searchQuery.trim()) {
-      router.push(`/?q=${encodeURIComponent(searchQuery)}`)
+    const trimmed = searchQuery.trim()
+    router.push(trimmed ? `/?q=${encodeURIComponent(trimmed)}` : "/")
+  }
+
+  const handleClear = () => {
+    setSearchQuery("")
+    router.push("/")
+  }
+
+  const handleChange = (value: string) => {
+    setSearchQuery(value)
+    // Removing the term should bring back all clinics
+    if (value === "" && searchParams.get("q")) {
+      router.push("/")
     }
   }
 
@@ -40,7 +58,7 @@ export function HeroSection() {
           {/* Subheadline */}
           <p className="text-lg sm:text-xl text-slate-200 leading-relaxed max-w-3xl mx-auto drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)]">
             Discover the nation's largest network of verified sleep specialists and AASM-accredited clinics.
-            Expert diagnosis and treatment for every sleep disorder, from chronic insomnia to sleep apnea—all within reach.
+            Expert diagnosis and treatment for every sleep disorder, from chronic insomnia to sleep apnea, all within reach.
           </p>
 
           {/* Search Bar with aurora glow */}
@@ -55,10 +73,20 @@ export function HeroSection() {
                   type="text"
                   placeholder="Search clinic, city, state, or service..."
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="flex-1 min-w-0 px-5 sm:px-8 py-4 bg-transparent text-[#1e293b] placeholder-[#64748b] focus:outline-none text-base sm:text-lg font-medium dark:text-[#1e293b] dark:placeholder-[#64748b]"
+                  onChange={(e) => handleChange(e.target.value)}
+                  className="flex-1 min-w-0 pl-4 pr-2 sm:pl-8 sm:pr-4 py-4 bg-transparent text-[#1e293b] placeholder-[#64748b] focus:outline-none text-sm sm:text-lg font-medium dark:text-[#1e293b] dark:placeholder-[#64748b]"
                 />
-                <button type="submit" className="flex-shrink-0 px-4 sm:px-6 py-4 text-[var(--dream-blue)] hover:text-[var(--dream-blue-dark)] transition-colors">
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={handleClear}
+                    aria-label="Clear search"
+                    className="flex-shrink-0 p-1.5 mr-1 text-[#64748b] hover:text-[#1e293b] hover:bg-slate-200/60 rounded-full transition-colors"
+                  >
+                    <X size={18} />
+                  </button>
+                )}
+                <button type="submit" aria-label="Search" className="flex-shrink-0 px-3 sm:px-6 py-4 text-[var(--dream-blue)] hover:text-[var(--dream-blue-dark)] transition-colors">
                   <Search size={22} />
                 </button>
               </div>

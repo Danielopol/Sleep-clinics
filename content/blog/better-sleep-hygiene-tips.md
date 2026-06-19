@@ -16,7 +16,7 @@ Poor sleep hygiene can lead to a cascade of negative effects on your health and 
 
 ### 1. Maintain a Consistent Sleep Schedule
 
-Your body's internal clock, or circadian rhythm, thrives on consistency. Going to bed and waking up at the same time every day—even on weekends—helps regulate your sleep-wake cycle.
+Your body's internal clock, or circadian rhythm, thrives on consistency. Going to bed and waking up at the same time every day, even on weekends, helps regulate your sleep-wake cycle.
 
 **Action step:** Set a consistent bedtime and wake time, allowing for 7-9 hours of sleep. Use an alarm for both if needed.
 
@@ -61,7 +61,7 @@ While alcohol might help you fall asleep initially, it disrupts sleep later in t
 
 **Action step:** If you choose to drink, limit alcohol and finish at least 3-4 hours before bed.
 
-### 7. Exercise Regularly—But Time It Right
+### 7. Exercise Regularly, But Time It Right
 
 Regular physical activity can improve sleep quality and duration. However, vigorous exercise too close to bedtime can be stimulating.
 
@@ -89,7 +89,7 @@ An active mind is one of the biggest barriers to good sleep. Racing thoughts and
 
 If you've implemented these strategies consistently for several weeks and still struggle with sleep, it may be time to consult a sleep specialist. Underlying sleep disorders like insomnia, sleep apnea, or restless leg syndrome require professional evaluation and treatment.
 
-> "Good sleep is not just about quantity—it's about quality. Creating the right conditions for sleep is one of the most important investments you can make in your health."
+> "Good sleep is not just about quantity, it's about quality. Creating the right conditions for sleep is one of the most important investments you can make in your health."
 
 ## Start Tonight
 

@@ -86,7 +86,7 @@ export const papTherapies: TreatmentContent[] = [
       },
       {
         title: "Optimize Humidity",
-        description: "Use heated humidification to prevent dryness. Adjust the humidity level seasonally—higher in winter, lower in summer—for optimal comfort."
+        description: "Use heated humidification to prevent dryness. Adjust the humidity level seasonally, higher in winter, lower in summer, for optimal comfort."
       },
       {
         title: "Address Mask Issues Promptly",
@@ -110,7 +110,7 @@ export const papTherapies: TreatmentContent[] = [
     slug: "bipap-therapy",
     name: "BiPAP Therapy",
     category: "PAP Therapies",
-    description: "Bilevel Positive Airway Pressure (BiPAP) delivers two different pressure levels—higher for inhalation and lower for exhalation—providing more comfortable and effective treatment for certain sleep-disordered breathing conditions.",
+    description: "Bilevel Positive Airway Pressure (BiPAP) delivers two different pressure levels, higher for inhalation and lower for exhalation, providing more comfortable and effective treatment for certain sleep-disordered breathing conditions.",
     overview: "BiPAP (Bilevel Positive Airway Pressure), also known as BPAP, is a form of positive airway pressure therapy that delivers two distinct pressure levels: a higher pressure when you inhale (IPAP) and a lower pressure when you exhale (EPAP). This bilevel approach can be more comfortable than standard CPAP for patients who need higher pressures, and is particularly effective for patients with certain respiratory conditions, central sleep apnea, or those who struggle with exhaling against CPAP pressure.",
     howItWorks: "A BiPAP machine monitors your breathing pattern and automatically switches between two pressure settings. The higher inspiratory pressure (IPAP) helps keep your airway open and assists with inhalation, while the lower expiratory pressure (EPAP) maintains airway patency during exhalation while making it easier to breathe out. The pressure difference (pressure support) can also help ventilate the lungs more effectively.",
     candidatesFor: "BiPAP is recommended for patients who cannot tolerate CPAP due to difficulty exhaling against pressure, those requiring high CPAP pressures (typically >15 cmH2O), patients with obesity hypoventilation syndrome, COPD overlap syndrome, central sleep apnea, complex sleep apnea, or neuromuscular diseases affecting breathing. It may also benefit patients with aerophagia on CPAP.",
@@ -161,7 +161,7 @@ export const papTherapies: TreatmentContent[] = [
     variations: [
       {
         name: "BiPAP S (Spontaneous)",
-        description: "The most common mode—the machine responds to your breathing, providing IPAP when you inhale and EPAP when you exhale."
+        description: "The most common mode, the machine responds to your breathing, providing IPAP when you inhale and EPAP when you exhale."
       },
       {
         name: "BiPAP ST (Spontaneous-Timed)",
@@ -247,7 +247,7 @@ export const papTherapies: TreatmentContent[] = [
       },
       {
         name: "Not Suitable for All Conditions",
-        description: "APAP may not be appropriate for central sleep apnea, complex sleep apnea, chronic hypoventilation, or severe COPD—conditions that require BiPAP or ASV."
+        description: "APAP may not be appropriate for central sleep apnea, complex sleep apnea, chronic hypoventilation, or severe COPD, conditions that require BiPAP or ASV."
       },
       {
         name: "Standard CPAP Side Effects",
