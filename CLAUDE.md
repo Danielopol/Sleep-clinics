@@ -22,11 +22,14 @@ This is a **Sleep Clinic Directory** website built with Next.js 16 (App Router),
 ### Data Flow
 
 1. **Data Source**: `Prototype_with_descriptions.xlsx` in root - the Excel file containing clinic data
-2. **API Layer**: `/app/api/clinics/route.ts` reads/caches the Excel file using `xlsx` library and transforms it to the `Clinic` interface
-3. **Frontend**: Client components fetch from `/api/clinics` on mount
+2. **Build Step**: `npm run generate-data` (`scripts/generate-clinic-data.mjs`) reads the Excel file with the `xlsx` library, attaches coordinates from `scripts/geocode-cache.json` (street-level) with `scripts/zip-centroids.json` as a fallback, and writes `data/clinics.json` and `data/metadata.json`. This runs automatically via the `prebuild` script before `next build`.
+3. **API Layer**: `/app/api/clinics/route.ts` reads and caches `data/clinics.json` / `data/metadata.json` in memory (the cache is populated on first request and not invalidated, so a running dev server must be restarted to pick up regenerated data)
+4. **Frontend**: Client components fetch from `/api/clinics` on mount
+
+After editing the Excel file, run `npm run geocode` (only needed when addresses change, geocodes new ones into the cache) and then `npm run generate-data` to refresh the site data.
 
 The API supports two modes:
-- `GET /api/clinics` - Returns all clinics
+- `GET /api/clinics` - Returns all clinics (paginated; also supports `q`, `state`, `city`, `specialty`, `services`, `accreditation`, and `lat`/`lng`/`radius` filters)
 - `GET /api/clinics?type=metadata` - Returns unique states, cities, specialties, and services for filters
 
 ### Key Directories
