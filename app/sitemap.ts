@@ -3,6 +3,7 @@ import { getClinicsData } from '@/lib/clinics'
 import { getAllPostSlugs } from '@/lib/blog'
 import { getAllDisorderSlugs } from '@/lib/sleep-disorders-content'
 import { getAllTreatmentSlugs } from '@/lib/treatment-options-content'
+import { getAllStateSlugs, getAllCityParams } from '@/lib/locations'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://www.ussleepclinics.com'
@@ -103,11 +104,40 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }))
 
+  // Locations hub
+  const locationsHub: MetadataRoute.Sitemap = [
+    {
+      url: `${baseUrl}/locations`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.9,
+    },
+  ]
+
+  // State landing pages
+  const statePages: MetadataRoute.Sitemap = getAllStateSlugs().map((state) => ({
+    url: `${baseUrl}/locations/${state}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.8,
+  }))
+
+  // City landing pages
+  const cityPages: MetadataRoute.Sitemap = getAllCityParams().map(({ state, city }) => ({
+    url: `${baseUrl}/locations/${state}/${city}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.7,
+  }))
+
   return [
     ...staticPages,
     ...blogPages,
     ...disorderPages,
     ...treatmentPages,
     ...clinicPages,
+    ...locationsHub,
+    ...statePages,
+    ...cityPages,
   ]
 }

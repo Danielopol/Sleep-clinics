@@ -2,14 +2,21 @@ import { Navigation } from "@/components/navigation"
 import { ClinicDetailCard } from "@/components/clinic-detail-card"
 import { getClinicBySlug, getClinicById, getClinicsData, formatOpeningHours } from "@/lib/clinics"
 import { notFound, permanentRedirect } from "next/navigation"
-import Link from "next/link"
+import { BackLink } from "@/components/back-link"
 import { Metadata } from "next"
 import { JsonLd } from "@/components/json-ld"
+
+// Pre-render only the highest-signal clinics (by review count) at build time; the
+// rest render on-demand on first request and are then cached (ISR). This keeps the
+// build from statically rendering all ~4,700 clinic pages, cutting build CPU.
+export const dynamicParams = true
 
 export async function generateStaticParams() {
   const clinics = getClinicsData()
   return clinics
     .filter(c => c.slug)
+    .sort((a, b) => (b.reviewCount ?? 0) - (a.reviewCount ?? 0))
+    .slice(0, 150)
     .map(c => ({ slug: c.slug! }))
 }
 
@@ -223,9 +230,11 @@ export default async function ClinicDetailPage({
       {/* Hero Section with new gradient */}
       <section className="bg-gradient-to-br from-[var(--midnight)] via-[var(--deep-navy)] to-[var(--twilight)] py-12">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Link href="/" className="text-white/80 hover:text-white mb-4 inline-flex items-center gap-2 transition-colors">
-            ← Back to Directory
-          </Link>
+          <BackLink
+            fallbackHref="/"
+            label="Back to Directory"
+            className="text-white/80 hover:text-white mb-4 inline-flex items-center gap-2 transition-colors cursor-pointer"
+          />
           <h1 className="font-[var(--font-display)] text-4xl font-bold bg-gradient-to-r from-[var(--dream-blue)] via-[var(--healing-teal)] to-[var(--calm-indigo)] bg-clip-text text-transparent mt-4">
             {clinic.name}
             <span className="block text-2xl font-normal text-white/70 mt-1">

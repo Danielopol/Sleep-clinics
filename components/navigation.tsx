@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { Menu, X, Moon, Sun } from "lucide-react"
+import { Menu, X, Moon, Sun, MapPin } from "lucide-react"
 import { useState, useEffect } from "react"
 
 export function Navigation() {
@@ -46,6 +46,13 @@ export function Navigation() {
           <div className="hidden md:flex items-center gap-6">
             <Link href="/" className="text-white/90 hover:text-white transition-colors font-medium">
               Home
+            </Link>
+            <Link
+              href="/locations"
+              className="flex items-center gap-1.5 text-white/90 hover:text-white border border-white/25 hover:border-white/50 px-3 py-1.5 rounded-lg transition-all font-medium"
+            >
+              <MapPin className="w-4 h-4" />
+              Browse by State
             </Link>
             <Link href="/about" className="text-white/90 hover:text-white transition-colors font-medium">
               About Us
@@ -95,6 +102,14 @@ export function Navigation() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Home
+              </Link>
+              <Link
+                href="/locations"
+                className="flex items-center gap-1.5 text-white/90 hover:text-white transition-colors font-medium"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <MapPin className="w-4 h-4" />
+                Browse by State
               </Link>
               <Link
                 href="/about"
