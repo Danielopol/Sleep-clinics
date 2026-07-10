@@ -11,8 +11,8 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.ussleepclinics.com"),
   title: {
-    default: "Sleep Clinic Directory - Find Expert Sleep Care Near You",
-    template: "%s | Sleep Care Directory",
+    default: "US Sleep Clinics - Find Expert Sleep Care Near You",
+    template: "%s | US Sleep Clinics",
   },
   description:
     "Find sleep clinics near you from 4,000+ verified providers. Search AASM-accredited sleep centers, compare specialists, and get expert treatment for sleep apnea, insomnia, and more.",
@@ -20,15 +20,15 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    siteName: "Sleep Care Directory",
-    title: "Sleep Clinic Directory - Find Expert Sleep Care Near You",
+    siteName: "US Sleep Clinics",
+    title: "US Sleep Clinics - Find Expert Sleep Care Near You",
     description:
       "Find sleep clinics near you from 4,000+ verified providers. Search AASM-accredited sleep centers, compare specialists, and get expert treatment for sleep apnea, insomnia, and more.",
     url: "https://www.ussleepclinics.com",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sleep Clinic Directory - Find Expert Sleep Care Near You",
+    title: "US Sleep Clinics - Find Expert Sleep Care Near You",
     description:
       "Find sleep clinics near you from 4,000+ verified providers. AASM-accredited sleep centers for sleep apnea, insomnia, and more.",
   },
@@ -49,14 +49,14 @@ export default function RootLayout({
           data={{
             "@context": "https://schema.org",
             "@type": "Organization",
-            name: "Sleep Care Directory",
+            name: "US Sleep Clinics",
             url: "https://www.ussleepclinics.com",
             logo: "https://www.ussleepclinics.com/images/Logo.png",
             description:
               "The nation's largest directory of verified sleep clinics and AASM-accredited sleep centers. Find expert sleep care providers near you.",
             contactPoint: {
               "@type": "ContactPoint",
-              email: "valentin.marin83@gmail.com",
+              email: "contact@ussleepclinics.com",
               contactType: "customer service",
             },
             sameAs: ["https://x.com/DanielGPT2022"],
@@ -66,7 +66,7 @@ export default function RootLayout({
           data={{
             "@context": "https://schema.org",
             "@type": "WebSite",
-            name: "Sleep Care Directory",
+            name: "US Sleep Clinics",
             url: "https://www.ussleepclinics.com",
             potentialAction: {
               "@type": "SearchAction",

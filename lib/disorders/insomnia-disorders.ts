@@ -142,7 +142,7 @@ export const insomniaDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Poor Sleep Hygiene", "Circadian Rhythm Disorders", "Anxiety Disorders", "Depression"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "poor-sleep-hygiene",
@@ -236,6 +236,6 @@ export const insomniaDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Insomnia", "Circadian Rhythm Disorders", "Excessive Daytime Sleepiness"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   }
 ]

@@ -101,7 +101,7 @@ export const diagnosisServices: TreatmentContent[] = [
     relatedTreatments: ["Polysomnography", "Home Sleep Testing", "MSLT", "Sleep Studies"],
     treatedConditions: ["Obstructive Sleep Apnea", "Insomnia", "Narcolepsy", "Restless Legs Syndrome", "Circadian Rhythm Disorders", "Parasomnias"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "daytime-sleepiness-evaluation",
@@ -206,7 +206,7 @@ export const diagnosisServices: TreatmentContent[] = [
     relatedTreatments: ["MSLT", "Polysomnography", "Narcolepsy Treatment", "CPAP Therapy"],
     treatedConditions: ["Narcolepsy", "Idiopathic Hypersomnia", "Obstructive Sleep Apnea", "Insufficient Sleep Syndrome", "Circadian Rhythm Disorders"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "sleep-disordered-breathing-diagnosis",
@@ -311,6 +311,6 @@ export const diagnosisServices: TreatmentContent[] = [
     relatedTreatments: ["Home Sleep Testing", "Polysomnography", "CPAP Therapy", "BiPAP Therapy", "Oral Appliance Therapy"],
     treatedConditions: ["Obstructive Sleep Apnea", "Central Sleep Apnea", "Complex Sleep Apnea", "Sleep-Related Hypoventilation", "Upper Airway Resistance Syndrome"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   }
 ]

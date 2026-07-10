@@ -5,8 +5,8 @@ import Link from "next/link"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Sleep Care Directory",
-  description: "Privacy Policy for Sleep Care Directory. Learn how we collect, use, and protect your personal information.",
+  title: "Privacy Policy | US Sleep Clinics",
+  description: "Privacy Policy for US Sleep Clinics. Learn how we collect, use, and protect your personal information.",
 }
 
 export default function PrivacyPolicyPage() {
@@ -45,7 +45,7 @@ export default function PrivacyPolicyPage() {
             {/* Introduction */}
             <div>
               <p className="text-slate-300 leading-relaxed">
-                Sleep Care Directory ("we," "us," or "our") operates the website <strong className="text-white">www.ussleepclinics.com</strong> (the "Site").
+                US Sleep Clinics ("we," "us," or "our") operates the website <strong className="text-white">www.ussleepclinics.com</strong> (the "Site").
                 This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our Site.
                 By using the Site, you consent to the practices described in this policy.
               </p>
@@ -125,7 +125,7 @@ export default function PrivacyPolicyPage() {
               <ul className="list-disc list-inside space-y-2 text-slate-300">
                 <li><strong className="text-white">Service providers:</strong> Third-party vendors who assist us in operating the Site (hosting, analytics, email delivery) and are bound by confidentiality obligations.</li>
                 <li><strong className="text-white">Legal requirements:</strong> When required by law, court order, or governmental regulation.</li>
-                <li><strong className="text-white">Protection of rights:</strong> To protect the rights, property, or safety of Sleep Care Directory, our users, or the public.</li>
+                <li><strong className="text-white">Protection of rights:</strong> To protect the rights, property, or safety of US Sleep Clinics, our users, or the public.</li>
                 <li><strong className="text-white">Business transfers:</strong> In connection with a merger, acquisition, or sale of assets, with notice provided to affected users.</li>
               </ul>
             </div>
@@ -134,7 +134,7 @@ export default function PrivacyPolicyPage() {
             <div>
               <h2 className="text-xl font-bold text-white mb-4">5. Health Information Disclaimer</h2>
               <p className="text-slate-300 leading-relaxed">
-                Sleep Care Directory is an informational directory service. We do not collect, store, or process
+                US Sleep Clinics is an informational directory service. We do not collect, store, or process
                 protected health information (PHI) as defined by HIPAA. Our Site provides general information about sleep
                 disorders and treatments for educational purposes only. We do not provide medical advice, diagnosis, or
                 treatment. Any interaction between you and a sleep clinic listed in our directory is subject to that
@@ -208,8 +208,8 @@ export default function PrivacyPolicyPage() {
                 If you have questions or concerns about this Privacy Policy or our data practices, please contact us at:
               </p>
               <div className="mt-4 p-4 bg-slate-800/50 rounded-xl border border-slate-700/50">
-                <p className="text-white font-semibold">Sleep Care Directory</p>
-                <p className="text-slate-300 mt-1">Email: valentin.marin83@gmail.com</p>
+                <p className="text-white font-semibold">US Sleep Clinics</p>
+                <p className="text-slate-300 mt-1">Email: contact@ussleepclinics.com</p>
               </div>
             </div>
 

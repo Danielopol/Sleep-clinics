@@ -17,7 +17,7 @@ npm run start    # Start production server
 
 ## Architecture Overview
 
-This is a **Sleep Clinic Directory** website built with Next.js 16 (App Router), React 19, and Tailwind CSS 4. The site displays sleep clinics from an Excel data source with filtering/search capabilities.
+This is a **US Sleep Clinics** website built with Next.js 16 (App Router), React 19, and Tailwind CSS 4. The site displays sleep clinics from an Excel data source with filtering/search capabilities.
 
 ### Data Flow
 

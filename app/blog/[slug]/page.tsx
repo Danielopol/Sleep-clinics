@@ -89,7 +89,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             },
             publisher: {
               "@type": "Organization",
-              name: "Sleep Care Directory",
+              name: "US Sleep Clinics",
               logo: {
                 "@type": "ImageObject",
                 url: "https://www.ussleepclinics.com/images/Logo.png",

@@ -5,8 +5,8 @@ import Link from "next/link"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Terms of Service | Sleep Care Directory",
-  description: "Terms of Service for Sleep Care Directory. Please read these terms carefully before using our website.",
+  title: "Terms of Service | US Sleep Clinics",
+  description: "Terms of Service for US Sleep Clinics. Please read these terms carefully before using our website.",
 }
 
 export default function TermsOfServicePage() {
@@ -45,9 +45,9 @@ export default function TermsOfServicePage() {
             {/* Introduction */}
             <div>
               <p className="text-slate-300 leading-relaxed">
-                Welcome to Sleep Care Directory. These Terms of Service ("Terms") govern your access to and use of the
+                Welcome to US Sleep Clinics. These Terms of Service ("Terms") govern your access to and use of the
                 website <strong className="text-white">www.ussleepclinics.com</strong> (the "Site"), operated by
-                Sleep Care Directory ("we," "us," or "our"). By accessing or using the Site, you agree to be bound by
+                US Sleep Clinics ("we," "us," or "our"). By accessing or using the Site, you agree to be bound by
                 these Terms. If you do not agree, please do not use the Site.
               </p>
             </div>
@@ -56,7 +56,7 @@ export default function TermsOfServicePage() {
             <div>
               <h2 className="text-xl font-bold text-white mb-4">1. Description of Service</h2>
               <p className="text-slate-300 leading-relaxed">
-                Sleep Care Directory is an online directory that provides information about sleep clinics, sleep
+                US Sleep Clinics is an online directory that provides information about sleep clinics, sleep
                 disorder centers, and sleep medicine providers across the United States. Our Site also offers
                 educational content about sleep disorders, treatment options, and related topics. The directory is
                 provided as a resource to help users find sleep care providers in their area.
@@ -73,13 +73,13 @@ export default function TermsOfServicePage() {
                 </p>
               </div>
               <p className="text-slate-300 leading-relaxed mb-4">
-                Sleep Care Directory is not a healthcare provider. The information on our Site, including but not limited
+                US Sleep Clinics is not a healthcare provider. The information on our Site, including but not limited
                 to descriptions of sleep disorders, treatment options, and AASM accreditation, is intended for general
                 educational purposes only. This information:
               </p>
               <ul className="list-disc list-inside space-y-2 text-slate-300">
                 <li>Should not be used as a substitute for professional medical advice, diagnosis, or treatment</li>
-                <li>Does not create a doctor-patient relationship between you and Sleep Care Directory</li>
+                <li>Does not create a doctor-patient relationship between you and US Sleep Clinics</li>
                 <li>Should not be relied upon to make healthcare decisions without consulting a qualified physician</li>
                 <li>May not reflect the most current medical research or guidelines at any given time</li>
               </ul>
@@ -158,14 +158,14 @@ export default function TermsOfServicePage() {
               <h2 className="text-xl font-bold text-white mb-4">6. Intellectual Property</h2>
               <p className="text-slate-300 leading-relaxed mb-4">
                 All content on this Site, including but not limited to text, graphics, logos, icons, images, data
-                compilations, and software, is the property of Sleep Care Directory or its content suppliers and is
+                compilations, and software, is the property of US Sleep Clinics or its content suppliers and is
                 protected by United States and international intellectual property laws.
               </p>
               <p className="text-slate-300 leading-relaxed">
                 You may access and use the Site for personal, non-commercial purposes. You may not reproduce, distribute,
                 modify, create derivative works from, publicly display, or exploit any content from the Site without our
-                prior written consent. The Sleep Care Directory name, logo, and all related marks are trademarks of
-                Sleep Care Directory.
+                prior written consent. The US Sleep Clinics name, logo, and all related marks are trademarks of
+                US Sleep Clinics.
               </p>
             </div>
 
@@ -214,7 +214,7 @@ export default function TermsOfServicePage() {
             <div>
               <h2 className="text-xl font-bold text-white mb-4">10. Indemnification</h2>
               <p className="text-slate-300 leading-relaxed">
-                You agree to indemnify, defend, and hold harmless Sleep Care Directory and its officers, directors,
+                You agree to indemnify, defend, and hold harmless US Sleep Clinics and its officers, directors,
                 employees, and agents from and against any and all claims, liabilities, damages, losses, costs, and
                 expenses (including reasonable attorneys' fees) arising out of or related to your use of the Site,
                 violation of these Terms, or violation of any rights of another party.
@@ -226,7 +226,7 @@ export default function TermsOfServicePage() {
               <h2 className="text-xl font-bold text-white mb-4">11. Governing Law and Dispute Resolution</h2>
               <p className="text-slate-300 leading-relaxed">
                 These Terms shall be governed by and construed in accordance with the laws of the United States and the
-                State in which Sleep Care Directory is headquartered, without regard to conflict of law principles. Any
+                State in which US Sleep Clinics is headquartered, without regard to conflict of law principles. Any
                 dispute arising under these Terms shall first be resolved through good-faith negotiation. If negotiation
                 fails, disputes shall be resolved through binding arbitration in accordance with the rules of the
                 American Arbitration Association, except that either party may seek injunctive relief in a court of
@@ -272,8 +272,8 @@ export default function TermsOfServicePage() {
                 If you have questions about these Terms of Service, please contact us at:
               </p>
               <div className="mt-4 p-4 bg-slate-800/50 rounded-xl border border-slate-700/50">
-                <p className="text-white font-semibold">Sleep Care Directory</p>
-                <p className="text-slate-300 mt-1">Email: valentin.marin83@gmail.com</p>
+                <p className="text-white font-semibold">US Sleep Clinics</p>
+                <p className="text-slate-300 mt-1">Email: contact@ussleepclinics.com</p>
               </div>
             </div>
 

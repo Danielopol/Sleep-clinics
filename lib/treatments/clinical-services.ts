@@ -100,7 +100,7 @@ export const clinicalServices: TreatmentContent[] = [
     relatedTreatments: ["Polysomnography", "Home Sleep Testing", "Sleep Disorders Diagnosis"],
     treatedConditions: ["Obstructive Sleep Apnea", "Insomnia", "Narcolepsy", "Restless Legs Syndrome", "Circadian Rhythm Disorders", "Parasomnias"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "pediatric-sleep-services",
@@ -201,7 +201,7 @@ export const clinicalServices: TreatmentContent[] = [
     relatedTreatments: ["Polysomnography", "Behavioral Sleep Medicine", "Pediatric Sleep Disorders Treatment"],
     treatedConditions: ["Pediatric Sleep Apnea", "Behavioral Insomnia of Childhood", "Night Terrors", "Sleepwalking", "Bedwetting", "Adolescent Delayed Sleep Phase"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "telemedicine-sleep-services",
@@ -306,7 +306,7 @@ export const clinicalServices: TreatmentContent[] = [
     relatedTreatments: ["Sleep Consultation", "Home Sleep Testing", "CPAP Therapy", "Behavioral Sleep Medicine"],
     treatedConditions: ["Obstructive Sleep Apnea", "Insomnia", "All Sleep Disorders"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "neurological-sleep-services",
@@ -399,7 +399,7 @@ export const clinicalServices: TreatmentContent[] = [
     relatedTreatments: ["Narcolepsy Treatment", "REM Sleep Behavior Disorder Treatment", "MSLT", "Polysomnography"],
     treatedConditions: ["Narcolepsy", "REM Sleep Behavior Disorder", "Sleep-Related Epilepsy", "Sleep Disorders in Parkinson's Disease"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "pulmonary-sleep-services",
@@ -496,7 +496,7 @@ export const clinicalServices: TreatmentContent[] = [
     relatedTreatments: ["CPAP Therapy", "BiPAP Therapy", "Non-Invasive Ventilation", "Adaptive Servo-Ventilation (ASV)"],
     treatedConditions: ["Obstructive Sleep Apnea", "Central Sleep Apnea", "Obesity Hypoventilation Syndrome", "COPD with Sleep Apnea", "Sleep-Related Hypoventilation"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "sleep-education-counseling",
@@ -605,7 +605,7 @@ export const clinicalServices: TreatmentContent[] = [
     relatedTreatments: ["CPAP Therapy", "Behavioral Sleep Medicine", "Sleep Consultation"],
     treatedConditions: ["All Sleep Disorders"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "sleep-follow-up-care",
@@ -705,6 +705,6 @@ export const clinicalServices: TreatmentContent[] = [
     relatedTreatments: ["CPAP Therapy", "Sleep Consultation", "Telemedicine Sleep Services"],
     treatedConditions: ["All Sleep Disorders"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   }
 ]

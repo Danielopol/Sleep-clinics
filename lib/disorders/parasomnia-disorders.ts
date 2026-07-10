@@ -106,7 +106,7 @@ export const parasomniaDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Sleep Terrors", "Confusional Arousals", "REM Sleep Behavior Disorder", "Sleep-Related Eating Disorder"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "sleep-talking",
@@ -186,7 +186,7 @@ export const parasomniaDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Sleepwalking", "REM Sleep Behavior Disorder", "Night Terrors", "Sleep Apnea"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "night-terrors",
@@ -288,7 +288,7 @@ export const parasomniaDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Sleepwalking", "Confusional Arousals", "Nightmares", "Sleep-Related Seizures"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "nightmare-disorder",
@@ -399,7 +399,7 @@ export const parasomniaDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["PTSD", "Night Terrors", "REM Sleep Behavior Disorder", "Insomnia", "Anxiety Disorders"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "rem-sleep-behavior-disorder",
@@ -501,7 +501,7 @@ export const parasomniaDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Parkinson's Disease", "Lewy Body Dementia", "Narcolepsy", "Nightmare Disorder", "Sleepwalking"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "confusional-arousals",
@@ -599,7 +599,7 @@ export const parasomniaDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Sleepwalking", "Night Terrors", "Sleep Inertia"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "sleep-paralysis",
@@ -701,7 +701,7 @@ export const parasomniaDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Narcolepsy", "Sleep Hallucinations", "Nightmare Disorder", "Insomnia"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "sleep-related-eating-disorder",
@@ -807,7 +807,7 @@ export const parasomniaDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Sleepwalking", "Night Eating Syndrome", "Restless Legs Syndrome", "Sleep Apnea"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "bruxism",
@@ -913,7 +913,7 @@ export const parasomniaDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Obstructive Sleep Apnea", "TMJ Disorders", "Insomnia", "Stress-Related Conditions"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "sleep-hallucinations",
@@ -1015,7 +1015,7 @@ export const parasomniaDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Sleep Paralysis", "Narcolepsy", "Nightmare Disorder", "REM Sleep Behavior Disorder"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "catathrenia",
@@ -1107,6 +1107,6 @@ export const parasomniaDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Snoring", "Sleep Apnea", "Sleep Talking"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   }
 ]

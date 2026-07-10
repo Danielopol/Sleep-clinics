@@ -34,12 +34,12 @@ export function Navigation() {
           <Link href="/" className="flex items-center gap-3 group">
             <Image
               src="/images/Logo.png"
-              alt="Sleep Clinics Directory Logo"
+              alt="US Sleep Clinics Logo"
               width={40}
               height={40}
               className="rounded-full group-hover:scale-105 transition-transform"
             />
-            <span className="text-white font-[var(--font-display)] font-semibold text-lg hidden sm:inline">Sleep Clinics Directory</span>
+            <span className="text-white font-[var(--font-display)] font-semibold text-lg hidden sm:inline">US Sleep Clinics</span>
           </Link>
 
           {/* Desktop Navigation */}

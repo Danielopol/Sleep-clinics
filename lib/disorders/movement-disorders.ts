@@ -115,7 +115,7 @@ export const movementDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Periodic Limb Movement Disorder", "Insomnia", "Iron Deficiency", "Neuropathy"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "periodic-limb-movement-disorder",
@@ -220,6 +220,6 @@ export const movementDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Restless Legs Syndrome", "Sleep Apnea", "Narcolepsy", "REM Sleep Behavior Disorder"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   }
 ]

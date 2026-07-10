@@ -108,7 +108,7 @@ export const equipmentSupplies: TreatmentContent[] = [
     relatedTreatments: ["CPAP Therapy", "BiPAP Therapy", "Auto-CPAP (APAP)", "DME Services"],
     treatedConditions: ["Obstructive Sleep Apnea", "Central Sleep Apnea", "Complex Sleep Apnea"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "dme-services",
@@ -208,6 +208,6 @@ export const equipmentSupplies: TreatmentContent[] = [
     relatedTreatments: ["CPAP Equipment & Supplies", "CPAP Therapy", "BiPAP Therapy"],
     treatedConditions: ["Obstructive Sleep Apnea", "Central Sleep Apnea", "Complex Sleep Apnea"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   }
 ]

@@ -127,7 +127,7 @@ export const otherDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Sleepwalking", "REM Sleep Behavior Disorder", "Night Terrors", "Epilepsy"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "sleep-fragmentation",
@@ -226,7 +226,7 @@ export const otherDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Sleep Apnea", "Restless Legs Syndrome", "Periodic Limb Movement Disorder", "Insomnia", "Chronic Pain"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "unrefreshing-sleep",
@@ -333,7 +333,7 @@ export const otherDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Chronic Fatigue Syndrome", "Fibromyalgia", "Depression", "Sleep Apnea", "Insomnia"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "nocturia",
@@ -439,7 +439,7 @@ export const otherDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Sleep Apnea", "Overactive Bladder", "Benign Prostatic Hyperplasia", "Heart Failure", "Diabetes"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "nocturnal-panic-attacks",
@@ -558,6 +558,6 @@ export const otherDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Panic Disorder", "Night Terrors", "Nightmares", "Sleep Apnea", "Anxiety Disorders"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   }
 ]

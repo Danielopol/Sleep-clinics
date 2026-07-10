@@ -108,7 +108,7 @@ export const sleepTesting: TreatmentContent[] = [
     relatedTreatments: ["Home Sleep Testing", "MSLT", "MWT", "CPAP Therapy"],
     treatedConditions: ["Obstructive Sleep Apnea", "Central Sleep Apnea", "Narcolepsy", "REM Sleep Behavior Disorder", "Periodic Limb Movement Disorder", "Parasomnias"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "home-sleep-testing",
@@ -213,7 +213,7 @@ export const sleepTesting: TreatmentContent[] = [
     relatedTreatments: ["Polysomnography", "CPAP Therapy", "Sleep Disorders Diagnosis"],
     treatedConditions: ["Obstructive Sleep Apnea"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "sleep-studies",
@@ -318,7 +318,7 @@ export const sleepTesting: TreatmentContent[] = [
     relatedTreatments: ["Polysomnography", "Home Sleep Testing", "MSLT", "MWT"],
     treatedConditions: ["Obstructive Sleep Apnea", "Central Sleep Apnea", "Narcolepsy", "Idiopathic Hypersomnia", "Parasomnias", "REM Sleep Behavior Disorder", "Periodic Limb Movement Disorder"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "mslt",
@@ -419,7 +419,7 @@ export const sleepTesting: TreatmentContent[] = [
     relatedTreatments: ["Polysomnography", "MWT", "Narcolepsy Treatment"],
     treatedConditions: ["Narcolepsy Type 1", "Narcolepsy Type 2", "Idiopathic Hypersomnia"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "mwt",
@@ -519,6 +519,6 @@ export const sleepTesting: TreatmentContent[] = [
     relatedTreatments: ["MSLT", "Polysomnography", "CPAP Therapy", "Narcolepsy Treatment"],
     treatedConditions: ["Narcolepsy", "Obstructive Sleep Apnea", "Idiopathic Hypersomnia"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   }
 ]

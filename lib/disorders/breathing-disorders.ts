@@ -117,7 +117,7 @@ export const breathingDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Central Sleep Apnea", "Complex/Mixed Sleep Apnea", "Snoring", "Hypoventilation Syndromes"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "central-sleep-apnea",
@@ -242,7 +242,7 @@ export const breathingDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Obstructive Sleep Apnea", "Complex/Mixed Sleep Apnea", "Cheyne-Stokes Respiration"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "complex-mixed-sleep-apnea",
@@ -333,7 +333,7 @@ export const breathingDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Obstructive Sleep Apnea", "Central Sleep Apnea", "Cheyne-Stokes Respiration"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "sleep-apnea",
@@ -457,7 +457,7 @@ export const breathingDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Obstructive Sleep Apnea", "Central Sleep Apnea", "Snoring", "Pediatric Sleep Disorders"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "sleep-disordered-breathing",
@@ -564,7 +564,7 @@ export const breathingDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Obstructive Sleep Apnea", "Snoring", "Upper Airway Resistance Syndrome"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "upper-airway-resistance-syndrome",
@@ -664,7 +664,7 @@ export const breathingDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Obstructive Sleep Apnea", "Snoring", "Sleep-Disordered Breathing", "Insomnia"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "hypoventilation-syndromes",
@@ -791,7 +791,7 @@ export const breathingDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Obstructive Sleep Apnea", "Central Sleep Apnea", "COPD"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "snoring",
@@ -893,6 +893,6 @@ export const breathingDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Obstructive Sleep Apnea", "Upper Airway Resistance Syndrome", "Sleep-Disordered Breathing"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   }
 ]

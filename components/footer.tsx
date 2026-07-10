@@ -123,12 +123,12 @@ export function Footer() {
             <Link href="/" className="inline-flex items-center gap-3 mb-5 group">
               <Image
                 src="/images/Logo.png"
-                alt="Sleep Clinics Directory"
+                alt="US Sleep Clinics"
                 width={40}
                 height={40}
                 className="rounded-full group-hover:scale-105 transition-transform"
               />
-              <span className="text-white font-semibold text-lg">Sleep Clinics Directory</span>
+              <span className="text-white font-semibold text-lg">US Sleep Clinics</span>
             </Link>
             <p className="text-slate-400 text-sm leading-relaxed mb-6">
               Your trusted resource for finding quality sleep care providers across the United States.
@@ -233,7 +233,7 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="mailto:valentin.marin83@gmail.com"
+                  href="mailto:contact@ussleepclinics.com"
                   className="group flex items-center gap-3 text-slate-400 hover:text-white transition-colors"
                 >
                   <div className="w-10 h-10 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center group-hover:bg-violet-500/20 transition-colors">
@@ -241,7 +241,7 @@ export function Footer() {
                   </div>
                   <div>
                     <span className="text-xs text-slate-500 block">Email</span>
-                    <span className="text-sm font-medium">valentin.marin83@gmail.com</span>
+                    <span className="text-sm font-medium">contact@ussleepclinics.com</span>
                   </div>
                 </a>
               </li>
@@ -273,7 +273,7 @@ export function Footer() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-slate-500 text-sm">
-              © {currentYear} Sleep Clinics Directory. All rights reserved.
+              © {currentYear} US Sleep Clinics. All rights reserved.
             </p>
             <div className="flex items-center gap-6">
               <Link href="/privacy-policy" className="text-slate-500 hover:text-slate-300 text-sm transition-colors">

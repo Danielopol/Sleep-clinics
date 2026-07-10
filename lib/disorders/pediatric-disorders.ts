@@ -140,7 +140,7 @@ export const pediatricDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Obstructive Sleep Apnea", "Sleepwalking", "Night Terrors", "Bedwetting", "ADHD"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "bedwetting",
@@ -265,6 +265,6 @@ export const pediatricDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Pediatric Sleep Disorders", "Sleep Apnea", "Constipation", "Diabetes"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   }
 ]

@@ -104,7 +104,7 @@ export const papTherapies: TreatmentContent[] = [
     relatedTreatments: ["BiPAP Therapy", "Auto-CPAP (APAP)", "Oral Appliance Therapy", "Inspire Therapy"],
     treatedConditions: ["Obstructive Sleep Apnea", "Central Sleep Apnea", "Snoring", "Upper Airway Resistance Syndrome"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "bipap-therapy",
@@ -204,7 +204,7 @@ export const papTherapies: TreatmentContent[] = [
     relatedTreatments: ["CPAP Therapy", "Adaptive Servo-Ventilation (ASV)", "Non-Invasive Ventilation"],
     treatedConditions: ["Obstructive Sleep Apnea", "Central Sleep Apnea", "Complex Sleep Apnea", "Obesity Hypoventilation Syndrome", "COPD"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "auto-cpap",
@@ -296,7 +296,7 @@ export const papTherapies: TreatmentContent[] = [
     relatedTreatments: ["CPAP Therapy", "BiPAP Therapy", "Oral Appliance Therapy"],
     treatedConditions: ["Obstructive Sleep Apnea", "Snoring", "Upper Airway Resistance Syndrome"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "adaptive-servo-ventilation",
@@ -388,6 +388,6 @@ export const papTherapies: TreatmentContent[] = [
     relatedTreatments: ["BiPAP Therapy", "CPAP Therapy"],
     treatedConditions: ["Central Sleep Apnea", "Complex Sleep Apnea", "Cheyne-Stokes Respiration", "Treatment-Emergent Central Apnea"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   }
 ]

@@ -127,7 +127,7 @@ export const circadianDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Delayed Sleep Phase Disorder", "Advanced Sleep Phase Disorder", "Shift Work Disorder", "Jet Lag", "Insomnia"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "delayed-sleep-phase-disorder",
@@ -238,7 +238,7 @@ export const circadianDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Circadian Rhythm Disorders", "Insomnia", "Non-24-Hour Sleep-Wake Disorder", "Excessive Daytime Sleepiness"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "advanced-sleep-phase-disorder",
@@ -340,7 +340,7 @@ export const circadianDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Circadian Rhythm Disorders", "Insomnia", "Depression", "Delayed Sleep Phase Disorder"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "shift-work-disorder",
@@ -455,7 +455,7 @@ export const circadianDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Circadian Rhythm Disorders", "Insomnia", "Excessive Daytime Sleepiness"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "jet-lag",
@@ -555,7 +555,7 @@ export const circadianDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Circadian Rhythm Disorders", "Shift Work Disorder", "Insomnia"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "non-24-hour-sleep-wake-disorder",
@@ -657,7 +657,7 @@ export const circadianDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Delayed Sleep Phase Disorder", "Circadian Rhythm Disorders", "Irregular Sleep-Wake Rhythm"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "irregular-sleep-wake-rhythm",
@@ -760,6 +760,6 @@ export const circadianDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Non-24-Hour Sleep-Wake Disorder", "Circadian Rhythm Disorders", "Dementia-Related Sleep Problems"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   }
 ]

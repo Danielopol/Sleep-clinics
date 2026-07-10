@@ -15,7 +15,7 @@ export async function POST(request: Request) {
 
     // Send email using Resend
     const { data, error } = await resend.emails.send({
-      from: "Sleep Clinic Directory <onboarding@resend.dev>",
+      from: "US Sleep Clinics <onboarding@resend.dev>",
       to: ["valentin.marin83@gmail.com"],
       subject: `New Clinic Submission: ${clinicName}`,
       html: `

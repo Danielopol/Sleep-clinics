@@ -112,7 +112,7 @@ export const therapiesInterventions: TreatmentContent[] = [
     relatedTreatments: ["Insomnia Treatment", "Circadian Rhythm Disorder Treatment", "Parasomnia Treatment"],
     treatedConditions: ["Chronic Insomnia", "Circadian Rhythm Disorders", "Nightmare Disorder", "Pediatric Sleep Disorders"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "oral-appliance-therapy",
@@ -217,7 +217,7 @@ export const therapiesInterventions: TreatmentContent[] = [
     relatedTreatments: ["CPAP Therapy", "Sleep Apnea Treatment", "Dental Sleep Medicine", "Snoring Treatment"],
     treatedConditions: ["Obstructive Sleep Apnea", "Primary Snoring", "Upper Airway Resistance Syndrome"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "dental-sleep-medicine",
@@ -314,7 +314,7 @@ export const therapiesInterventions: TreatmentContent[] = [
     relatedTreatments: ["Oral Appliance Therapy", "Sleep Apnea Treatment", "Snoring Treatment"],
     treatedConditions: ["Obstructive Sleep Apnea", "Primary Snoring"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "inspire-therapy",
@@ -411,7 +411,7 @@ export const therapiesInterventions: TreatmentContent[] = [
     relatedTreatments: ["CPAP Therapy", "Sleep Apnea Treatment", "Sleep Apnea Surgery"],
     treatedConditions: ["Obstructive Sleep Apnea"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "sleep-apnea-surgery",
@@ -524,7 +524,7 @@ export const therapiesInterventions: TreatmentContent[] = [
     relatedTreatments: ["CPAP Therapy", "Oral Appliance Therapy", "Inspire Therapy", "Sleep Apnea Treatment"],
     treatedConditions: ["Obstructive Sleep Apnea", "Snoring"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "exciteosa-therapy",
@@ -620,7 +620,7 @@ export const therapiesInterventions: TreatmentContent[] = [
     relatedTreatments: ["Oral Appliance Therapy", "CPAP Therapy", "Snoring Treatment"],
     treatedConditions: ["Mild Obstructive Sleep Apnea", "Primary Snoring"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "inap-therapy",
@@ -708,7 +708,7 @@ export const therapiesInterventions: TreatmentContent[] = [
     relatedTreatments: ["Oral Appliance Therapy", "CPAP Therapy", "Sleep Apnea Treatment"],
     treatedConditions: ["Obstructive Sleep Apnea", "Snoring"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "non-invasive-ventilation",
@@ -813,7 +813,7 @@ export const therapiesInterventions: TreatmentContent[] = [
     relatedTreatments: ["BiPAP Therapy", "CPAP Therapy", "Adaptive Servo-Ventilation (ASV)"],
     treatedConditions: ["Obesity Hypoventilation Syndrome", "Neuromuscular Disease", "COPD", "Central Hypoventilation"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "light-therapy",
@@ -918,7 +918,7 @@ export const therapiesInterventions: TreatmentContent[] = [
     relatedTreatments: ["Circadian Rhythm Disorder Treatment", "Melatonin", "Behavioral Sleep Medicine"],
     treatedConditions: ["Delayed Sleep Phase Disorder", "Advanced Sleep Phase Disorder", "Shift Work Disorder", "Jet Lag", "Seasonal Affective Disorder"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "melatonin-therapy",
@@ -1027,6 +1027,6 @@ export const therapiesInterventions: TreatmentContent[] = [
     relatedTreatments: ["Light Therapy", "Circadian Rhythm Disorder Treatment", "Behavioral Sleep Medicine"],
     treatedConditions: ["Delayed Sleep Phase Disorder", "Jet Lag", "Shift Work Disorder", "Non-24-Hour Sleep-Wake Disorder", "Insomnia"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   }
 ]

@@ -108,7 +108,7 @@ export const conditionTreatments: TreatmentContent[] = [
     relatedTreatments: ["CPAP Therapy", "Oral Appliance Therapy", "Inspire Therapy", "Sleep Apnea Surgery"],
     treatedConditions: ["Obstructive Sleep Apnea", "Central Sleep Apnea", "Complex Sleep Apnea"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "insomnia-treatment",
@@ -217,7 +217,7 @@ export const conditionTreatments: TreatmentContent[] = [
     relatedTreatments: ["Behavioral Sleep Medicine", "CBT-I", "Sleep Hygiene Education"],
     treatedConditions: ["Chronic Insomnia", "Short-Term Insomnia", "Comorbid Insomnia"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "narcolepsy-treatment",
@@ -330,7 +330,7 @@ export const conditionTreatments: TreatmentContent[] = [
     relatedTreatments: ["MSLT", "Polysomnography", "Behavioral Sleep Medicine"],
     treatedConditions: ["Narcolepsy Type 1", "Narcolepsy Type 2", "Cataplexy"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "restless-legs-syndrome-treatment",
@@ -439,7 +439,7 @@ export const conditionTreatments: TreatmentContent[] = [
     relatedTreatments: ["Iron Supplementation", "Polysomnography"],
     treatedConditions: ["Restless Legs Syndrome", "Periodic Limb Movement Disorder", "Willis-Ekbom Disease"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "periodic-limb-movement-disorder-treatment",
@@ -527,7 +527,7 @@ export const conditionTreatments: TreatmentContent[] = [
     relatedTreatments: ["Restless Legs Syndrome Treatment", "Polysomnography", "Iron Supplementation"],
     treatedConditions: ["Periodic Limb Movement Disorder", "Periodic Limb Movements of Sleep"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "parasomnia-treatment",
@@ -631,7 +631,7 @@ export const conditionTreatments: TreatmentContent[] = [
     relatedTreatments: ["Polysomnography", "Behavioral Sleep Medicine", "CPAP Therapy"],
     treatedConditions: ["Sleepwalking", "Night Terrors", "REM Sleep Behavior Disorder", "Nightmare Disorder", "Confusional Arousals"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "rem-sleep-behavior-disorder-treatment",
@@ -736,7 +736,7 @@ export const conditionTreatments: TreatmentContent[] = [
     relatedTreatments: ["Polysomnography", "Parasomnia Treatment", "Neurological Evaluation"],
     treatedConditions: ["REM Sleep Behavior Disorder", "Dream Enactment"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "circadian-rhythm-disorder-treatment",
@@ -845,7 +845,7 @@ export const conditionTreatments: TreatmentContent[] = [
     relatedTreatments: ["Light Therapy", "Melatonin", "Behavioral Sleep Medicine"],
     treatedConditions: ["Delayed Sleep Phase Disorder", "Advanced Sleep Phase Disorder", "Shift Work Disorder", "Jet Lag", "Non-24-Hour Sleep-Wake Disorder"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "hypersomnia-treatment",
@@ -950,7 +950,7 @@ export const conditionTreatments: TreatmentContent[] = [
     relatedTreatments: ["MSLT", "Polysomnography", "Narcolepsy Treatment"],
     treatedConditions: ["Idiopathic Hypersomnia", "Hypersomnolence Disorder"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "snoring-treatment",
@@ -1058,6 +1058,6 @@ export const conditionTreatments: TreatmentContent[] = [
     relatedTreatments: ["Oral Appliance Therapy", "Sleep Apnea Treatment", "CPAP Therapy", "Sleep Apnea Surgery"],
     treatedConditions: ["Primary Snoring", "Upper Airway Resistance Syndrome", "Mild Obstructive Sleep Apnea"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   }
 ]

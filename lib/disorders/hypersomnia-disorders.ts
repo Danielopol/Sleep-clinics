@@ -118,7 +118,7 @@ export const hypersomniaDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Idiopathic Hypersomnia", "Excessive Daytime Sleepiness", "Sleep Paralysis", "Kleine-Levin Syndrome"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "idiopathic-hypersomnia",
@@ -224,7 +224,7 @@ export const hypersomniaDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Narcolepsy", "Excessive Daytime Sleepiness", "Insufficient Sleep Syndrome"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "excessive-daytime-sleepiness",
@@ -340,7 +340,7 @@ export const hypersomniaDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Obstructive Sleep Apnea", "Narcolepsy", "Idiopathic Hypersomnia", "Insufficient Sleep Syndrome", "Depression"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "kleine-levin-syndrome",
@@ -453,7 +453,7 @@ export const hypersomniaDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Narcolepsy", "Idiopathic Hypersomnia", "Recurrent Hypersomnia"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   },
   {
     slug: "insufficient-sleep-syndrome",
@@ -560,6 +560,6 @@ export const hypersomniaDisorders: SleepDisorderContent[] = [
     ],
     relatedDisorders: ["Excessive Daytime Sleepiness", "Poor Sleep Hygiene", "Shift Work Disorder"],
     lastReviewed: "January 2025",
-    reviewedBy: "Sleep Care Directory Medical Team"
+    reviewedBy: "US Sleep Clinics Medical Team"
   }
 ]
