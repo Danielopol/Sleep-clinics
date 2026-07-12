@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 80" width="240" height="80">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a"/>
+      <stop offset="100%" style="stop-color:#1e293b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="100%" style="stop-color:#8b5cf6"/>
+    </linearGradient>
+  </defs>
+  <rect width="240" height="80" rx="10" fill="url(#bg)"/>
+  <rect x="0" y="0" width="240" height="3" rx="1.5" fill="url(#accent)"/>
+  <!-- Shield/check icon -->
+  <g transform="translate(16, 18)">
+    <path d="M22 4s-4-2-10-2S2 4 2 4v12c0 6 10 10 10 10s10-4 10-10V4z" fill="none" stroke="#7C9070" stroke-width="1.8" stroke-linejoin="round"/>
+    <path d="M8 13l3 3 5-6" fill="none" stroke="#7C9070" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <!-- Text -->
+  <text x="50" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8" font-weight="500" letter-spacing="0.5">FEATURED ON</text>
+  <text x="50" y="49" font-family="system-ui, -apple-system, sans-serif" font-size="15" fill="#ffffff" font-weight="700">US Sleep Clinics</text>
+  <text x="50" y="65" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#7C9070" font-weight="500">&#x2713; Verified Provider</text>
+</svg>

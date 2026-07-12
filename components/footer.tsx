@@ -154,6 +154,7 @@ export function Footer() {
                 { label: "About Us", href: "/about" },
                 { label: "Blog", href: "/blog" },
                 { label: "For Sleep Centers", href: "/submit" },
+                { label: "Get Your Badge", href: "/badge" },
               ].map((link) => (
                 <li key={link.href}>
                   <Link

@@ -207,6 +207,20 @@ export default function SubmitPage() {
               {isSubmitting ? "Submitting..." : "Submit Clinic"}
             </button>
           </form>
+
+          {/* Badge callout */}
+          <div className="mt-12 p-6 bg-gradient-to-br from-slate-50 to-indigo-50 border border-indigo-200 rounded-2xl text-center">
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Already listed?</h3>
+            <p className="text-gray-600 text-sm mb-4">
+              Add a free "Featured on US Sleep Clinics" badge to your website and show patients you're a verified provider.
+            </p>
+            <a
+              href="/badge"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-400 hover:to-violet-400 text-white font-semibold rounded-lg transition-all text-sm shadow-md shadow-indigo-500/20"
+            >
+              Get Your Badge
+            </a>
+          </div>
         </div>
       </section>
     </div>
