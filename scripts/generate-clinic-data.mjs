@@ -128,7 +128,7 @@ const clinics = rawData.map((row, index) => {
     rating: row.Total_rating ? Number(row.Total_rating) : undefined,
     reviewCount: row.total_reviews ? Number(row.total_reviews) : undefined,
     website: row.website_url || '',
-    email: '',
+    email: row.email || '',
     fax: row.location_fax || '',
     hours: parseOfficeHours(row.office_hours),
     hoursNote: row.office_hours && !parseOfficeHours(row.office_hours) ? row.office_hours : undefined,
