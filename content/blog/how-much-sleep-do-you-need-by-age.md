@@ -71,7 +71,7 @@ There's a small population of genuine "short sleepers" who function well on 6 ho
 
 The catch is that far more people *believe* they're short sleepers than actually are. Chronic sleep restriction impairs your ability to accurately judge your own impairment: after a week of 6-hour nights, performance on attention and reaction-time tasks continues to decline while subjective sleepiness plateaus. You feel like you've adapted. Measurably, you haven't.
 
-A useful reality check: if you sleep significantly longer on weekends or vacations than on workdays, you're not a short sleeper. You're accumulating sleep debt and repaying it when circumstances allow.
+A useful reality check: if you sleep significantly longer on weekends or vacations than on workdays, you're not a short sleeper. You're accumulating [sleep debt](/blog/what-is-sleep-debt-can-you-repay-it) and repaying it when circumstances allow, though as that guide covers, weekend catch-up repays less of it than most people assume.
 
 ## How to Find Your Own Number
 
