@@ -1,6 +1,6 @@
 ---
 title: "Excessive Daytime Sleepiness: Causes, Red Flags, and When to Get Tested"
-date: "2026-07-22"
+date: "2026-08-22"
 excerpt: "Feeling tired and struggling to stay awake are not the same thing. Excessive daytime sleepiness, the inability to stay alert during normal daily activities, is a specific medical symptom with a defined set of causes. Here's how to recognize it and what it means."
 author: "Daniel Marin"
 tags: ["Excessive Daytime Sleepiness", "Sleep Disorders", "Diagnosis", "Symptoms"]
