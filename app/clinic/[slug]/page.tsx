@@ -31,7 +31,11 @@ export async function generateMetadata({
     : getClinicBySlug(slug)
 
   if (!clinic) {
-    return { title: "Clinic Not Found" }
+    // This route keeps dynamicParams enabled (only the top 150 clinics are
+    // prerendered), so an unknown slug still renders and Next answers HTTP 200
+    // rather than 404. noindex is what keeps Google from treating that soft 404
+    // as a real page worth indexing.
+    return { title: "Clinic Not Found", robots: { index: false, follow: false } }
   }
 
   // Multi-location clinics sharing the same name+city get identical titles, which

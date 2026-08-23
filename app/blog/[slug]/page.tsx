@@ -23,6 +23,11 @@ const dmSans = DM_Sans({
 })
 
 // Generate static params for all blog posts
+// generateStaticParams below returns every valid slug, so unknown params can be
+// rejected by the router with a real 404. Without this, notFound() inside a
+// prerendered page renders the 404 UI but still answers HTTP 200 (a soft 404).
+export const dynamicParams = false
+
 export async function generateStaticParams() {
   const slugs = getAllPostSlugs()
   return slugs.map((slug) => ({ slug }))

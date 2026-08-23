@@ -25,7 +25,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { state, city } = await params
   const data = getCityData(state, city)
-  if (!data) return { title: "City Not Found" }
+  // Only the top 100 cities are prerendered and dynamicParams stays enabled, so
+  // an unknown city renders with HTTP 200 rather than 404. noindex keeps Google
+  // from indexing that soft 404.
+  if (!data) return { title: "City Not Found", robots: { index: false, follow: false } }
 
   const count = data.clinics.length
   const title = `Sleep Clinics in ${data.cityName}, ${data.stateAbbr} - ${count} Sleep ${count === 1 ? "Center" : "Centers"}`
