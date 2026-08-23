@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server"
-import { Resend } from "resend"
-
-const resend = new Resend(process.env.RESEND_API_KEY)
+import { getResendClient } from "@/lib/resend"
 
 export async function POST(request: Request) {
   try {
@@ -11,6 +9,13 @@ export async function POST(request: Request) {
     // Validate required fields
     if (!clinicName || !address || !city || !state || !zip || !phone || !specialty) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
+    }
+
+    const resend = getResendClient()
+
+    if (!resend) {
+      console.error("RESEND_API_KEY is not set, cannot send clinic submission email")
+      return NextResponse.json({ error: "Email service is not configured" }, { status: 500 })
     }
 
     // Send email using Resend
