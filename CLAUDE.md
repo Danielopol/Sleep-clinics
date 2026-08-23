@@ -48,7 +48,11 @@ The API supports two modes:
 ### Pages Structure
 
 - `/` - Homepage with clinic grid and filter sidebar (client component)
-- `/clinic/[id]` - Individual clinic detail page (server component)
+- `/clinic/[slug]` - Individual clinic detail page (server component). Legacy
+  `/clinic/<numeric-id>` URLs are rewritten by `next.config.mjs` to
+  `/api/clinic-redirect/[id]`, which answers with a 301 to the slug URL. The
+  page itself cannot do this: it is prerendered, and `permanentRedirect()` from
+  a prerendered page degrades to a meta refresh served with HTTP 200.
 - `/about` - About page
 - `/blog` - Blog listing
 - `/blog/[slug]` - Individual blog post
