@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { getResendClient } from "@/lib/resend"
+import { escapeHtml } from "@/lib/html-email"
 
 export async function POST(request: Request) {
   try {
@@ -25,7 +26,7 @@ export async function POST(request: Request) {
       subject: "New Newsletter Subscription",
       html: `
         <h2>New Newsletter Subscription</h2>
-        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Email:</strong> ${escapeHtml(email)}</p>
         <p><strong>Subscribed at:</strong> ${new Date().toLocaleString()}</p>
       `,
     })

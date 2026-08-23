@@ -1,5 +1,11 @@
 import { NextResponse } from "next/server"
 import { getResendClient } from "@/lib/resend"
+import {
+  escapeHtml,
+  escapeHtmlMultiline,
+  safeHttpUrl,
+  singleLineSubject,
+} from "@/lib/html-email"
 
 export async function POST(request: Request) {
   try {
@@ -18,22 +24,31 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Email service is not configured" }, { status: 500 })
     }
 
+    // Every value below comes from a public form, so it is escaped before it
+    // reaches the email body. See lib/html-email.ts.
+    const websiteUrl = safeHttpUrl(website)
+    const websiteRow = websiteUrl
+      ? `<p><strong>Website:</strong> <a href="${escapeHtml(websiteUrl)}">${escapeHtml(websiteUrl)}</a></p>`
+      : website
+        ? `<p><strong>Website:</strong> ${escapeHtml(website)} (not a valid http or https URL, not linked)</p>`
+        : ""
+
     // Send email using Resend
     const { data, error } = await resend.emails.send({
       from: "US Sleep Clinics <onboarding@resend.dev>",
       to: ["valentin.marin83@gmail.com"],
-      subject: `New Clinic Submission: ${clinicName}`,
+      subject: `New Clinic Submission: ${singleLineSubject(clinicName)}`,
       html: `
         <h2>New Sleep Clinic Submission</h2>
-        <p><strong>Clinic Name:</strong> ${clinicName}</p>
-        <p><strong>Address:</strong> ${address}</p>
-        <p><strong>City:</strong> ${city}</p>
-        <p><strong>State:</strong> ${state}</p>
-        <p><strong>ZIP Code:</strong> ${zip}</p>
-        <p><strong>Phone Number:</strong> ${phone}</p>
-        <p><strong>Specialty:</strong> ${specialty}</p>
-        ${website ? `<p><strong>Website:</strong> <a href="${website}">${website}</a></p>` : ""}
-        ${description ? `<p><strong>Description:</strong><br>${description}</p>` : ""}
+        <p><strong>Clinic Name:</strong> ${escapeHtml(clinicName)}</p>
+        <p><strong>Address:</strong> ${escapeHtml(address)}</p>
+        <p><strong>City:</strong> ${escapeHtml(city)}</p>
+        <p><strong>State:</strong> ${escapeHtml(state)}</p>
+        <p><strong>ZIP Code:</strong> ${escapeHtml(zip)}</p>
+        <p><strong>Phone Number:</strong> ${escapeHtml(phone)}</p>
+        <p><strong>Specialty:</strong> ${escapeHtml(specialty)}</p>
+        ${websiteRow}
+        ${description ? `<p><strong>Description:</strong><br>${escapeHtmlMultiline(description)}</p>` : ""}
       `,
     })
 
