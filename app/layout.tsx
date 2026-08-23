@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { GoogleAnalytics } from "@/components/google-analytics"
+import { GrowAnalytics } from "@/components/grow-analytics"
 import { JsonLd } from "@/components/json-ld"
 import "./globals.css"
 
@@ -87,6 +88,7 @@ export default function RootLayout({
         {children}
         <Analytics />
         <GoogleAnalytics />
+        <GrowAnalytics />
       </body>
     </html>
   )
