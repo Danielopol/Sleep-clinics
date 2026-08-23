@@ -17,7 +17,11 @@ export const metadata: Metadata = {
   },
   description:
     "Find sleep clinics near you from 4,000+ verified providers. Search AASM-accredited sleep centers, compare specialists, and get expert treatment for sleep apnea, insomnia, and more.",
-  referrer: "no-referrer",
+  // Sends only the origin (www.ussleepclinics.com) on cross-origin requests,
+  // never the full path, so a visitor's specific health-topic browsing is not
+  // leaked to third parties. Affiliate networks need to see us as the referring
+  // domain to credit commissions, which "no-referrer" would have blocked.
+  referrer: "strict-origin-when-cross-origin",
   openGraph: {
     type: "website",
     locale: "en_US",
