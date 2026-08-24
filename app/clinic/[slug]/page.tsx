@@ -3,6 +3,7 @@ import { ClinicDetailCard } from "@/components/clinic-detail-card"
 import { getClinicBySlug, getClinicById, getClinicsData, formatOpeningHours } from "@/lib/clinics"
 import { notFound, permanentRedirect } from "next/navigation"
 import { BackLink } from "@/components/back-link"
+import { ClinicRelatedLinks } from "@/components/clinic-related-links"
 import { Metadata } from "next"
 import { JsonLd } from "@/components/json-ld"
 
@@ -254,6 +255,8 @@ export default async function ClinicDetailPage({
           <ClinicDetailCard clinic={clinic} />
         </div>
       </section>
+
+      <ClinicRelatedLinks clinic={clinic} />
     </div>
   )
 }
