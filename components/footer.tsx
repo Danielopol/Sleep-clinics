@@ -277,6 +277,9 @@ export function Footer() {
               © {currentYear} US Sleep Clinics. All rights reserved.
             </p>
             <div className="flex items-center gap-6">
+              <Link href="/contact" className="text-slate-500 hover:text-slate-300 text-sm transition-colors">
+                Contact
+              </Link>
               <Link href="/privacy-policy" className="text-slate-500 hover:text-slate-300 text-sm transition-colors">
                 Privacy Policy
               </Link>
