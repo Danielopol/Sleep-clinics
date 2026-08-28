@@ -2,6 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
+import { AdSense } from "@/components/adsense"
 import { GoogleAnalytics } from "@/components/google-analytics"
 import { GrowAnalytics } from "@/components/grow-analytics"
 import { JsonLd } from "@/components/json-ld"
@@ -50,6 +51,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      {/* Google's instructions say to place the AdSense script between
+          <head></head> on every page. Next.js merges an explicit <head> here
+          with the one it generates from the Metadata API above. */}
+      <head>
+        <AdSense />
+      </head>
       <body className={`${inter.className} antialiased`}>
         <JsonLd
           data={{
