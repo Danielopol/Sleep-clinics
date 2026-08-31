@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { AdSense } from "@/components/adsense"
+import { ImpactTag } from "@/components/impact"
 import { GoogleAnalytics } from "@/components/google-analytics"
 import { GrowAnalytics } from "@/components/grow-analytics"
 import { JsonLd } from "@/components/json-ld"
@@ -55,6 +56,7 @@ export default function RootLayout({
           <head></head> on every page. Next.js merges an explicit <head> here
           with the one it generates from the Metadata API above. */}
       <head>
+        <ImpactTag />
         <AdSense />
       </head>
       <body className={`${inter.className} antialiased`}>
