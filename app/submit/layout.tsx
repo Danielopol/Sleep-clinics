@@ -1,4 +1,5 @@
 import { Metadata } from "next"
+import { OG_IMAGE } from "@/lib/og-image"
 
 export const metadata: Metadata = {
   title: "Submit Your Sleep Clinic - Join Our Directory",
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
     description:
       "Add your sleep clinic to the US Sleep Clinics and connect with patients seeking quality sleep care.",
     url: "https://www.ussleepclinics.com/submit",
+    images: OG_IMAGE,
   },
 }
 

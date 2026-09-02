@@ -1,6 +1,7 @@
 import { Navigation } from "@/components/navigation"
 import { Badge } from "@/components/ui/badge"
-import { getAllPostSlugs, getPostWithContent, formatDate, getAllPosts } from "@/lib/blog"
+import { getAllPostSlugs, getPostWithContent, formatDate, getAllPosts, DEFAULT_POST_IMAGE } from "@/lib/blog"
+import { OG_IMAGE } from "@/lib/og-image"
 import { Calendar, User, ArrowLeft, Clock } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -44,6 +45,16 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     }
   }
 
+  // A post that ships its own artwork shares that; the rest fall back to the
+  // site card rather than to DEFAULT_POST_IMAGE, which is a placeholder path
+  // with no file behind it. Set on twitter as well as openGraph, or X would
+  // inherit the generic card from the root layout and disagree with the
+  // preview every other network shows.
+  const images =
+    post.image && post.image !== DEFAULT_POST_IMAGE
+      ? [{ url: post.image }]
+      : OG_IMAGE
+
   return {
     title: post.title,
     description: post.excerpt,
@@ -55,7 +66,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       description: post.excerpt,
       url: `https://www.ussleepclinics.com/blog/${slug}`,
       type: "article",
-      ...(post.image && { images: [{ url: post.image }] }),
+      images,
+    },
+    twitter: {
+      title: post.title,
+      description: post.excerpt,
+      images,
     },
   }
 }

@@ -4,6 +4,7 @@ import { BlogCard } from "@/components/blog-card"
 import { getAllPosts } from "@/lib/blog"
 import { Moon } from "lucide-react"
 import { Metadata } from "next"
+import { OG_IMAGE } from "@/lib/og-image"
 
 export const metadata: Metadata = {
   title: "Sleep Health Blog - Expert Tips & Insights",
@@ -17,6 +18,7 @@ export const metadata: Metadata = {
     description:
       "Expert articles on sleep disorders, treatment options, and wellness tips from sleep health professionals.",
     url: "https://www.ussleepclinics.com/blog",
+    images: OG_IMAGE,
   },
 }
 

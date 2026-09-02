@@ -6,6 +6,7 @@ import { BackLink } from "@/components/back-link"
 import { ClinicRelatedLinks } from "@/components/clinic-related-links"
 import { Metadata } from "next"
 import { JsonLd } from "@/components/json-ld"
+import { OG_IMAGE } from "@/lib/og-image"
 
 // Pre-render only the highest-signal clinics (by review count) at build time; the
 // rest render on-demand on first request and are then cached (ISR). This keeps the
@@ -66,6 +67,7 @@ export async function generateMetadata({
       title,
       description,
       url: `https://www.ussleepclinics.com/clinic/${slug}`,
+      images: OG_IMAGE,
     },
   }
 }

@@ -4,6 +4,7 @@ import { allTreatments } from "@/lib/treatment-options-content"
 import { Stethoscope, ChevronRight } from "lucide-react"
 import Link from "next/link"
 import { Metadata } from "next"
+import { OG_IMAGE } from "@/lib/og-image"
 
 export const metadata: Metadata = {
   title: "Sleep Treatment Options - Therapies & Solutions Guide",
@@ -17,6 +18,7 @@ export const metadata: Metadata = {
     description:
       "Explore evidence-based sleep treatment options including CPAP therapy, CBT-I, oral appliances, and more.",
     url: "https://www.ussleepclinics.com/treatment-options",
+    images: OG_IMAGE,
   },
 }
 

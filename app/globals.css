@@ -229,3 +229,11 @@
     transform: translateY(0);
   }
 }
+
+/* Grow by Mediavine injects a floating Faves (heart) and share button into
+   #grow-me-root, pinned to the bottom right corner on every page. We only want
+   the script for Grow Analytics session counting, which keeps running while the
+   widget is hidden, so the element is hidden rather than the script removed. */
+#grow-me-root {
+  display: none !important;
+}

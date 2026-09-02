@@ -17,6 +17,7 @@ import {
   User,
   CheckCircle2
 } from "lucide-react"
+import { OG_IMAGE } from "@/lib/og-image"
 
 // Generate static params for all treatments
 // generateStaticParams below returns every valid slug, so unknown params can be
@@ -52,6 +53,7 @@ export async function generateMetadata({
       title: `${treatment.name} - Benefits, Side Effects & Tips`,
       description: treatment.description,
       url: `https://www.ussleepclinics.com/treatment-options/${slug}`,
+      images: OG_IMAGE,
     },
   }
 }

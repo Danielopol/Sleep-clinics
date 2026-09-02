@@ -4,6 +4,7 @@ import { sleepDisordersData } from "@/lib/sleep-disorders"
 import { Moon, ChevronRight } from "lucide-react"
 import Link from "next/link"
 import { Metadata } from "next"
+import { OG_IMAGE } from "@/lib/og-image"
 
 export const metadata: Metadata = {
   title: "Sleep Disorders Guide - Symptoms, Causes & Treatments",
@@ -17,6 +18,7 @@ export const metadata: Metadata = {
     description:
       "Comprehensive guide to sleep disorders including insomnia, sleep apnea, narcolepsy, and more.",
     url: "https://www.ussleepclinics.com/sleep-disorders",
+    images: OG_IMAGE,
   },
 }
 

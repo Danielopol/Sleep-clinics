@@ -5,6 +5,7 @@
   "scripts": {
     "geocode": "node scripts/geocode-clinics.mjs",
     "generate-data": "node scripts/generate-clinic-data.mjs",
+    "generate-og-image": "node scripts/generate-og-image.mjs",
     "prebuild": "npm run generate-data",
     "build": "next build",
     "dev": "next dev",

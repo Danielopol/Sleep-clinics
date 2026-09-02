@@ -19,6 +19,7 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { Metadata } from "next"
+import { OG_IMAGE } from "@/lib/og-image"
 
 export const metadata: Metadata = {
   title: "About Us - Our Mission to Connect You with Sleep Care",
@@ -32,6 +33,7 @@ export const metadata: Metadata = {
     description:
       "Connecting you with expert sleep care professionals and accredited clinics nationwide. Over 4,000 verified sleep clinics.",
     url: "https://www.ussleepclinics.com/about",
+    images: OG_IMAGE,
   },
 }
 

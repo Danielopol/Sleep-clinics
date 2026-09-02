@@ -15,6 +15,7 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { Metadata } from "next"
+import { OG_IMAGE } from "@/lib/og-image"
 
 export const metadata: Metadata = {
   title: "AASM Accreditation - Quality Standards in Sleep Medicine",
@@ -28,6 +29,7 @@ export const metadata: Metadata = {
     description:
       "Learn about AASM accreditation, the gold standard for sleep disorder centers. Understand what it means for your care.",
     url: "https://www.ussleepclinics.com/aasm-accreditation",
+    images: OG_IMAGE,
   },
 }
 

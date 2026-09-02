@@ -16,6 +16,7 @@ import {
   Calendar,
   User
 } from "lucide-react"
+import { OG_IMAGE } from "@/lib/og-image"
 
 // Generate static params for all disorders
 // generateStaticParams below returns every valid slug, so unknown params can be
@@ -51,6 +52,7 @@ export async function generateMetadata({
       title: `${disorder.name} - Symptoms, Causes & Treatment`,
       description: disorder.description,
       url: `https://www.ussleepclinics.com/sleep-disorders/${slug}`,
+      images: OG_IMAGE,
     },
   }
 }

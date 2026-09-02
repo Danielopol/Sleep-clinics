@@ -1,4 +1,5 @@
 import { Metadata } from "next"
+import { OG_IMAGE } from "@/lib/og-image"
 
 export const metadata: Metadata = {
   title: "Featured Provider Badge",
@@ -8,6 +9,7 @@ export const metadata: Metadata = {
     title: "Get Your US Sleep Clinics Featured Badge",
     description:
       "Show patients you are a verified provider. Add our free badge to your website.",
+    images: OG_IMAGE,
   },
 }
 

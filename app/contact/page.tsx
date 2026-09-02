@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Mail, Building2, AlertTriangle, Clock } from "lucide-react"
 import Link from "next/link"
 import { Metadata } from "next"
+import { OG_IMAGE } from "@/lib/og-image"
 
 const CONTACT_EMAIL = "contact@ussleepclinics.com"
 
@@ -19,6 +20,7 @@ export const metadata: Metadata = {
     description:
       "Get in touch with US Sleep Clinics about clinic listings, corrections, partnerships, or general questions about the directory.",
     url: "https://www.ussleepclinics.com/contact",
+    images: OG_IMAGE,
   },
 }
 

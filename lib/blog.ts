@@ -7,6 +7,14 @@ import html from 'remark-html'
 // Directory where blog posts are stored
 const postsDirectory = path.join(process.cwd(), 'content/blog')
 
+/**
+ * Used when a post ships no image of its own. Exported so callers can tell a
+ * real post image apart from the placeholder, which matters for social share
+ * cards: linking to a generic placeholder is worse than linking to the site
+ * card.
+ */
+export const DEFAULT_POST_IMAGE = '/modern-medical-clinic-reception-area.jpg'
+
 export interface BlogPost {
   slug: string
   title: string
@@ -78,7 +86,7 @@ export function getPostBySlug(slug: string): BlogPost | null {
       }
       // Fallback to default image if no matching image found
       if (!imagePath) {
-        imagePath = '/modern-medical-clinic-reception-area.jpg'
+        imagePath = DEFAULT_POST_IMAGE
       }
     }
 
@@ -126,7 +134,7 @@ export async function getPostWithContent(slug: string): Promise<BlogPostWithCont
       }
       // Fallback to default image if no matching image found
       if (!imagePath) {
-        imagePath = '/modern-medical-clinic-reception-area.jpg'
+        imagePath = DEFAULT_POST_IMAGE
       }
     }
 

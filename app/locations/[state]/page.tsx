@@ -6,6 +6,7 @@ import { MapPin, ChevronRight, Building2 } from "lucide-react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { Metadata } from "next"
+import { OG_IMAGE } from "@/lib/og-image"
 
 const BASE_URL = "https://www.ussleepclinics.com"
 
@@ -34,7 +35,12 @@ export async function generateMetadata({
     title,
     description,
     alternates: { canonical: `${BASE_URL}/locations/${data.slug}` },
-    openGraph: { title, description, url: `${BASE_URL}/locations/${data.slug}` },
+    openGraph: {
+      title,
+      description,
+      url: `${BASE_URL}/locations/${data.slug}`,
+      images: OG_IMAGE,
+    },
   }
 }
 

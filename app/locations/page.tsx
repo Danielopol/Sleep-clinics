@@ -5,6 +5,7 @@ import { getStatesIndex } from "@/lib/locations"
 import { MapPin, ChevronRight } from "lucide-react"
 import Link from "next/link"
 import { Metadata } from "next"
+import { OG_IMAGE } from "@/lib/og-image"
 
 const BASE_URL = "https://www.ussleepclinics.com"
 
@@ -18,6 +19,7 @@ export const metadata: Metadata = {
     description:
       "Browse sleep clinics, sleep centers, and sleep labs by state across the United States.",
     url: `${BASE_URL}/locations`,
+    images: OG_IMAGE,
   },
 }
 

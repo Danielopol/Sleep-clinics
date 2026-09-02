@@ -7,6 +7,7 @@ import { ImpactTag } from "@/components/impact"
 import { GoogleAnalytics } from "@/components/google-analytics"
 import { GrowAnalytics } from "@/components/grow-analytics"
 import { JsonLd } from "@/components/json-ld"
+import { OG_IMAGE } from "@/lib/og-image"
 import "./globals.css"
 
 // <CHANGE> Using Inter font as specified in the requirements
@@ -33,12 +34,14 @@ export const metadata: Metadata = {
     description:
       "Find sleep clinics near you from 4,000+ verified providers. Search AASM-accredited sleep centers, compare specialists, and get expert treatment for sleep apnea, insomnia, and more.",
     url: "https://www.ussleepclinics.com",
+    images: OG_IMAGE,
   },
   twitter: {
     card: "summary_large_image",
     title: "US Sleep Clinics - Find Expert Sleep Care Near You",
     description:
       "Find sleep clinics near you from 4,000+ verified providers. AASM-accredited sleep centers for sleep apnea, insomnia, and more.",
+    images: OG_IMAGE,
   },
   alternates: {
     canonical: "https://www.ussleepclinics.com",
