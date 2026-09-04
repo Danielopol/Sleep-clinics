@@ -61,7 +61,7 @@ export function Navigation() {
               Blog
             </Link>
             <Link
-              href="/submit"
+              href="/pricing"
               className="bg-gradient-to-r from-indigo-500 to-violet-500 text-white px-4 py-2 rounded-lg transition-all font-semibold hover:from-indigo-400 hover:to-violet-400 shadow-md shadow-indigo-500/20"
             >
               For Sleep Centers
@@ -126,7 +126,7 @@ export function Navigation() {
                 Blog
               </Link>
               <Link
-                href="/submit"
+                href="/pricing"
                 className="bg-gradient-to-r from-indigo-500 to-violet-500 text-white px-4 py-2 rounded-lg transition-all font-semibold text-center hover:from-indigo-400 hover:to-violet-400 shadow-md shadow-indigo-500/20"
                 onClick={() => setIsMenuOpen(false)}
               >

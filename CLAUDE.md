@@ -56,7 +56,31 @@ The API supports two modes:
 - `/about` - About page
 - `/blog` - Blog listing
 - `/blog/[slug]` - Individual blog post
-- `/submit` - Clinic submission form
+- `/submit` - Clinic listing form, paid only ($99 priority add, straight to Stripe Checkout)
+- `/pricing` - The three paid listing plans
+- `/claim` - Find your clinic, then buy featured placement or join the verified waitlist
+- `/checkout/success` - Post-payment confirmation (dynamic, noindex)
+
+### Paid Listings
+
+Three plans defined in `lib/pricing.ts`, which is the single source of truth for
+prices: the pricing page, the buttons, and the amount Stripe charges all read
+from it. See `docs/PAID-LISTINGS.md` for the setup runbook and the fulfillment
+process.
+
+Key rules:
+
+- **Entitlements are granted only by `app/api/stripe/webhook/route.ts`**, on a
+  signature-verified payload. `app/api/checkout/route.ts` only reserves a slot
+  and opens the Stripe session; the browser never grants anything.
+- **Paid state lives in Supabase, never in the Excel file.** `data/clinics.json`
+  is regenerated on every deploy, so anything written there would be lost.
+  Featured flags are attached at request time in `lib/listings.ts`.
+- **Every paid feature degrades gracefully.** Missing Stripe keys, Supabase
+  vars, or Resend key must never break a page render or a build; each client
+  builder returns null and callers handle it.
+- **Paid placement must stay labeled.** The "Featured" badge on the card and the
+  disclosure under the city grid are FTC-facing, not decoration.
 
 ### Blog System
 
@@ -103,4 +127,7 @@ You have two options for adding images to blog posts:
 
 ### Environment Variables
 
-- `NEXT_PUBLIC_BASE_URL` - Base URL for API calls in server components (defaults to `http://localhost:3000`)
+See `.env.example` for the full list. `NEXT_PUBLIC_BASE_URL` is the base URL for
+API calls in server components and for Stripe redirect URLs (defaults to
+`http://localhost:3000`). The Stripe, Supabase, and email keys are documented in
+`docs/PAID-LISTINGS.md`.

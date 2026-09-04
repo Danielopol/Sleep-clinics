@@ -112,7 +112,7 @@ export default function ContactPage() {
                     href="/submit"
                     className="font-medium text-[var(--healing-teal)] hover:underline"
                   >
-                    clinic submission form
+                    clinic listing form
                   </Link>
                   , which collects everything we need in one step.
                 </p>

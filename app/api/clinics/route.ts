@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { readFileSync, existsSync } from 'fs'
 import { join } from 'path'
+import { getFeaturedClinicIds } from '@/lib/listings'
 
 // Force Node.js runtime for file system access
 export const runtime = 'nodejs'
@@ -24,7 +25,7 @@ function loadData() {
   cachedClinics = JSON.parse(readFileSync(clinicsPath, 'utf-8'))
   cachedMetadata = JSON.parse(readFileSync(metadataPath, 'utf-8'))
 
-  return { clinics: cachedClinics, metadata: cachedMetadata }
+  return { clinics: cachedClinics!, metadata: cachedMetadata }
 }
 
 // Great-circle distance between two lat/lng points, in kilometers.
@@ -147,7 +148,27 @@ export async function GET(request: Request) {
     const radius = radiusParam != null ? parseFloat(radiusParam) : null
 
     // Apply filters
-    const filteredClinics = filterClinics(clinics, { q, state, city, specialty, services, accreditation, lat, lng, radius })
+    let filteredClinics = filterClinics(clinics, { q, state, city, specialty, services, accreditation, lat, lng, radius })
+
+    // Paid featured placement. Only applied to a local result set (a city or
+    // state filter is active), where "top of the results" means something to a
+    // patient. It is deliberately not applied to the unfiltered national list,
+    // and it never overrides the "near me" distance sort, which answers a
+    // different question.
+    if (city || state) {
+      const featuredIds = await getFeaturedClinicIds()
+      if (featuredIds.size > 0) {
+        filteredClinics = filteredClinics.map((clinic) =>
+          featuredIds.has(clinic.id) ? { ...clinic, featured: true } : clinic
+        )
+        const distanceSorted = lat != null && lng != null && radius != null
+        if (!distanceSorted) {
+          filteredClinics = [...filteredClinics].sort(
+            (a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured))
+          )
+        }
+      }
+    }
 
     // Calculate pagination
     const total = filteredClinics.length

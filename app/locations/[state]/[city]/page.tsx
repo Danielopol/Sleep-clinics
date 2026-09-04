@@ -3,6 +3,7 @@ import { Footer } from "@/components/footer"
 import { ClinicCard } from "@/components/clinic-card"
 import { JsonLd } from "@/components/json-ld"
 import { getCityData, getTopCityParams, humanList } from "@/lib/locations"
+import { getFeaturedClinicIds } from "@/lib/listings"
 import { ChevronRight } from "lucide-react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
@@ -57,6 +58,18 @@ export default async function CityPage({
   const data = getCityData(state, city)
   if (!data) notFound()
 
+  // Paid featured placements go to the top of the list, in the order the data
+  // already had them. The rest of the page is untouched, so a city with no
+  // featured clinic renders exactly as before.
+  const featuredIds = await getFeaturedClinicIds()
+  const clinics = data.clinics.map((c) =>
+    featuredIds.has(c.id) ? { ...c, featured: true } : c
+  )
+  const hasFeatured = clinics.some((c) => c.featured)
+  const orderedClinics = hasFeatured
+    ? [...clinics].sort((a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured)))
+    : clinics
+
   const count = data.clinics.length
   const servicesSentence =
     data.topServices.length > 0
@@ -110,10 +123,19 @@ export default async function CityPage({
       <section className="bg-[image:var(--bg-primary)] min-h-screen py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            {data.clinics.map((clinic) => (
+            {orderedClinics.map((clinic) => (
               <ClinicCard key={clinic.id} clinic={clinic} />
             ))}
           </div>
+
+          {/* Advertising disclosure, required wherever paid placement changes
+              the order of results. */}
+          {hasFeatured && (
+            <p className="mt-8 text-sm text-slate-500 dark:text-slate-400">
+              Listings marked "Featured" are paid placements. Paying does not change a clinic's
+              information, its rating, or whether it appears in this directory.
+            </p>
+          )}
         </div>
       </section>
 

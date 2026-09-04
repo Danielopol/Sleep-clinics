@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { ArrowRight, MapPin, Phone, Navigation } from "lucide-react"
+import { ArrowRight, MapPin, Phone, Navigation, Star } from "lucide-react"
 import Link from "next/link"
 import type { Clinic } from "@/lib/data"
 
@@ -34,7 +34,13 @@ export function ClinicCard({ clinic }: ClinicCardProps) {
   const firstPhone = clinic.phone.split(';')[0].trim()
 
   return (
-    <div className="group bg-slate-50 dark:bg-slate-900 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition-all duration-300 flex flex-col relative">
+    <div
+      className={`group bg-slate-50 dark:bg-slate-900 rounded-2xl overflow-hidden border transition-all duration-300 flex flex-col relative ${
+        clinic.featured
+          ? "border-amber-400/70 dark:border-amber-500/60 ring-1 ring-amber-400/30"
+          : "border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700"
+      }`}
+    >
       {/* Image Section */}
       <div className="relative h-44 overflow-hidden">
         <img
@@ -55,9 +61,21 @@ export function ClinicCard({ clinic }: ClinicCardProps) {
           </div>
         )}
 
+        {/* Featured badge. Labeled as paid placement, per FTC advertising
+            disclosure rules: the label plus the note on the city page. */}
+        {clinic.featured && (
+          <div
+            title="Featured listings are paid placements"
+            className="absolute top-3 left-3 flex items-center gap-1.5 px-2 py-1 bg-amber-500 rounded text-xs font-bold text-white shadow-lg uppercase tracking-wide"
+          >
+            <Star size={11} fill="currentColor" />
+            Featured
+          </div>
+        )}
+
         {/* Distance badge (shown when the "near me" filter is active) */}
         {clinic.distance != null && (
-          <div className="absolute top-3 left-3 flex items-center gap-1.5 px-2 py-1 bg-[var(--healing-teal)] rounded text-xs font-bold text-white shadow-lg">
+          <div className={`absolute ${clinic.featured ? "top-12" : "top-3"} left-3 flex items-center gap-1.5 px-2 py-1 bg-[var(--healing-teal)] rounded text-xs font-bold text-white shadow-lg`}>
             <Navigation size={11} />
             {formatDistance(clinic.distance, clinic.coordinatesApproximate)}
           </div>

@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { Navigation } from "@/components/navigation"
 import { ClinicDetailCard } from "@/components/clinic-detail-card"
 import { getClinicBySlug, getClinicById, getClinicsData, formatOpeningHours } from "@/lib/clinics"
@@ -255,6 +256,26 @@ export default async function ClinicDetailPage({
       <section className="py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ClinicDetailCard clinic={clinic} />
+
+          {/* Owner entry point. Clinic staff usually arrive here by searching
+              their own name, so this is where a claim gets started. */}
+          <div className="mt-8 p-6 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+              <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-1">
+                Is this your clinic?
+              </h2>
+              <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                Claim the listing to correct your details, add a verified badge, and stand out in{" "}
+                {clinic.city}.
+              </p>
+            </div>
+            <Link
+              href={`/claim?clinic=${clinic.id}`}
+              className="shrink-0 px-5 py-2.5 rounded-lg bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-400 hover:to-violet-400 text-white font-semibold transition-all text-sm shadow-md shadow-indigo-500/20"
+            >
+              Claim this listing
+            </Link>
+          </div>
         </div>
       </section>
 

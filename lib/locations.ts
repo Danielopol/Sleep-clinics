@@ -135,6 +135,23 @@ function buildIndex(): Map<string, StateNode> {
   return states
 }
 
+/**
+ * The state and city slugs a clinic belongs to, i.e. the location page it
+ * appears on. Returns null for rows whose state is not a US state or whose
+ * city is blank, which are the same rows buildIndex() skips.
+ */
+export function getClinicLocationSlugs(
+  clinic: Pick<Clinic, "city" | "state">
+): { stateSlug: string; citySlug: string; stateAbbr: string } | null {
+  const abbr = normalizeStateAbbr(clinic.state)
+  if (!abbr) return null
+  const cityRaw = String(clinic.city ?? "").trim()
+  if (!cityRaw) return null
+  const citySlug = slugify(cityRaw)
+  if (!citySlug) return null
+  return { stateSlug: slugify(US_STATES[abbr]), citySlug, stateAbbr: abbr }
+}
+
 export function getStatesIndex(): StateSummary[] {
   const index = buildIndex()
   return [...index.values()]
