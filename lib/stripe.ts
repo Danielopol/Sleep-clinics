@@ -26,9 +26,22 @@ export function isTestMode(): boolean {
   return (process.env.STRIPE_SECRET_KEY ?? "").startsWith("sk_test_")
 }
 
+/**
+ * The origin Stripe sends the customer back to after checkout.
+ *
+ * NEXT_PUBLIC_BASE_URL is the setting of record. The Vercel fallbacks exist so
+ * that forgetting it in the dashboard cannot send a paying customer to
+ * localhost: VERCEL_PROJECT_PRODUCTION_URL is the project's production domain,
+ * VERCEL_URL the specific deployment (right for preview branches). Both are
+ * bare hostnames, so they need the scheme added.
+ */
 export function getBaseUrl(): string {
-  return (
-    process.env.NEXT_PUBLIC_BASE_URL?.replace(/\/$/, "") ||
-    "http://localhost:3000"
-  )
+  const configured = process.env.NEXT_PUBLIC_BASE_URL?.trim()
+  if (configured) return configured.replace(/\/$/, "")
+
+  const vercelHost =
+    process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.VERCEL_URL
+  if (vercelHost) return `https://${vercelHost.replace(/^https?:\/\//, "").replace(/\/$/, "")}`
+
+  return "http://localhost:3000"
 }
