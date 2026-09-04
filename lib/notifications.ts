@@ -166,17 +166,31 @@ export async function notifyFeaturedActivated(params: {
   interval: string | null
   contactEmail: string | null
   subscriptionId: string | null
+  storedInDatabase: boolean
 }) {
   const listingUrl = params.clinicSlug
     ? `https://www.ussleepclinics.com/clinic/${params.clinicSlug}`
     : null
   const cityUrl = `https://www.ussleepclinics.com/locations/${params.stateSlug}/${params.citySlug}`
 
+  // Without a database the placement was charged but nothing was flagged, so
+  // the clinic paid for something that will not appear. Say so at the top of
+  // the email, with the exact fix.
+  const manualActionBanner = params.storedInDatabase
+    ? ""
+    : `<p style="padding:12px;border:2px solid #b91c1c;color:#b91c1c;font-weight:bold">
+         MANUAL ACTION REQUIRED: no database is configured, so this placement was
+         NOT flagged. The clinic has paid and is not featured. Add
+         ${escapeHtml(String(params.clinicId))} to FEATURED_CLINIC_IDS and redeploy,
+         then finish the Supabase setup in docs/PAID-LISTINGS.md.
+       </p>`
+
   await send({
     to: operatorAddress(),
-    subject: `FEATURED activated: ${params.clinicName}`,
+    subject: `${params.storedInDatabase ? "FEATURED activated" : "FEATURED PAID BUT NOT LIVE"}: ${params.clinicName}`,
     ...(params.contactEmail ? { replyTo: params.contactEmail } : {}),
     html: `
+      ${manualActionBanner}
       <h2>Featured placement activated</h2>
       <p><strong>Clinic:</strong> ${escapeHtml(params.clinicName)} (id ${escapeHtml(String(params.clinicId))})</p>
       <p><strong>City page:</strong> <a href="${escapeHtml(cityUrl)}">${escapeHtml(cityUrl)}</a></p>
@@ -187,7 +201,8 @@ export async function notifyFeaturedActivated(params: {
     `,
   })
 
-  if (params.contactEmail && canEmailCustomers()) {
+  // Only tell the customer it is live once it actually is.
+  if (params.contactEmail && canEmailCustomers() && params.storedInDatabase) {
     await send({
       to: params.contactEmail,
       subject: `${params.clinicName} is now featured in ${params.citySlug.replace(/-/g, " ")}`,

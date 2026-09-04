@@ -137,6 +137,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session, stripe:
       interval: null,
       contactEmail,
       subscriptionId,
+      storedInDatabase: isStoreConfigured(),
     })
     return
   }
