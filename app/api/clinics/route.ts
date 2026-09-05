@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { readFileSync, existsSync } from 'fs'
 import { join } from 'path'
-import { getFeaturedClinicIds } from '@/lib/listings'
+import { getListingBadges } from '@/lib/listings'
 
 // Force Node.js runtime for file system access
 export const runtime = 'nodejs'
@@ -156,11 +156,15 @@ export async function GET(request: Request) {
     // and it never overrides the "near me" distance sort, which answers a
     // different question.
     if (city || state) {
-      const featuredIds = await getFeaturedClinicIds()
-      if (featuredIds.size > 0) {
-        filteredClinics = filteredClinics.map((clinic) =>
-          featuredIds.has(clinic.id) ? { ...clinic, featured: true } : clinic
-        )
+      const badges = await getListingBadges()
+      if (badges.featured.size > 0 || badges.verified.size > 0) {
+        filteredClinics = filteredClinics.map((clinic) => {
+          const featured = badges.featured.has(clinic.id)
+          const verified = badges.verified.has(clinic.id)
+          return featured || verified
+            ? { ...clinic, ...(featured && { featured }), ...(verified && { verified }) }
+            : clinic
+        })
         const distanceSorted = lat != null && lng != null && radius != null
         if (!distanceSorted) {
           filteredClinics = [...filteredClinics].sort(

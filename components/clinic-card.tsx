@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { ArrowRight, MapPin, Phone, Navigation, Star } from "lucide-react"
+import { ArrowRight, MapPin, Phone, Navigation, Star, BadgeCheck } from "lucide-react"
 import Link from "next/link"
 import type { Clinic } from "@/lib/data"
 
@@ -38,7 +38,9 @@ export function ClinicCard({ clinic }: ClinicCardProps) {
       className={`group bg-slate-50 dark:bg-slate-900 rounded-2xl overflow-hidden border transition-all duration-300 flex flex-col relative ${
         clinic.featured
           ? "border-amber-400/70 dark:border-amber-500/60 ring-1 ring-amber-400/30"
-          : "border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700"
+          : clinic.verified
+            ? "border-[var(--healing-teal)]/60 ring-1 ring-[var(--healing-teal)]/20"
+            : "border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700"
       }`}
     >
       {/* Image Section */}
@@ -73,9 +75,29 @@ export function ClinicCard({ clinic }: ClinicCardProps) {
           </div>
         )}
 
+        {/* Verified badge. Granted only after a human confirmed the clinic's
+            owner, never by payment alone. */}
+        {clinic.verified && (
+          <div
+            title="Verified: we confirmed this listing with the clinic"
+            className={`absolute ${clinic.featured ? "top-12" : "top-3"} left-3 flex items-center gap-1.5 px-2 py-1 bg-[var(--healing-teal)] rounded text-xs font-bold text-white shadow-lg`}
+          >
+            <BadgeCheck size={11} />
+            Verified
+          </div>
+        )}
+
         {/* Distance badge (shown when the "near me" filter is active) */}
         {clinic.distance != null && (
-          <div className={`absolute ${clinic.featured ? "top-12" : "top-3"} left-3 flex items-center gap-1.5 px-2 py-1 bg-[var(--healing-teal)] rounded text-xs font-bold text-white shadow-lg`}>
+          <div
+            className={`absolute ${
+              [clinic.featured, clinic.verified].filter(Boolean).length === 2
+                ? "top-[5.25rem]"
+                : clinic.featured || clinic.verified
+                  ? "top-12"
+                  : "top-3"
+            } left-3 flex items-center gap-1.5 px-2 py-1 bg-[var(--dream-blue)] rounded text-xs font-bold text-white shadow-lg`}
+          >
             <Navigation size={11} />
             {formatDistance(clinic.distance, clinic.coordinatesApproximate)}
           </div>

@@ -73,6 +73,13 @@ Key rules:
 - **Entitlements are granted only by `app/api/stripe/webhook/route.ts`**, on a
   signature-verified payload. `app/api/checkout/route.ts` only reserves a slot
   and opens the Stripe session; the browser never grants anything.
+- **Paying never grants the "Verified" badge.** It is an identity claim on a
+  healthcare listing, so only a human sets `verified_at` (see
+  `docs/PAID-LISTINGS.md`). Featured placement, which is labeled advertising and
+  claims nothing about anyone, does activate on payment.
+- **Every plan can be bought by a clinic that is not listed yet.** Those rows
+  carry `pending_clinic` and a null `clinic_id`, and render nothing until the
+  listing is created by hand and linked.
 - **Paid state lives in Supabase, never in the Excel file.** `data/clinics.json`
   is regenerated on every deploy, so anything written there would be lost.
   Featured flags are attached at request time in `lib/listings.ts`.

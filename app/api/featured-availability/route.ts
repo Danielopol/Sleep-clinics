@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import { getClinicById } from "@/lib/clinics"
 import { getClinicLocationSlugs } from "@/lib/locations"
-import { getCitySlotAvailability, getFeaturedForClinic } from "@/lib/listings"
+import { getCitySlotAvailability, getSubscriptionForClinic } from "@/lib/listings"
 import { FEATURED_SLOTS_PER_CITY } from "@/lib/pricing"
 
 // How many featured slots are left in a clinic's city. Read only: the checkout
@@ -37,11 +37,12 @@ export async function GET(request: Request) {
 
   const [availability, existing] = await Promise.all([
     getCitySlotAvailability(location.stateSlug, location.citySlug),
-    getFeaturedForClinic(clinicId),
+    getSubscriptionForClinic(clinicId),
   ])
 
-  const alreadyFeatured =
-    existing?.status === "active" || existing?.status === "past_due"
+  // Any live plan blocks a second purchase for the same clinic, not just a
+  // featured one, so a clinic cannot end up paying for two overlapping plans.
+  const hasActivePlan = existing?.status === "active" || existing?.status === "past_due"
 
   return NextResponse.json({
     clinicId,
@@ -49,8 +50,10 @@ export async function GET(request: Request) {
     city: clinic.city,
     state: location.stateAbbr,
     cityUrl: `/locations/${location.stateSlug}/${location.citySlug}`,
-    eligible: !availability.soldOut && !alreadyFeatured,
-    alreadyFeatured,
+    eligible: !availability.soldOut && !hasActivePlan,
+    claimEligible: !hasActivePlan,
+    hasActivePlan,
+    activePlan: hasActivePlan ? existing?.plan ?? null : null,
     taken: availability.taken,
     total: availability.total,
     soldOut: availability.soldOut,

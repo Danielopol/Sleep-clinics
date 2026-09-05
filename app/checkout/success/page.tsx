@@ -1,6 +1,6 @@
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
-import { CheckCircle2, Clock, Mail } from "lucide-react"
+import { BadgeCheck, CheckCircle2, Clock, Mail } from "lucide-react"
 import Link from "next/link"
 import { Metadata } from "next"
 import { getStripeClient } from "@/lib/stripe"
@@ -20,6 +20,7 @@ interface SessionSummary {
   amountCents: number | null
   email: string | null
   paid: boolean
+  newClinic: boolean
 }
 
 async function loadSession(sessionId: string | undefined): Promise<SessionSummary | null> {
@@ -37,6 +38,7 @@ async function loadSession(sessionId: string | undefined): Promise<SessionSummar
       // This page is confirmation only. The listing itself is granted by the
       // Stripe webhook, never by anything the browser reports here.
       paid: session.payment_status === "paid" || session.payment_status === "no_payment_required",
+      newClinic: session.metadata?.newClinic === "yes",
     }
   } catch (error) {
     console.error("Could not load the checkout session:", error)
@@ -51,7 +53,9 @@ export default async function CheckoutSuccessPage({
 }) {
   const { session_id } = await searchParams
   const summary = await loadSession(session_id)
+  const isSubscription = summary?.kind === "featured-city" || summary?.kind === "claim-verified"
   const isFeatured = summary?.kind === "featured-city"
+  const isNewClinic = summary?.newClinic
 
   return (
     <div className="min-h-screen">
@@ -87,7 +91,16 @@ export default async function CheckoutSuccessPage({
                   that email is how you manage or cancel the plan.
                 </span>
               </li>
-              {isFeatured ? (
+              {isNewClinic ? (
+                <li className="flex items-start gap-3">
+                  <Clock className="w-5 h-5 text-[var(--healing-teal)] mt-0.5 shrink-0" />
+                  <span className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
+                    We are adding your clinic to the directory now. Your page, and everything else
+                    in your plan, goes live within 48 hours on business days, and we email you the
+                    link. If we cannot verify and publish your clinic, we refund you in full.
+                  </span>
+                </li>
+              ) : isFeatured ? (
                 <li className="flex items-start gap-3">
                   <Clock className="w-5 h-5 text-[var(--healing-teal)] mt-0.5 shrink-0" />
                   <span className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
@@ -102,6 +115,17 @@ export default async function CheckoutSuccessPage({
                     A person reviews your submission and publishes your page within 48 hours on
                     business days. We email you the link when it is live. If we cannot verify and
                     publish your clinic, we refund you in full.
+                  </span>
+                </li>
+              )}
+
+              {isSubscription && (
+                <li className="flex items-start gap-3">
+                  <BadgeCheck className="w-5 h-5 text-[var(--healing-teal)] mt-0.5 shrink-0" />
+                  <span className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
+                    Next we confirm you represent the clinic, so we can add the "Verified" badge.
+                    We may email you to check. That usually takes under 48 hours on business days,
+                    and we refund you in full if we cannot verify it.
                   </span>
                 </li>
               )}

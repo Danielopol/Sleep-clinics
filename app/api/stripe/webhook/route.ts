@@ -5,19 +5,22 @@ import { getStripeClient } from "@/lib/stripe"
 import {
   markSubmissionPaid,
   submissionRef,
-  activateFeatured,
-  setFeaturedStatusBySubscription,
-  getFeaturedBySubscription,
+  activateSubscription,
+  setSubscriptionStatus,
+  getSubscriptionByStripeId,
+  getSubscriptionByStripeSession,
   claimStripeEvent,
   releaseStripeEvent,
-  invalidateFeaturedCache,
+  invalidateListingCaches,
+  type PendingClinic,
 } from "@/lib/listings"
 import {
   notifyPriorityAddPaid,
-  notifyFeaturedActivated,
-  notifyFeaturedEnded,
+  notifySubscriptionActivated,
+  notifySubscriptionEnded,
 } from "@/lib/notifications"
 import { isStoreConfigured } from "@/lib/supabase"
+import { isSubscriptionPlanId, getPlan } from "@/lib/pricing"
 
 /**
  * Stripe webhook: the only place a paid entitlement is granted.
@@ -45,7 +48,7 @@ function periodEnd(subscription: Stripe.Subscription): number | null {
 }
 
 function revalidateFeaturedPages(stateSlug?: string | null, citySlug?: string | null) {
-  invalidateFeaturedCache()
+  invalidateListingCaches()
   try {
     if (stateSlug && citySlug) revalidatePath(`/locations/${stateSlug}/${citySlug}`)
     if (stateSlug) revalidatePath(`/locations/${stateSlug}`)
@@ -89,12 +92,13 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session, stripe:
     return
   }
 
-  if (kind === "featured-city") {
-    const clinicId = Number(session.metadata?.clinicId)
-    if (!Number.isFinite(clinicId)) {
-      console.error("featured-city session without a clinic id:", session.id)
-      return
-    }
+  if (kind && isSubscriptionPlanId(kind)) {
+    // An empty clinicId means the clinic is not in the directory yet: the
+    // purchase is real, but nothing can render against it until the listing is
+    // created by hand and linked. The operator email says exactly that.
+    const rawClinicId = session.metadata?.clinicId
+    const clinicId = rawClinicId ? Number(rawClinicId) : null
+    const isNewClinic = session.metadata?.newClinic === "yes" || !clinicId
 
     const subscriptionId =
       typeof session.subscription === "string"
@@ -102,6 +106,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session, stripe:
         : session.subscription?.id ?? null
 
     let renewsAt: number | null = null
+    let pendingClinic: PendingClinic | null = null
     if (subscriptionId) {
       try {
         renewsAt = periodEnd(await stripe.subscriptions.retrieve(subscriptionId))
@@ -110,14 +115,23 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session, stripe:
       }
     }
 
+    // The full details of a new clinic live on the reserved row, not in Stripe
+    // metadata, which caps values at 500 characters.
+    if (isNewClinic) {
+      const reserved = await getSubscriptionByStripeSession(session.id)
+      pendingClinic = (reserved?.pending_clinic as PendingClinic | null) ?? null
+    }
+
     const contactEmail = session.customer_details?.email ?? session.customer_email ?? null
 
-    await activateFeatured({
-      clinicId,
+    await activateSubscription({
+      plan: kind,
+      clinicId: clinicId && Number.isFinite(clinicId) ? clinicId : null,
       clinicSlug: session.metadata?.clinicSlug || null,
       clinicName: session.metadata?.clinicName || null,
-      citySlug: session.metadata?.citySlug ?? "",
-      stateSlug: session.metadata?.stateSlug ?? "",
+      citySlug: session.metadata?.citySlug || null,
+      stateSlug: session.metadata?.stateSlug || null,
+      pendingClinic,
       sessionId: session.id,
       customerId: typeof session.customer === "string" ? session.customer : session.customer?.id ?? null,
       subscriptionId,
@@ -127,16 +141,19 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session, stripe:
 
     revalidateFeaturedPages(session.metadata?.stateSlug, session.metadata?.citySlug)
 
-    await notifyFeaturedActivated({
-      clinicId,
-      clinicName: session.metadata?.clinicName ?? `clinic ${clinicId}`,
+    await notifySubscriptionActivated({
+      plan: kind,
+      planName: getPlan(kind).name,
+      clinicId: clinicId && Number.isFinite(clinicId) ? clinicId : null,
+      clinicName: session.metadata?.clinicName ?? "unknown clinic",
       clinicSlug: session.metadata?.clinicSlug || null,
       citySlug: session.metadata?.citySlug ?? "",
       stateSlug: session.metadata?.stateSlug ?? "",
       amountCents: session.amount_total,
-      interval: null,
       contactEmail,
       subscriptionId,
+      isNewClinic,
+      pendingClinic,
       storedInDatabase: isStoreConfigured(),
     })
     return
@@ -146,7 +163,8 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session, stripe:
 }
 
 async function handleSubscriptionChange(subscription: Stripe.Subscription) {
-  if (subscription.metadata?.kind !== "featured-city") return
+  const kind = subscription.metadata?.kind
+  if (!kind || !isSubscriptionPlanId(kind)) return
 
   // `incomplete` and `paused` are transitional: a card that needs a second
   // step is not a cancellation, and treating it as one would email the
@@ -163,12 +181,13 @@ async function handleSubscriptionChange(subscription: Stripe.Subscription) {
 
   if (mapped === null) return
 
-  await setFeaturedStatusBySubscription(subscription.id, mapped, periodEnd(subscription))
+  await setSubscriptionStatus(subscription.id, mapped, periodEnd(subscription))
   revalidateFeaturedPages(subscription.metadata?.stateSlug, subscription.metadata?.citySlug)
 
   if (mapped !== "active") {
-    const record = await getFeaturedBySubscription(subscription.id)
-    await notifyFeaturedEnded({
+    const record = await getSubscriptionByStripeId(subscription.id)
+    await notifySubscriptionEnded({
+      planName: getPlan(kind).name,
       clinicName: record?.clinic_name ?? subscription.metadata?.clinicName ?? null,
       clinicId: record?.clinic_id ?? Number(subscription.metadata?.clinicId) ?? null,
       reason: mapped === "past_due" ? "past_due" : "canceled",

@@ -33,11 +33,29 @@ export interface Plan {
   cta: string
   /** Where the button goes. */
   href: string
-  /** Not yet self-serve: the CTA joins a waitlist instead of opening checkout. */
-  waitlist?: boolean
   highlight?: boolean
   footnote?: string
+  /**
+   * Recurring plans are Stripe subscriptions; the one-time add is a payment.
+   * Drives checkout mode and which lifecycle events matter.
+   */
+  subscription: boolean
+  /**
+   * Grants the "Verified" badge, but only after a human confirms the buyer
+   * actually represents the clinic. Paying never grants it on its own: see
+   * `verified_at` in lib/listings.ts.
+   */
+  grantsVerifiedBadge: boolean
+  /** Puts the clinic at the top of its city results, labeled as advertising. */
+  grantsFeaturedPlacement: boolean
 }
+
+/**
+ * Every plan covers adding the clinic to the directory when it is not listed
+ * yet, so a brand new clinic can buy any tier directly instead of buying the
+ * one-time add first and then upgrading.
+ */
+export const ALL_PLANS_INCLUDE_LISTING = true
 
 /** Maximum number of featured slots sold per city. Scarcity is the product. */
 export const FEATURED_SLOTS_PER_CITY = 3
@@ -60,17 +78,20 @@ export const PLANS: Plan[] = [
       "A live, indexable page for your clinic",
       "Services, hours, phone, and website included",
       '"Listed on US Sleep Clinics" badge for your own site',
-      "Verified against public records before it goes live",
+      "Checked against public records before it goes live",
       "Full refund if we cannot verify and publish your clinic",
     ],
     cta: "Add my clinic",
     href: "/submit",
     footnote: "One payment, no subscription. Refunded if we cannot publish you.",
+    subscription: false,
+    grantsVerifiedBadge: false,
+    grantsFeaturedPlacement: false,
   },
   {
     id: "claim-verified",
     name: "Claimed and Verified",
-    tagline: "For a clinic already listed that wants control of its page.",
+    tagline: "For a clinic that wants its page verified and kept current.",
     prices: [
       {
         interval: "year",
@@ -80,16 +101,19 @@ export const PLANS: Plan[] = [
       },
     ],
     features: [
-      "Verified badge on your listing",
-      "Edit hours, services, and description",
-      "Add photos of your clinic",
+      "Everything in Priority Listing Add, including adding your clinic if it is not listed yet",
+      '"Verified" badge once we confirm you represent the clinic',
+      "Hours, services, description, and photos kept current for you",
       "Direct link and call to action to your website",
-      "Email support for listing changes",
+      "Send changes any time, applied within one business day",
     ],
-    cta: "Join the waitlist",
+    cta: "Claim my listing",
     href: "/claim",
-    waitlist: true,
-    footnote: "Opening soon. Join the list and we will verify your clinic first.",
+    footnote:
+      "The Verified badge appears once we confirm you represent the clinic, usually within 48 hours.",
+    subscription: true,
+    grantsVerifiedBadge: true,
+    grantsFeaturedPlacement: false,
   },
   {
     id: "featured-city",
@@ -112,17 +136,28 @@ export const PLANS: Plan[] = [
       },
     ],
     features: [
+      "Everything in Claimed and Verified, including adding your clinic if it is not listed yet",
       `Top of your city and state results, limited to ${FEATURED_SLOTS_PER_CITY} clinics per city`,
       '"Featured" label on your card everywhere it appears',
-      "Everything in the Claimed and Verified plan",
       "Monthly report of views and clicks on your listing",
     ],
     cta: "Check my city",
     href: "/claim",
     highlight: true,
     footnote: "Featured placement is paid advertising and is labeled as such.",
+    subscription: true,
+    grantsVerifiedBadge: true,
+    grantsFeaturedPlacement: true,
   },
 ]
+
+/** The two recurring plans, which is what /claim sells. */
+export const SUBSCRIPTION_PLAN_IDS = ["claim-verified", "featured-city"] as const
+export type SubscriptionPlanId = (typeof SUBSCRIPTION_PLAN_IDS)[number]
+
+export function isSubscriptionPlanId(value: string): value is SubscriptionPlanId {
+  return (SUBSCRIPTION_PLAN_IDS as readonly string[]).includes(value)
+}
 
 export function getPlan(id: PlanId): Plan {
   const plan = PLANS.find((p) => p.id === id)

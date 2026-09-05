@@ -41,6 +41,10 @@ export default function PricingPage() {
             Thousands of patients use US Sleep Clinics to find sleep care near them. Take control
             of how your clinic appears to them.
           </p>
+          <p className="text-slate-300 mt-5">
+            Not in the directory yet? Every plan below includes adding your clinic, at no extra
+            charge.
+          </p>
           <p className="text-sm text-slate-400 mt-4">
             Already listed and just want the free website badge?{" "}
             <Link href="/badge" className="text-[var(--healing-teal)] hover:underline">

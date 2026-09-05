@@ -5,9 +5,10 @@ import { getPlan, getPlanPrice, formatPrice, FEATURED_SLOTS_PER_CITY } from "@/l
 import {
   saveSubmission,
   submissionRef,
-  reserveFeaturedSlot,
+  reserveSubscriptionSlot,
   getCitySlotAvailability,
-  getFeaturedForClinic,
+  getSubscriptionForClinic,
+  type PendingClinic,
 } from "@/lib/listings"
 import { getClinicById } from "@/lib/clinics"
 import { getClinicLocationSlugs } from "@/lib/locations"
@@ -33,14 +34,37 @@ const priorityAddSchema = z.object({
   description: z.string().trim().max(3000).optional().or(z.literal("")),
 })
 
-const featuredSchema = z.object({
-  kind: z.literal("featured-city"),
-  clinicId: z.number().int().positive(),
-  interval: z.enum(["month", "year"]),
-  contactEmail: z.string().trim().email().max(200).optional().or(z.literal("")),
+/** A clinic that is not in the directory yet, bought alongside a subscription. */
+const newClinicSchema = z.object({
+  clinicName: z.string().trim().min(2).max(200),
+  address: z.string().trim().min(3).max(300),
+  city: z.string().trim().min(1).max(100),
+  state: z.string().trim().min(2).max(100),
+  zip: z.string().trim().min(3).max(15),
+  phone: z.string().trim().min(7).max(40),
+  specialty: z.string().trim().min(1).max(100),
+  website: z.string().trim().max(300).optional().or(z.literal("")),
+  description: z.string().trim().max(3000).optional().or(z.literal("")),
 })
 
-const bodySchema = z.discriminatedUnion("kind", [priorityAddSchema, featuredSchema])
+// Both recurring plans take the same shape: an existing clinic id, or the
+// details of a clinic we have not listed yet. Exactly one is required, checked
+// after parsing since a discriminated union cannot carry a refinement.
+const subscriptionFields = {
+  interval: z.enum(["month", "year"]),
+  clinicId: z.number().int().positive().optional().nullable(),
+  newClinic: newClinicSchema.optional().nullable(),
+  contactEmail: z.string().trim().email().max(200).optional().or(z.literal("")),
+}
+
+const claimSchema = z.object({ kind: z.literal("claim-verified"), ...subscriptionFields })
+const featuredSchema = z.object({ kind: z.literal("featured-city"), ...subscriptionFields })
+
+const bodySchema = z.discriminatedUnion("kind", [
+  priorityAddSchema,
+  claimSchema,
+  featuredSchema,
+])
 
 export async function POST(request: Request) {
   let parsed: z.infer<typeof bodySchema>
@@ -125,50 +149,121 @@ export async function POST(request: Request) {
       return NextResponse.json({ url: session.url })
     }
 
-    // --- featured-city ---
-    const clinic = getClinicById(parsed.clinicId)
-    if (!clinic) {
-      return NextResponse.json({ error: "We could not find that clinic." }, { status: 404 })
-    }
+    // --- recurring plans: claim-verified and featured-city ---
+    const planId = parsed.kind
+    const plan = getPlan(planId)
 
-    const location = getClinicLocationSlugs(clinic)
-    if (!location) {
+    // Claimed and Verified is annual only; ignore a monthly interval sent for it
+    // rather than throwing on a price that does not exist.
+    const interval = plan.prices.some((p) => p.interval === parsed.interval)
+      ? parsed.interval
+      : plan.prices[0].interval
+
+    if (!parsed.clinicId && !parsed.newClinic) {
       return NextResponse.json(
-        { error: "This listing has no city page yet, so it cannot be featured. Please contact us." },
-        { status: 409 }
+        { error: "Select your clinic, or send us its details if it is not listed yet." },
+        { status: 400 }
       )
     }
 
-    const existing = await getFeaturedForClinic(clinic.id)
-    if (existing && (existing.status === "active" || existing.status === "past_due")) {
-      return NextResponse.json(
-        { error: "This clinic already has a featured placement." },
-        { status: 409 }
-      )
+    // Resolve the clinic, whether it already exists or is being added with this
+    // purchase. Both paths must end up with a city so the cap can be enforced.
+    let clinicId: number | null = null
+    let clinicSlug: string | null = null
+    let clinicName: string
+    let cityName: string
+    let stateAbbr: string
+    let citySlug: string | null = null
+    let stateSlug: string | null = null
+    let pendingClinic: PendingClinic | null = null
+
+    if (parsed.clinicId) {
+      const clinic = getClinicById(parsed.clinicId)
+      if (!clinic) {
+        return NextResponse.json({ error: "We could not find that clinic." }, { status: 404 })
+      }
+
+      const location = getClinicLocationSlugs(clinic)
+      if (!location) {
+        return NextResponse.json(
+          { error: "This listing has no city page yet. Please contact us and we will sort it out." },
+          { status: 409 }
+        )
+      }
+
+      const existing = await getSubscriptionForClinic(clinic.id)
+      if (existing && (existing.status === "active" || existing.status === "past_due")) {
+        return NextResponse.json(
+          { error: "This clinic already has an active plan. Contact us to change it." },
+          { status: 409 }
+        )
+      }
+
+      clinicId = clinic.id
+      clinicSlug = clinic.slug ?? null
+      clinicName = clinic.name
+      cityName = clinic.city
+      stateAbbr = location.stateAbbr
+      citySlug = location.citySlug
+      stateSlug = location.stateSlug
+    } else {
+      const details = parsed.newClinic!
+      const location = getClinicLocationSlugs({ city: details.city, state: details.state })
+      if (!location) {
+        return NextResponse.json(
+          { error: "That does not look like a US city and state. Please check and try again." },
+          { status: 400 }
+        )
+      }
+
+      clinicName = details.clinicName
+      cityName = details.city
+      stateAbbr = location.stateAbbr
+      citySlug = location.citySlug
+      stateSlug = location.stateSlug
+      pendingClinic = {
+        clinicName: details.clinicName,
+        address: details.address,
+        city: details.city,
+        state: details.state,
+        zip: details.zip,
+        phone: details.phone,
+        specialty: details.specialty,
+        website: details.website || undefined,
+        description: details.description || undefined,
+      }
     }
 
-    const availability = await getCitySlotAvailability(location.stateSlug, location.citySlug)
-    if (availability.soldOut) {
-      return NextResponse.json(
-        {
-          error: `All ${FEATURED_SLOTS_PER_CITY} featured slots in ${clinic.city} are taken. Contact us to join the waitlist for the next opening.`,
-        },
-        { status: 409 }
-      )
+    // Only the featured plan consumes one of a city's limited slots.
+    if (plan.grantsFeaturedPlacement) {
+      const availability = await getCitySlotAvailability(stateSlug!, citySlug!)
+      if (availability.soldOut) {
+        return NextResponse.json(
+          {
+            error: `All ${FEATURED_SLOTS_PER_CITY} featured slots in ${cityName} are taken. Join the waitlist and we will contact you when one opens.`,
+            soldOut: true,
+          },
+          { status: 409 }
+        )
+      }
     }
 
-    const plan = getPlan("featured-city")
-    const price = getPlanPrice("featured-city", parsed.interval)
+    const price = getPlanPrice(planId, interval)
     const priceId = process.env[price.priceIdEnv]
 
     const metadata: Record<string, string> = {
-      kind: "featured-city",
-      clinicId: String(clinic.id),
-      clinicSlug: clinic.slug ?? "",
-      clinicName: clinic.name.slice(0, 200),
-      citySlug: location.citySlug,
-      stateSlug: location.stateSlug,
+      kind: planId,
+      clinicId: clinicId != null ? String(clinicId) : "",
+      clinicSlug: clinicSlug ?? "",
+      clinicName: clinicName.slice(0, 200),
+      citySlug: citySlug ?? "",
+      stateSlug: stateSlug ?? "",
+      newClinic: pendingClinic ? "yes" : "no",
     }
+
+    const productDescription = plan.grantsFeaturedPlacement
+      ? `Featured placement for ${clinicName} on US Sleep Clinics, ${formatPrice(price.amountCents)} ${price.label}.`
+      : `Claimed and verified listing for ${clinicName} on US Sleep Clinics, ${formatPrice(price.amountCents)} ${price.label}.`
 
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
@@ -180,16 +275,18 @@ export async function POST(request: Request) {
               price_data: {
                 currency: "usd",
                 unit_amount: price.amountCents,
-                recurring: { interval: parsed.interval },
+                recurring: { interval: interval as "month" | "year" },
                 product_data: {
-                  name: `${plan.name}: ${clinic.city}, ${location.stateAbbr}`,
-                  description: `Featured placement for ${clinic.name} on US Sleep Clinics, ${formatPrice(price.amountCents)} ${price.label}.`,
+                  name: plan.grantsFeaturedPlacement
+                    ? `${plan.name}: ${cityName}, ${stateAbbr}`
+                    : plan.name,
+                  description: productDescription,
                 },
               },
             },
       ],
       customer_email: parsed.contactEmail || undefined,
-      client_reference_id: String(clinic.id),
+      client_reference_id: clinicId != null ? String(clinicId) : undefined,
       allow_promotion_codes: true,
       billing_address_collection: "required",
       metadata,
@@ -197,15 +294,17 @@ export async function POST(request: Request) {
       // traced back to a clinic without a database lookup.
       subscription_data: { metadata },
       success_url: `${baseUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${baseUrl}/claim?clinic=${clinic.id}&canceled=1`,
+      cancel_url: `${baseUrl}/claim?${clinicId != null ? `clinic=${clinicId}&` : ""}canceled=1`,
     })
 
-    await reserveFeaturedSlot({
-      clinicId: clinic.id,
-      clinicSlug: clinic.slug,
-      clinicName: clinic.name,
-      citySlug: location.citySlug,
-      stateSlug: location.stateSlug,
+    await reserveSubscriptionSlot({
+      plan: planId,
+      clinicId,
+      clinicSlug,
+      clinicName,
+      citySlug,
+      stateSlug,
+      pendingClinic,
       sessionId: session.id,
       contactEmail: parsed.contactEmail || null,
     })

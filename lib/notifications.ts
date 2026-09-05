@@ -156,16 +156,29 @@ export async function notifyPriorityAddPaid(params: {
   }
 }
 
-export async function notifyFeaturedActivated(params: {
-  clinicId: number
+export async function notifySubscriptionActivated(params: {
+  plan: "claim-verified" | "featured-city"
+  planName: string
+  clinicId: number | null
   clinicName: string
   clinicSlug: string | null
   citySlug: string
   stateSlug: string
   amountCents: number | null
-  interval: string | null
   contactEmail: string | null
   subscriptionId: string | null
+  isNewClinic: boolean
+  pendingClinic: {
+    clinicName: string
+    address: string
+    city: string
+    state: string
+    zip: string
+    phone: string
+    specialty: string
+    website?: string
+    description?: string
+  } | null
   storedInDatabase: boolean
 }) {
   const listingUrl = params.clinicSlug
@@ -173,44 +186,85 @@ export async function notifyFeaturedActivated(params: {
     : null
   const cityUrl = `https://www.ussleepclinics.com/locations/${params.stateSlug}/${params.citySlug}`
 
-  // Without a database the placement was charged but nothing was flagged, so
-  // the clinic paid for something that will not appear. Say so at the top of
-  // the email, with the exact fix.
-  const manualActionBanner = params.storedInDatabase
-    ? ""
-    : `<p style="padding:12px;border:2px solid #b91c1c;color:#b91c1c;font-weight:bold">
-         MANUAL ACTION REQUIRED: no database is configured, so this placement was
-         NOT flagged. The clinic has paid and is not featured. Add
-         ${escapeHtml(String(params.clinicId))} to FEATURED_CLINIC_IDS and redeploy,
-         then finish the Supabase setup in docs/PAID-LISTINGS.md.
-       </p>`
+  // Everything this order still needs a human to do, spelled out at the top so
+  // it cannot be missed. A paid order that silently does nothing is the worst
+  // failure mode here.
+  const todo: string[] = []
+  if (!params.storedInDatabase) {
+    todo.push(
+      `No database is configured, so nothing was flagged. Add ${escapeHtml(
+        String(params.clinicId ?? "the clinic id")
+      )} to FEATURED_CLINIC_IDS and redeploy, then finish the Supabase setup in docs/PAID-LISTINGS.md.`
+    )
+  }
+  if (params.isNewClinic) {
+    todo.push(
+      "This clinic is NOT in the directory yet. Add it to the Excel file, run the geocode and generate-data scripts, deploy, then link the new clinic id onto this subscription row (see docs/PAID-LISTINGS.md)."
+    )
+  }
+  todo.push(
+    "Confirm this buyer actually represents the clinic, then grant the Verified badge. Paying does not grant it."
+  )
+
+  const todoBlock = `<div style="padding:12px;border:2px solid #b91c1c;color:#b91c1c">
+      <strong>Before this order is finished:</strong>
+      <ol>${todo.map((t) => `<li>${t}</li>`).join("")}</ol>
+    </div>`
+
+  const pending = params.pendingClinic
+  const pendingBlock = pending
+    ? `<h3>Clinic details to add</h3>
+       <p><strong>Name:</strong> ${escapeHtml(pending.clinicName)}</p>
+       <p><strong>Address:</strong> ${escapeHtml(pending.address)}</p>
+       <p><strong>City:</strong> ${escapeHtml(pending.city)}</p>
+       <p><strong>State:</strong> ${escapeHtml(pending.state)}</p>
+       <p><strong>ZIP:</strong> ${escapeHtml(pending.zip)}</p>
+       <p><strong>Phone:</strong> ${escapeHtml(pending.phone)}</p>
+       <p><strong>Specialty:</strong> ${escapeHtml(pending.specialty)}</p>
+       ${pending.website ? `<p><strong>Website:</strong> ${escapeHtml(pending.website)}</p>` : ""}
+       ${pending.description ? `<p><strong>Description:</strong><br>${escapeHtmlMultiline(pending.description)}</p>` : ""}`
+    : ""
+
+  const label = params.isNewClinic ? "NEW CLINIC" : "PAID"
 
   await send({
     to: operatorAddress(),
-    subject: `${params.storedInDatabase ? "FEATURED activated" : "FEATURED PAID BUT NOT LIVE"}: ${params.clinicName}`,
+    subject: `${label} ${params.planName}: ${params.clinicName}`,
     ...(params.contactEmail ? { replyTo: params.contactEmail } : {}),
     html: `
-      ${manualActionBanner}
-      <h2>Featured placement activated</h2>
-      <p><strong>Clinic:</strong> ${escapeHtml(params.clinicName)} (id ${escapeHtml(String(params.clinicId))})</p>
-      <p><strong>City page:</strong> <a href="${escapeHtml(cityUrl)}">${escapeHtml(cityUrl)}</a></p>
+      ${todoBlock}
+      <h2>${escapeHtml(params.planName)} activated</h2>
+      <p><strong>Clinic:</strong> ${escapeHtml(params.clinicName)} (id ${escapeHtml(String(params.clinicId ?? "not listed yet"))})</p>
+      ${params.citySlug ? `<p><strong>City page:</strong> <a href="${escapeHtml(cityUrl)}">${escapeHtml(cityUrl)}</a></p>` : ""}
       ${listingUrl ? `<p><strong>Listing:</strong> <a href="${escapeHtml(listingUrl)}">${escapeHtml(listingUrl)}</a></p>` : ""}
-      <p><strong>Plan:</strong> ${params.amountCents != null ? escapeHtml(formatPrice(params.amountCents)) : "see Stripe"} ${escapeHtml(params.interval ?? "")}</p>
+      <p><strong>Amount:</strong> ${params.amountCents != null ? escapeHtml(formatPrice(params.amountCents)) : "see Stripe"}</p>
       <p><strong>Contact:</strong> ${escapeHtml(params.contactEmail ?? "not provided")}</p>
       <p><strong>Subscription:</strong> ${escapeHtml(params.subscriptionId ?? "n/a")}</p>
+      ${pendingBlock}
     `,
   })
 
-  // Only tell the customer it is live once it actually is.
   if (params.contactEmail && canEmailCustomers() && params.storedInDatabase) {
+    const featuredLive = params.plan === "featured-city" && !params.isNewClinic
     await send({
       to: params.contactEmail,
-      subject: `${params.clinicName} is now featured in ${params.citySlug.replace(/-/g, " ")}`,
+      subject: `We have your ${params.planName} plan for ${params.clinicName}`,
       html: `
-        <h2>Your featured placement is live</h2>
-        <p><strong>${escapeHtml(params.clinicName)}</strong> now appears at the top of its
-        city and state results, labeled as featured.</p>
-        <p>See it here: <a href="${escapeHtml(cityUrl)}">${escapeHtml(cityUrl)}</a></p>
+        <h2>Thank you, your plan is active</h2>
+        ${featuredLive
+          ? `<p><strong>${escapeHtml(params.clinicName)}</strong> now appears at the top of its
+             city and state results, labeled as featured.
+             <a href="${escapeHtml(cityUrl)}">See it here</a>.</p>`
+          : params.isNewClinic
+            ? `<p>We are adding <strong>${escapeHtml(params.clinicName)}</strong> to the directory
+               now. Your page goes live within 48 hours on business days and we will email
+               you the link.</p>`
+            : `<p>Your plan for <strong>${escapeHtml(params.clinicName)}</strong> is active.</p>`}
+        <p>Next, we confirm you represent the clinic so we can add the Verified badge.
+        We may reply to this email to check. That usually takes under 48 hours on
+        business days, and we refund you in full if we cannot verify it.</p>
+        <p>Send us any changes to your hours, services, description, or photos and we
+        apply them within one business day.</p>
         <p>Manage or cancel your plan any time from the billing portal link in your
         Stripe receipt, or reply to this email and we will handle it.</p>
       `,
@@ -218,7 +272,8 @@ export async function notifyFeaturedActivated(params: {
   }
 }
 
-export async function notifyFeaturedEnded(params: {
+export async function notifySubscriptionEnded(params: {
+  planName: string
   clinicName: string | null
   clinicId: number | null
   reason: "canceled" | "past_due"
@@ -227,15 +282,15 @@ export async function notifyFeaturedEnded(params: {
 }) {
   await send({
     to: operatorAddress(),
-    subject: `Featured ${params.reason}: ${params.clinicName ?? params.subscriptionId}`,
+    subject: `${params.planName} ${params.reason}: ${params.clinicName ?? params.subscriptionId}`,
     html: `
-      <h2>Featured placement ${escapeHtml(params.reason)}</h2>
+      <h2>${escapeHtml(params.planName)} ${escapeHtml(params.reason)}</h2>
       <p><strong>Clinic:</strong> ${escapeHtml(params.clinicName ?? "unknown")} (id ${escapeHtml(String(params.clinicId ?? "unknown"))})</p>
       <p><strong>Contact:</strong> ${escapeHtml(params.contactEmail ?? "not provided")}</p>
       <p><strong>Subscription:</strong> ${escapeHtml(params.subscriptionId)}</p>
       <p>${params.reason === "past_due"
-        ? "Payment failed. The placement stays live through Stripe's retry window."
-        : "The placement has been removed and the city slot is free again."}</p>
+        ? "Payment failed. The plan stays live through Stripe's retry window."
+        : "The plan has ended. Any featured placement is removed and the city slot is free again."}</p>
     `,
   })
 }

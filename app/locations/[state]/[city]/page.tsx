@@ -3,7 +3,7 @@ import { Footer } from "@/components/footer"
 import { ClinicCard } from "@/components/clinic-card"
 import { JsonLd } from "@/components/json-ld"
 import { getCityData, getTopCityParams, humanList } from "@/lib/locations"
-import { getFeaturedClinicIds } from "@/lib/listings"
+import { getListingBadges } from "@/lib/listings"
 import { ChevronRight } from "lucide-react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
@@ -60,11 +60,14 @@ export default async function CityPage({
 
   // Paid featured placements go to the top of the list, in the order the data
   // already had them. The rest of the page is untouched, so a city with no
-  // featured clinic renders exactly as before.
-  const featuredIds = await getFeaturedClinicIds()
-  const clinics = data.clinics.map((c) =>
-    featuredIds.has(c.id) ? { ...c, featured: true } : c
-  )
+  // featured clinic renders exactly as before. The verified badge does not
+  // affect ordering: it is a fact about the listing, not an ad slot.
+  const badges = await getListingBadges()
+  const clinics = data.clinics.map((c) => {
+    const featured = badges.featured.has(c.id)
+    const verified = badges.verified.has(c.id)
+    return featured || verified ? { ...c, ...(featured && { featured }), ...(verified && { verified }) } : c
+  })
   const hasFeatured = clinics.some((c) => c.featured)
   const orderedClinics = hasFeatured
     ? [...clinics].sort((a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured)))
