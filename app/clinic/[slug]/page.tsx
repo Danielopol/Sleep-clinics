@@ -7,6 +7,8 @@ import { getClinicBySlug, getClinicById, getClinicsData, formatOpeningHours } fr
 import { notFound, permanentRedirect } from "next/navigation"
 import { BackLink } from "@/components/back-link"
 import { ClinicRelatedLinks } from "@/components/clinic-related-links"
+import { HealSendSponsoredCard } from "@/components/healsend-sponsored-card"
+import { isEligibleForHealSend } from "@/lib/affiliates"
 import { Metadata } from "next"
 import { JsonLd } from "@/components/json-ld"
 import { OG_IMAGE } from "@/lib/og-image"
@@ -280,6 +282,14 @@ export default async function ClinicDetailPage({
           )}
         </div>
       </section>
+
+      {/* Below the hero, never inside it: this stays visually separate from
+          the clinic's own name/branding so it never reads as the clinic's
+          own content. Only shown for clinics whose specialties actually
+          include sleep apnea. */}
+      {isEligibleForHealSend(clinic) && (
+        <HealSendSponsoredCard page={`/clinic/${clinic.slug}`} />
+      )}
 
       {/* Content Section with new card */}
       <section className="py-12">
