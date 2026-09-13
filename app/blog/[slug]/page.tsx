@@ -9,6 +9,7 @@ import { notFound } from "next/navigation"
 import { BlogCard } from "@/components/blog-card"
 import { JsonLd } from "@/components/json-ld"
 import { HealSendSponsoredPostCard } from "@/components/healsend-sponsored-post-card"
+import { isBlogPostEligibleForHealSend } from "@/lib/affiliates"
 import { Cormorant_Garamond, DM_Sans } from 'next/font/google'
 
 const cormorant = Cormorant_Garamond({
@@ -233,7 +234,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
 
-            {slug === "sleep-and-weight-gain-appetite-hormones" && (
+            {isBlogPostEligibleForHealSend(slug) && (
               <HealSendSponsoredPostCard page={`/blog/${slug}`} />
             )}
 
