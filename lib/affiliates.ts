@@ -18,6 +18,11 @@ export const AFFILIATE_PROGRAMS = {
     partner: "CPAP.com",
     trackingUrl: "https://prf.hn/l/ngkLeWe/",
   },
+  sleepingcom: {
+    id: "sleepingcom",
+    partner: "Sleeping.com",
+    trackingUrl: "https://prf.hn/l/4PLJdZe/",
+  },
 } as const satisfies Record<string, AffiliateProgram>
 
 /**
@@ -73,13 +78,36 @@ export function isBlogPostEligibleForHealSend(slug: string): boolean {
  * treatment" while covering an unrelated core topic (a disease-connection
  * article, a DOT screening explainer, a clinic-choosing checklist), and
  * those are excluded even though they technically reference it.
+ *
+ * oral-appliance-therapy-vs-cpap-comparison was originally in this set too,
+ * but moved to SLEEPINGCOM_ELIGIBLE_BLOG_SLUGS below once Sleeping.com's own
+ * catalog turned out to carry the myTAP oral appliance specifically, a more
+ * precise match than CPAP.com's general machines and supplies for a post
+ * that is literally about the oral-appliance alternative to CPAP.
  */
 const CPAPCOM_ELIGIBLE_BLOG_SLUGS = new Set([
   "cpap-alternatives-sleep-apnea-treatments-2026",
-  "oral-appliance-therapy-vs-cpap-comparison",
   "complex-treatment-emergent-sleep-apnea",
 ])
 
 export function isBlogPostEligibleForCpapCom(slug: string): boolean {
   return CPAPCOM_ELIGIBLE_BLOG_SLUGS.has(slug)
+}
+
+/**
+ * Blog posts where the Sleeping.com placement is a genuine topical fit.
+ *
+ * Sleeping.com's own product images and alt text (AirSense 10 filters, CPAP
+ * hoses and cleaning supplies, and specifically the myTAP oral appliance)
+ * show it sells the same CPAP-equipment category as CPAP.com, so this is not
+ * a separate content bucket: it is scoped to the one post where its more
+ * specific product (an actual oral appliance) beats CPAP.com's general
+ * equipment as the match.
+ */
+const SLEEPINGCOM_ELIGIBLE_BLOG_SLUGS = new Set([
+  "oral-appliance-therapy-vs-cpap-comparison",
+])
+
+export function isBlogPostEligibleForSleepingCom(slug: string): boolean {
+  return SLEEPINGCOM_ELIGIBLE_BLOG_SLUGS.has(slug)
 }
