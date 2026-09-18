@@ -13,6 +13,11 @@ export const AFFILIATE_PROGRAMS = {
     partner: "HealSend",
     trackingUrl: "https://tidd.ly/46YuqKM",
   },
+  cpapcom: {
+    id: "cpapcom",
+    partner: "CPAP.com",
+    trackingUrl: "https://prf.hn/l/ngkLeWe/",
+  },
 } as const satisfies Record<string, AffiliateProgram>
 
 /**
@@ -30,16 +35,21 @@ export const AFFILIATE_PROGRAMS = {
  * tag (insurance coverage, test-type comparisons, choosing a clinic,
  * telemedicine logistics) without the post actually being about the
  * condition, and those are excluded here even though the tag matches.
+ *
+ * cpap-alternatives-sleep-apnea-treatments-2026 and
+ * oral-appliance-therapy-vs-cpap-comparison were originally in this set too,
+ * but moved to CPAPCOM_ELIGIBLE_BLOG_SLUGS below: a post specifically
+ * comparing CPAP treatment options is a more precise match for CPAP
+ * equipment than for a weight-loss program, and showing one clearly relevant
+ * offer per page beats stacking two on the same post.
  */
 const HEALSEND_ELIGIBLE_BLOG_SLUGS = new Set([
   "sleep-and-weight-gain-appetite-hormones",
   "can-sleep-apnea-cause-anxiety-depression",
   "central-vs-obstructive-sleep-apnea",
-  "cpap-alternatives-sleep-apnea-treatments-2026",
   "insomnia-vs-sleep-apnea-difference",
   "is-snoring-hereditary-genetics-family-risk",
   "morning-headaches-sleep-apnea",
-  "oral-appliance-therapy-vs-cpap-comparison",
   "sleep-apnea-car-accidents-drowsy-driving",
   "sleep-apnea-commercial-driving-dot-requirements",
   "sleep-apnea-heart-disease-connection",
@@ -53,4 +63,23 @@ const HEALSEND_ELIGIBLE_BLOG_SLUGS = new Set([
 
 export function isBlogPostEligibleForHealSend(slug: string): boolean {
   return HEALSEND_ELIGIBLE_BLOG_SLUGS.has(slug)
+}
+
+/**
+ * Blog posts where the CPAP.com placement is a genuine topical fit.
+ *
+ * Chosen by how much of the post is actually about CPAP therapy, not by
+ * keyword presence: many posts mention CPAP once as "the standard
+ * treatment" while covering an unrelated core topic (a disease-connection
+ * article, a DOT screening explainer, a clinic-choosing checklist), and
+ * those are excluded even though they technically reference it.
+ */
+const CPAPCOM_ELIGIBLE_BLOG_SLUGS = new Set([
+  "cpap-alternatives-sleep-apnea-treatments-2026",
+  "oral-appliance-therapy-vs-cpap-comparison",
+  "complex-treatment-emergent-sleep-apnea",
+])
+
+export function isBlogPostEligibleForCpapCom(slug: string): boolean {
+  return CPAPCOM_ELIGIBLE_BLOG_SLUGS.has(slug)
 }

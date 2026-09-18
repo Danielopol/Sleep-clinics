@@ -9,7 +9,8 @@ import { notFound } from "next/navigation"
 import { BlogCard } from "@/components/blog-card"
 import { JsonLd } from "@/components/json-ld"
 import { HealSendSponsoredPostCard } from "@/components/healsend-sponsored-post-card"
-import { isBlogPostEligibleForHealSend } from "@/lib/affiliates"
+import { CpapComSponsoredPostCard } from "@/components/cpapcom-sponsored-post-card"
+import { isBlogPostEligibleForHealSend, isBlogPostEligibleForCpapCom } from "@/lib/affiliates"
 import { Cormorant_Garamond, DM_Sans } from 'next/font/google'
 
 const cormorant = Cormorant_Garamond({
@@ -236,6 +237,13 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
             {isBlogPostEligibleForHealSend(slug) && (
               <HealSendSponsoredPostCard page={`/blog/${slug}`} />
+            )}
+
+            {/* Mutually exclusive with HealSend by construction: the two
+                eligibility sets in lib/affiliates.ts do not overlap, so a
+                post never shows both cards. */}
+            {isBlogPostEligibleForCpapCom(slug) && (
+              <CpapComSponsoredPostCard page={`/blog/${slug}`} />
             )}
 
             {/* Author card at bottom */}
