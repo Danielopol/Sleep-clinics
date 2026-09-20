@@ -88,6 +88,12 @@ export function isBlogPostEligibleForHealSend(slug: string): boolean {
 const CPAPCOM_ELIGIBLE_BLOG_SLUGS = new Set([
   "cpap-alternatives-sleep-apnea-treatments-2026",
   "complex-treatment-emergent-sleep-apnea",
+  // A machine buying guide priced entirely off CPAP.com's own listings, so
+  // the card is the offer the post was written against, not an afterthought.
+  // The post carries its own disclosure above the fold as well, because the
+  // card's disclosure sits below the article and FTC guidance wants it near
+  // the claim it qualifies.
+  "best-cpap-machines-2026",
 ])
 
 export function isBlogPostEligibleForCpapCom(slug: string): boolean {
