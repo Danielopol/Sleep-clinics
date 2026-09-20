@@ -14,6 +14,15 @@ const nextConfig = {
         destination: 'https://www.ussleepclinics.com/:path*',
         permanent: true,
       },
+      // /clinics never existed as a route, but two published blog posts linked
+      // to it for months, so it is a URL Google has already crawled and 404'd.
+      // The directory itself is the homepage. The posts now link to / directly;
+      // this covers the copies of those links already out in the world.
+      {
+        source: '/clinics',
+        destination: '/',
+        permanent: true,
+      },
     ]
   },
   async rewrites() {

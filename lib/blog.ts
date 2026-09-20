@@ -2,6 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 import { remark } from 'remark'
+import gfm from 'remark-gfm'
 import html from 'remark-html'
 
 // Directory where blog posts are stored
@@ -114,8 +115,11 @@ export async function getPostWithContent(slug: string): Promise<BlogPostWithCont
     const fileContents = fs.readFileSync(fullPath, 'utf8')
     const { data, content } = matter(fileContents)
 
-    // Process markdown to HTML
+    // Process markdown to HTML. remark on its own is CommonMark only, which
+    // silently renders a GFM table as a paragraph of pipe characters, so posts
+    // that use tables need remark-gfm in the pipeline before remark-html.
     const processedContent = await remark()
+      .use(gfm)
       .use(html)
       .process(content)
     const contentHtml = processedContent.toString()

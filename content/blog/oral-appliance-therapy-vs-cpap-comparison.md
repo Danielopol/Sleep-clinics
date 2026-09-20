@@ -330,4 +330,4 @@ CPAP and oral appliances are both legitimate, evidence-based treatments for obst
 
 The worst choice is no treatment at all. Untreated sleep apnea damages your heart, brain, and metabolism night after night. Whether you achieve control through pressurized air or jaw repositioning matters far less than achieving control.
 
-**Ready to explore your options?** [Find an accredited sleep clinic](/clinics) to discuss whether CPAP, oral appliance therapy, or a combination approach is right for you. If you're interested in oral appliances, ask for a referral to a qualified dental sleep medicine specialist in your area.
+**Ready to explore your options?** [Find an accredited sleep clinic](/) to discuss whether CPAP, oral appliance therapy, or a combination approach is right for you. If you're interested in oral appliances, ask for a referral to a qualified dental sleep medicine specialist in your area.

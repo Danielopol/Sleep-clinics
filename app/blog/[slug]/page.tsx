@@ -233,6 +233,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 [&_blockquote]:text-center [&_blockquote]:py-16 [&_blockquote]:px-8 [&_blockquote]:my-16 [&_blockquote]:mx-0
                 [&_blockquote]:bg-gradient-to-br [&_blockquote]:from-[#2d3a5c]/40 [&_blockquote]:to-[#1a2744]/40
                 [&_blockquote]:border-0 [&_blockquote]:relative
+                [&_table]:block [&_table]:w-full [&_table]:overflow-x-auto [&_table]:my-8 [&_table]:border-collapse [&_table]:text-left
+                [&_th]:text-[#f5f0e8] [&_th]:font-semibold [&_th]:text-sm [&_th]:uppercase [&_th]:tracking-wide [&_th]:py-3 [&_th]:pr-4 [&_th]:align-bottom [&_th]:border-b [&_th]:border-[#8b9dc3]/30
+                [&_td]:text-[#e8edf5] [&_td]:opacity-85 [&_td]:py-3 [&_td]:pr-4 [&_td]:align-top [&_td]:border-b [&_td]:border-[#8b9dc3]/10
+                [&_td_a]:text-[#d4a574]
+                [&_li:has(input)]:list-none [&_li>input]:mr-2 [&_li>input]:accent-[#d4a574]
                 [&_code]:bg-[#1a2744] [&_code]:text-[#d4a574] [&_code]:px-2 [&_code]:py-1 [&_code]:rounded [&_code]:text-base
                 [&_code]:before:content-none [&_code]:after:content-none
                 [&_pre]:bg-[#0f1729] [&_pre]:text-[#e8edf5] [&_pre]:rounded-lg [&_pre]:my-8 [&_pre]:p-6

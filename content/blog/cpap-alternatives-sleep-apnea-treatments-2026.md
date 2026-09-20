@@ -368,4 +368,4 @@ The key is working with knowledgeable providers who can match you to the right t
 
 Sleep apnea has real consequences for your brain, heart, and quality of life. Untreated apnea isn't an option. But that doesn't mean suffering through a treatment that doesn't fit your life.
 
-**Ready to explore your options?** [Find an accredited sleep clinic](/clinics) near you to discuss which CPAP alternatives might be right for your situation.
+**Ready to explore your options?** [Find an accredited sleep clinic](/) near you to discuss which CPAP alternatives might be right for your situation.
