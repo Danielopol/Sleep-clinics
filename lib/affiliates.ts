@@ -94,6 +94,8 @@ const CPAPCOM_ELIGIBLE_BLOG_SLUGS = new Set([
   // card's disclosure sits below the article and FTC guidance wants it near
   // the claim it qualifies.
   "best-cpap-machines-2026",
+  // Head-to-head on two machines CPAP.com stocks, priced off its listings.
+  "resmed-airsense-11-vs-airsense-10",
 ])
 
 export function isBlogPostEligibleForCpapCom(slug: string): boolean {

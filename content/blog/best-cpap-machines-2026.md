@@ -56,7 +56,7 @@ The default recommendation for most newly diagnosed adults, and the machine most
 
 **Who it suits:** first-time users, and anyone who wants the onboarding coaching. The setup guidance and nightly scoring in myAir are the clearest reason to pay the premium over the AirSense 10, and early adherence is the single strongest predictor of whether CPAP works for you long term.
 
-**The catch:** the heated hose is an extra purchase, and the touchscreen interface is a preference, not an upgrade. Several long-term users prefer the AirSense 10's physical dial.
+**The catch:** the heated hose is an extra purchase, and the touchscreen interface is a preference, not an upgrade. Several long-term users prefer the AirSense 10's physical dial. If these two are your shortlist, we compare them directly in [AirSense 11 vs AirSense 10](/blog/resmed-airsense-11-vs-airsense-10), including which accessories carry over if you already own the older machine.
 
 ### ResMed AirSense 10 AutoSet, $960
 
