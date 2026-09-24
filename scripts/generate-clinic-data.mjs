@@ -32,6 +32,38 @@ function zipKey(zip) {
   return digits.length >= 5 ? digits.slice(0, 5) : digits.padStart(5, '0');
 }
 
+// Full state/province names that appear in the sheet instead of postal codes.
+const STATE_NAMES = {
+  alabama: 'AL', alaska: 'AK', arizona: 'AZ', arkansas: 'AR', california: 'CA',
+  colorado: 'CO', connecticut: 'CT', delaware: 'DE', 'district of columbia': 'DC',
+  florida: 'FL', georgia: 'GA', hawaii: 'HI', idaho: 'ID', illinois: 'IL',
+  indiana: 'IN', iowa: 'IA', kansas: 'KS', kentucky: 'KY', louisiana: 'LA',
+  maine: 'ME', maryland: 'MD', massachusetts: 'MA', michigan: 'MI', minnesota: 'MN',
+  mississippi: 'MS', missouri: 'MO', montana: 'MT', nebraska: 'NE', nevada: 'NV',
+  'new hampshire': 'NH', 'new jersey': 'NJ', 'new mexico': 'NM', 'new york': 'NY',
+  'north carolina': 'NC', 'north dakota': 'ND', ohio: 'OH', oklahoma: 'OK',
+  oregon: 'OR', pennsylvania: 'PA', 'rhode island': 'RI', 'south carolina': 'SC',
+  'south dakota': 'SD', tennessee: 'TN', texas: 'TX', utah: 'UT', vermont: 'VT',
+  virginia: 'VA', washington: 'WA', 'west virginia': 'WV', wisconsin: 'WI',
+  wyoming: 'WY', 'puerto rico': 'PR', guam: 'GU', 'american samoa': 'AS',
+  'northern mariana islands': 'MP', 'virgin islands': 'VI',
+  alberta: 'AB', 'british columbia': 'BC', manitoba: 'MB', 'new brunswick': 'NB',
+  'nova scotia': 'NS', ontario: 'ON', quebec: 'QC', saskatchewan: 'SK',
+};
+
+// Normalize a raw state value to its uppercase postal code.
+function normalizeState(state) {
+  const s = String(state ?? '').trim().replace(/\s+/g, ' ');
+  if (/^[a-z]{2}$/i.test(s)) return s.toUpperCase();
+  return STATE_NAMES[s.toLowerCase()] || s;
+}
+
+// Recover "City, ST 12345" from the tail of a full address when the columns are blank.
+function parseAddressTail(address) {
+  const m = String(address).match(/,\s*([^,]+),\s*([A-Za-z]{2})\s+(\d{5})(?:-\d{4})?\s*$/);
+  return m ? { city: m[1].trim(), state: m[2].toUpperCase(), zip: m[3] } : null;
+}
+
 console.log(`📋 Processing ${rawData.length} clinics...`);
 
 // Function to parse office hours into structured format
@@ -103,11 +135,16 @@ const clinics = rawData.map((row, index) => {
   const googleReviews = parseGoogleReviews(row);
 
   const address = row.location_address || '';
-  const city = row.city || '';
-  const state = row.state || '';
-  const zip = row.zip_code ? String(row.zip_code) : '';
+  const rawCity = row.city || '';
+  const rawState = row.state || '';
+  const rawZip = row.zip_code ? String(row.zip_code) : '';
+  // Geocode cache keys use the raw sheet values, so look coordinates up before normalizing.
+  const streetCoords = geocodeCache[addrKey(address, rawCity, rawState, rawZip)] || null;
+  const tail = !rawState ? parseAddressTail(address) : null;
+  const city = rawCity || tail?.city || '';
+  const state = normalizeState(rawState || tail?.state);
+  const zip = rawZip || tail?.zip || '';
   // Prefer the precise street-level match; fall back to the ZIP-code centroid.
-  const streetCoords = geocodeCache[addrKey(address, city, state, zip)] || null;
   const zip5 = zipKey(zip);
   const coords = streetCoords || (zip5 ? zipCentroids[zip5] || null : null);
   const coordsApproximate = !streetCoords && !!coords;
@@ -136,19 +173,21 @@ const clinics = rawData.map((row, index) => {
     description: row.Description || '',
     isOpen: true,
     accreditation: row['AASM Certified'] === 'Yes' ? ['AASM Accredited'] : [],
-    reviews: googleReviews.length > 0 ? googleReviews : undefined
+    reviews: googleReviews.length > 0 ? googleReviews : undefined,
+    // Slugs are built from the raw sheet values so normalizing city/state never changes a live URL.
+    slugBase: generateSlug(row.clinic_name || '', rawCity, rawState)
   };
 }).filter(clinic => clinic.name);
 
 // Add unique slugs (deduplicate by appending -2, -3 for collisions)
 const slugCounts = {};
 for (const clinic of clinics) {
-  const base = generateSlug(clinic.name, clinic.city, clinic.state);
-  slugCounts[base] = (slugCounts[base] || 0) + 1;
+  slugCounts[clinic.slugBase] = (slugCounts[clinic.slugBase] || 0) + 1;
 }
 const slugSeen = {};
 for (const clinic of clinics) {
-  const base = generateSlug(clinic.name, clinic.city, clinic.state);
+  const base = clinic.slugBase;
+  delete clinic.slugBase;
   if (slugCounts[base] > 1) {
     slugSeen[base] = (slugSeen[base] || 0) + 1;
     clinic.slug = slugSeen[base] === 1 ? base : `${base}-${slugSeen[base]}`;
