@@ -16,7 +16,7 @@ Prices and specifications here were checked on CPAP.com on September 23, 2026. T
 
 ## The short answer
 
-**Buy the AirSense 11 if** you are new to CPAP, or you want the machine to handle its own data and updates. The guided setup, the practice mode, and built-in cellular are worth more in your first month than anything else on this list.
+**Buy the AirSense 11 if** you are new to CPAP, or you want the machine to handle its own data and updates. The guided setup, the practice mode, and built-in cellular are worth more in your first month than anything else on this list. If you were only just diagnosed, our [starter guide for a new diagnosis](/blog/best-cpap-machine-for-beginners) covers the mask and insurance decisions that matter more than this one.
 
 **Buy the AirSense 10 if** you already own one and your accessories still work, you prefer a physical dial to a touchscreen, or you want a machine your clinic and DME supplier have been troubleshooting for a decade.
 
@@ -37,7 +37,7 @@ Worth stating plainly, because the marketing around the AirSense 11 does not mak
 - **Warranty.** Two years on both.
 - **Prescription.** Federal law requires one before either ships.
 
-If your sleep physician prescribed auto-adjusting CPAP in a normal pressure range, both machines fulfil that prescription identically.
+If your sleep physician prescribed auto-adjusting CPAP in a normal pressure range, both machines fulfill that prescription identically.
 
 ## What actually differs
 
@@ -63,7 +63,7 @@ Two practical consequences:
 
 ### Onboarding software
 
-The AirSense 11 adds guided setup features the AirSense 10 does not have: a Personal Therapy Assistant with video tutorials, a TestDrive mode for practising with the mask while awake, mask fit and leak checks, and Care Check-In prompts during the first weeks.
+The AirSense 11 adds guided setup features the AirSense 10 does not have: a Personal Therapy Assistant with video tutorials, a TestDrive mode for practicing with the mask while awake, mask fit and leak checks, and Care Check-In prompts during the first weeks.
 
 It is easy to dismiss this as software fluff. It is the single best reason to choose the AirSense 11 anyway. Whether CPAP works for you is decided in the first month, by whether you can get the mask sealed and tolerate the pressure, and a machine that coaches you through exactly that is solving the actual problem. By month six you will not open any of it.
 

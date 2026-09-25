@@ -96,6 +96,8 @@ const CPAPCOM_ELIGIBLE_BLOG_SLUGS = new Set([
   "best-cpap-machines-2026",
   // Head-to-head on two machines CPAP.com stocks, priced off its listings.
   "resmed-airsense-11-vs-airsense-10",
+  // New-diagnosis starter guide: machine, mask and supplies all bought at once.
+  "best-cpap-machine-for-beginners",
 ])
 
 export function isBlogPostEligibleForCpapCom(slug: string): boolean {

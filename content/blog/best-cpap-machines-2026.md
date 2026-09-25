@@ -54,7 +54,7 @@ The default recommendation for most newly diagnosed adults, and the machine most
 - 2 year limited manufacturer warranty
 - myAir app, AutoRamp, Expiratory Pressure Relief, a "For Her" algorithm option, plus onboarding features ResMed calls Personal Therapy Assistant, TestDrive and Care Check-In
 
-**Who it suits:** first-time users, and anyone who wants the onboarding coaching. The setup guidance and nightly scoring in myAir are the clearest reason to pay the premium over the AirSense 10, and early adherence is the single strongest predictor of whether CPAP works for you long term.
+**Who it suits:** first-time users, and anyone who wants the onboarding coaching. If you were diagnosed recently, start with our [guide for a new diagnosis](/blog/best-cpap-machine-for-beginners) instead, which covers the mask and insurance decisions before the machine. The setup guidance and nightly scoring in myAir are the clearest reason to pay the premium over the AirSense 10, and early adherence is the single strongest predictor of whether CPAP works for you long term.
 
 **The catch:** the heated hose is an extra purchase, and the touchscreen interface is a preference, not an upgrade. Several long-term users prefer the AirSense 10's physical dial. If these two are your shortlist, we compare them directly in [AirSense 11 vs AirSense 10](/blog/resmed-airsense-11-vs-airsense-10), including which accessories carry over if you already own the older machine.
 
@@ -156,7 +156,7 @@ Three honest observations about where the differences live.
 ## Buying online without getting burned
 
 - **Upload a current prescription.** No legitimate US retailer will ship a machine without one. A site that offers to skip it is telling you something about the rest of its operation.
-- **Confirm the return window for the machine specifically.** CPAP.com's widely advertised 60 night guarantee is a mask fit guarantee. Machine returns follow different terms. Ask before you buy, whichever retailer you use.
+- **Confirm the return window for the machine specifically.** Machines and masks are covered by separate policies. At CPAP.com a machine carries a one-time 60 night risk-free return from the ship date, in original packaging, undamaged and free of heavy wear, with return shipping at your cost; the 60 night mask fit guarantee is a separate program covering mask exchanges. Other retailers differ, so check rather than assume.
 - **Check what is in the box.** Heated hose, humidifier chamber, filters and carry case are included on some models and extra on others. That is where an apparent bargain usually disappears.
 - **Register the warranty and keep the receipt.** Two years on the ResMed machines, five on the G3 X, and the paperwork is what makes the difference real.
 - **Watch for promotional pricing.** A sitewide sale was running when these prices were checked, so what you see at checkout may differ in either direction.
