@@ -98,6 +98,9 @@ const CPAPCOM_ELIGIBLE_BLOG_SLUGS = new Set([
   "resmed-airsense-11-vs-airsense-10",
   // New-diagnosis starter guide: machine, mask and supplies all bought at once.
   "best-cpap-machine-for-beginners",
+  // Mode explainer that lands on "buy the machine, not the mode", and sends
+  // readers to the machine comparison to do it.
+  "cpap-vs-apap",
 ])
 
 export function isBlogPostEligibleForCpapCom(slug: string): boolean {

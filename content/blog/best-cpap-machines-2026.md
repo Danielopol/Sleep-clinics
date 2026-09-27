@@ -26,7 +26,7 @@ The practical effect for a patient shopping in 2026: DreamStation and DreamStati
 
 Read your prescription before you read any review. It settles most of the choice.
 
-**CPAP or APAP.** A prescription for fixed CPAP means one constant pressure all night. An auto-adjusting (APAP) prescription gives a range, and the machine moves inside it breath by breath. Nearly every machine below is an auto model that can also run in fixed mode, but the mode must match what you were prescribed.
+**CPAP or APAP.** A prescription for fixed CPAP means one constant pressure all night. An auto-adjusting (APAP) prescription gives a range, and the machine moves inside it breath by breath. Nearly every machine below is an auto model that can also run in fixed mode, but the mode must match what you were prescribed. We cover the difference, and why it is not really a purchase decision, in [CPAP vs APAP](/blog/cpap-vs-apap).
 
 **Your pressure.** Standard machines cover 4 to 20 cm H2O. If your titration landed near the top of that range, or if you were prescribed bilevel therapy, you are in a different and more expensive category (see below).
 

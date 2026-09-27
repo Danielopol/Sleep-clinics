@@ -28,7 +28,7 @@ One more thing about the DME path: you can generally ask for a specific machine.
 
 ## What your prescription decides, and what you decide
 
-**Your prescription controls** the mode (fixed CPAP or auto-adjusting APAP), the pressure or pressure range, and any bilevel requirement. You do not change these, and no retailer will change them for you. Adjusting your own pressure is the fastest way to make therapy worse.
+**Your prescription controls** the mode ([fixed CPAP or auto-adjusting APAP](/blog/cpap-vs-apap)), the pressure or pressure range, and any bilevel requirement. You do not change these, and no retailer will change them for you. Adjusting your own pressure is the fastest way to make therapy worse.
 
 **You control** the machine brand and model, the mask, the humidification setup, and the comfort settings your clinician leaves open to you (ramp time, and often exhale relief).
 
