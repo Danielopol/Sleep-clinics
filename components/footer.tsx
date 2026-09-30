@@ -197,6 +197,10 @@ export function Footer() {
               {[
                 { label: "AASM Accreditation", href: "/aasm-accreditation" },
                 { label: "Find a Clinic", href: "/" },
+                { label: "Sleep Study Near Me", href: "/sleep-study-near-me" },
+                { label: "Sleep Doctors Near Me", href: "/sleep-doctors-near-me" },
+                { label: "Insomnia Treatment", href: "/insomnia-treatment-near-me" },
+                { label: "VA Sleep Clinics", href: "/va-sleep-clinics" },
               ].map((link, index) => (
                 <li key={index}>
                   <Link

@@ -196,6 +196,32 @@ for (const clinic of clinics) {
   }
 }
 
+// Drop rows that duplicate another clinic (see scripts/duplicate-clinics.json).
+// This runs after slugs and ids are assigned so neither shifts for any other
+// clinic. Blank fields on the kept row are filled from the duplicate first, so
+// merging never loses a rating, phone number, or reviews.
+const { redirects: duplicateSlugs } = JSON.parse(
+  readFileSync(join(__dirname, 'duplicate-clinics.json'), 'utf-8')
+);
+const bySlug = new Map(clinics.map(c => [c.slug, c]));
+const isBlank = v => v === undefined || v === null || v === '' || (Array.isArray(v) && v.length === 0);
+for (const [dupSlug, keepSlug] of Object.entries(duplicateSlugs)) {
+  const dup = bySlug.get(dupSlug);
+  const keep = bySlug.get(keepSlug);
+  if (!dup || !keep) {
+    console.warn(`⚠️  duplicate-clinics.json: ${dup ? keepSlug : dupSlug} not found, skipping`);
+    continue;
+  }
+  for (const field of ['phone', 'website', 'email', 'fax', 'hours', 'rating', 'reviewCount', 'reviews']) {
+    if (isBlank(keep[field]) && !isBlank(dup[field])) keep[field] = dup[field];
+  }
+  bySlug.delete(dupSlug);
+}
+const dedupedClinics = clinics.filter(c => bySlug.has(c.slug));
+console.log(`🔁 Merged ${clinics.length - dedupedClinics.length} duplicate clinic rows`);
+clinics.length = 0;
+clinics.push(...dedupedClinics);
+
 // Generate metadata
 const states = [...new Set(clinics.map(c => c.state).filter(Boolean))].sort();
 const cities = [...new Set(clinics.map(c => c.city).filter(Boolean))].sort();

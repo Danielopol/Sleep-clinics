@@ -28,7 +28,7 @@ export function BrowseByState() {
         </h2>
         <p className="mb-6 text-[var(--text-secondary)]">
           {totalClinics.toLocaleString()} sleep clinics and sleep centers across{" "}
-          {states.length} states.
+          {states.length} states and territories.
         </p>
 
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">

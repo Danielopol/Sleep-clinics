@@ -10,6 +10,7 @@ import { ClinicRelatedLinks } from "@/components/clinic-related-links"
 import { Metadata } from "next"
 import { JsonLd } from "@/components/json-ld"
 import { OG_IMAGE } from "@/lib/og-image"
+import { offersSleepStudy } from "@/lib/locations"
 
 // Pre-render only the highest-signal clinics (by review count) at build time; the
 // rest render on-demand on first request and are then cached (ISR). This keeps the
@@ -56,12 +57,31 @@ export async function generateMetadata({
     .trim()
   const locationSuffix = isMultiLocation ? ` (${streetWithSuite})` : ''
 
-  const title = `${clinic.name}${locationSuffix} - Sleep Clinic in ${clinic.city}, ${clinic.state}`
-  const description = clinic.description
-    || `${clinic.name} is a sleep clinic located in ${clinic.city}, ${clinic.state}. Specializing in ${clinic.specialty?.join(", ") || "sleep medicine"}. Call ${clinic.phone} to schedule an appointment.`
+  // Most searches that reach a clinic page are the clinic's own name, often
+  // with "reviews", "phone", or "sleep study" added. The title names what the
+  // page actually has for that searcher, and only claims reviews when there
+  // are some. The site-name suffix is dropped: it adds nothing to a
+  // navigational search and pushes the useful words past the cut-off.
+  const hasReviews = (clinic.reviewCount ?? 0) > 0
+  const doesTesting = offersSleepStudy(clinic)
+  const extras = doesTesting
+    ? hasReviews ? "Sleep Study, Reviews & Phone" : "Sleep Study, Hours & Phone"
+    : hasReviews ? "Reviews, Hours & Phone" : "Hours & Phone"
+  const title = `${clinic.name}${locationSuffix}, ${clinic.city}, ${clinic.state}: ${extras}`
+
+  // Lead the snippet with the facts a searcher compares on (rating, phone),
+  // then the clinic description, cut at a word boundary.
+  const firstPhone = clinic.phone?.split(";")[0].trim()
+  const lead = [
+    hasReviews && clinic.rating && `Rated ${clinic.rating}/5 from ${clinic.reviewCount} ${clinic.reviewCount === 1 ? "review" : "reviews"}.`,
+    firstPhone && `Call ${firstPhone}.`,
+  ].filter(Boolean).join(" ")
+  const body = clinic.description
+    || `${clinic.name} is a sleep clinic in ${clinic.city}, ${clinic.state} offering ${clinic.services?.slice(0, 3).join(", ") || "sleep medicine care"}.`
+  const description = truncateAtWord((lead ? `${lead} ${body}` : body).replace(/\s+/g, " ").trim(), 160)
 
   return {
-    title,
+    title: { absolute: title },
     description,
     alternates: {
       canonical: `https://www.ussleepclinics.com/clinic/${slug}`,
@@ -73,6 +93,12 @@ export async function generateMetadata({
       images: OG_IMAGE,
     },
   }
+}
+
+function truncateAtWord(text: string, max: number): string {
+  if (text.length <= max) return text
+  const cut = text.slice(0, max - 3)
+  return `${cut.slice(0, cut.lastIndexOf(" ")).replace(/[\s,;:.]+$/, "")}...`
 }
 
 // Maps disorder names (clinic.specialty) → SEO treatment search terms

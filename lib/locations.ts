@@ -15,6 +15,11 @@ const US_STATES: Record<string, string> = {
   PA: 'Pennsylvania', RI: 'Rhode Island', SC: 'South Carolina', SD: 'South Dakota',
   TN: 'Tennessee', TX: 'Texas', UT: 'Utah', VT: 'Vermont', VA: 'Virginia',
   WA: 'Washington', WV: 'West Virginia', WI: 'Wisconsin', WY: 'Wyoming',
+  // Puerto Rico is a territory, but it has its own clinic pages with strong
+  // search demand and needs a location hub like any state. Guam and the USVI
+  // are left out until their rows are cleaned: many GU rows are Hawaii clinics
+  // with "HI" in the city column.
+  PR: 'Puerto Rico',
 }
 
 const NAME_TO_ABBR: Record<string, string> = Object.fromEntries(
@@ -32,8 +37,18 @@ function normalizeStateAbbr(raw: string | undefined): string | null {
   return fromName ?? null
 }
 
+// Full name for a state abbreviation, or the input unchanged if it is not one.
+export function stateNameFromAbbr(abbr: string): string {
+  return US_STATES[abbr.toUpperCase()] ?? abbr
+}
+
 export function slugify(str: string): string {
+  // Strip accents first so "Mayagüez" and "Mayaguez" share one city page
+  // instead of the ü being dropped ("mayagez"). No live US city slug contains
+  // an accented letter, so this changes no existing URL.
   return str
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
     .toLowerCase()
     .replace(/&/g, 'and')
     .replace(/[^a-z0-9\s-]/g, '')
@@ -199,6 +214,8 @@ export interface CityData {
   clinics: Clinic[]
   topServices: string[]
   aasmCount: number
+  inLabCount: number
+  homeTestCount: number
 }
 
 export function getCityData(stateSlug: string, citySlug: string): CityData | null {
@@ -215,6 +232,8 @@ export function getCityData(stateSlug: string, citySlug: string): CityData | nul
     clinics: city.clinics,
     topServices: topServices(city.clinics),
     aasmCount: countAasm(city.clinics),
+    inLabCount: city.clinics.filter(offersInLabStudy).length,
+    homeTestCount: city.clinics.filter(offersHomeTest).length,
   }
 }
 
@@ -247,6 +266,42 @@ export function getTopCityParams(limit: number): { state: string; city: string }
     .slice(0, limit)
     .map(({ state, city }) => ({ state, city }))
 }
+
+/**
+ * Every state with at least one clinic matching `predicate`, with the matching
+ * count. Used by the topic hubs (sleep studies, sleep doctors, insomnia) so
+ * each state link carries a real number for that topic.
+ */
+export function getStatesMatching(
+  predicate: (clinic: Clinic) => boolean
+): { name: string; slug: string; abbr: string; matchCount: number }[] {
+  return [...buildIndex().values()]
+    .map((s) => ({
+      name: s.name,
+      slug: s.slug,
+      abbr: s.abbr,
+      matchCount: s.clinics.filter(predicate).length,
+    }))
+    .filter((s) => s.matchCount > 0)
+    .sort((a, b) => a.name.localeCompare(b.name))
+}
+
+// Clinic service predicates shared by the location pages and topic hubs. They
+// read the free-text service/specialty labels that come from the sheet.
+function hasLabel(clinic: Clinic, pattern: RegExp): boolean {
+  return [...(clinic.services ?? []), ...(clinic.specialty ?? [])].some((s) => pattern.test(s))
+}
+
+export const offersInLabStudy = (c: Clinic) =>
+  hasLabel(c, /in-lab|polysomnograph|^sleep studies$/i)
+export const offersHomeTest = (c: Clinic) => hasLabel(c, /home sleep test/i)
+export const offersSleepStudy = (c: Clinic) => offersInLabStudy(c) || offersHomeTest(c)
+export const offersConsultation = (c: Clinic) =>
+  hasLabel(c, /sleep medicine consultation|sleep disorders diagnosis/i)
+export const treatsInsomnia = (c: Clinic) =>
+  hasLabel(c, /insomnia|behavioral sleep medicine|cbt-i/i)
+export const isVaClinic = (c: Clinic) =>
+  /\bVAMC\b|\bVeterans\b|\bVA (Sleep|Caribbean|Medical|Health)/.test(c.name)
 
 // --- aggregate helpers ---
 

@@ -1,7 +1,8 @@
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { JsonLd } from "@/components/json-ld"
-import { getStateData, getAllStateSlugs, humanList } from "@/lib/locations"
+import { getStateData, getAllStateSlugs, humanList, type CitySummary } from "@/lib/locations"
+import { GuideLinks } from "@/components/guide-links"
 import { MapPin, ChevronRight, Building2 } from "lucide-react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
@@ -28,8 +29,14 @@ export async function generateMetadata({
   const data = getStateData(state)
   if (!data) return { title: "State Not Found" }
 
-  const title = `Sleep Clinics in ${data.name} - ${data.clinicCount} Sleep Centers & Labs`
-  const description = `Find ${data.clinicCount} sleep clinics in ${data.name} across ${data.cityCount} cities. Compare sleep centers and labs for sleep apnea, insomnia, and other sleep disorders, and book an appointment near you.`
+  const title =
+    data.abbr === "PR"
+      ? `Sleep Centers in Puerto Rico: ${data.clinicCount} Sleep Clinics & Labs (Centros de Sueño)`
+      : `Sleep Clinics in ${data.name}: ${data.clinicCount} Sleep Centers, Labs & Sleep Doctors`
+  const description =
+    data.abbr === "PR"
+      ? `Find ${data.clinicCount} sleep centers in Puerto Rico across ${data.cityCount} cities, including San Juan, Caguas, Bayamón, Ponce, and Mayagüez. Estudios de sueño y apnea del sueño: compare clinics, phone numbers, and services.`
+      : `Find ${data.clinicCount} sleep clinics in ${data.name} across ${data.cityCount} cities. Compare sleep centers, sleep labs, and sleep doctors for sleep studies, sleep apnea, and insomnia, with phone numbers and reviews.`
 
   return {
     title,
@@ -42,6 +49,42 @@ export async function generateMetadata({
       images: OG_IMAGE,
     },
   }
+}
+
+/**
+ * Much of Puerto Rico's search demand is in Spanish ("estudio de apnea del
+ * sueño caguas", "laboratorio del sueño bayamon"), and no English page matches
+ * those words. This section gives the hub a Spanish summary and city links.
+ */
+function PuertoRicoSpanishSection({ cities, stateSlug }: { cities: CitySummary[]; stateSlug: string }) {
+  const total = cities.reduce((sum, c) => sum + c.clinicCount, 0)
+  return (
+    <div lang="es" className="mt-12 rounded-2xl border border-[var(--border-subtle)] p-6">
+      <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-3">
+        Centros de sueño y estudios de apnea del sueño en Puerto Rico
+      </h2>
+      <p className="text-[var(--text-secondary)] leading-relaxed mb-3">
+        Encuentre {total} centros y laboratorios del sueño en Puerto Rico. Muchos ofrecen estudios del sueño en el
+        laboratorio (polisomnografía), pruebas de apnea del sueño en el hogar, y consultas con neumólogos y médicos
+        especialistas en medicina del sueño.
+      </p>
+      <p className="text-[var(--text-secondary)] leading-relaxed mb-5">
+        Llame a la clínica para confirmar qué estudios ofrece, si acepta su plan médico, y si necesita un referido de
+        su médico primario.
+      </p>
+      <div className="flex flex-wrap gap-2">
+        {cities.map((city) => (
+          <Link
+            key={city.slug}
+            href={`/locations/${stateSlug}/${city.slug}`}
+            className="rounded-full border border-[var(--border-subtle)] px-4 py-2 text-sm text-[var(--text-primary)] transition-colors hover:border-[var(--healing-teal)] hover:text-[var(--healing-teal)]"
+          >
+            Centros de sueño en {city.name}
+          </Link>
+        ))}
+      </div>
+    </div>
+  )
 }
 
 export default async function StatePage({
@@ -132,6 +175,17 @@ export default async function StatePage({
               </Link>
             ))}
           </div>
+
+          {data.abbr === "PR" && <PuertoRicoSpanishSection cities={data.cities} stateSlug={data.slug} />}
+
+          <GuideLinks
+            slugs={[
+              "how-to-choose-the-right-sleep-clinic",
+              "what-to-expect-during-a-sleep-study",
+              "home-sleep-test-vs-in-lab-sleep-study",
+              "does-insurance-cover-sleep-studies",
+            ]}
+          />
         </div>
       </section>
 

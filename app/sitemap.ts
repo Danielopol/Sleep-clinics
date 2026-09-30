@@ -46,6 +46,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.9,
     },
+    // Topic hubs for "near me" searches
+    ...['/sleep-study-near-me', '/sleep-doctors-near-me', '/insomnia-treatment-near-me', '/va-sleep-clinics'].map((path) => ({
+      url: `${baseUrl}${path}`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.9,
+    })),
     {
       url: `${baseUrl}/aasm-accreditation`,
       lastModified: new Date(),

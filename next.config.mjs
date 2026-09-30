@@ -1,3 +1,11 @@
+import { readFileSync } from 'fs'
+
+// Clinic rows merged into another row by scripts/generate-clinic-data.mjs. Their
+// old URLs were indexed, so each one 301s to the clinic it was merged into.
+const { redirects: duplicateClinicSlugs } = JSON.parse(
+  readFileSync(new URL('./scripts/duplicate-clinics.json', import.meta.url), 'utf-8')
+)
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   typescript: {
@@ -23,6 +31,11 @@ const nextConfig = {
         destination: '/',
         permanent: true,
       },
+      ...Object.entries(duplicateClinicSlugs).map(([from, to]) => ({
+        source: `/clinic/${from}`,
+        destination: `/clinic/${to}`,
+        permanent: true,
+      })),
     ]
   },
   async rewrites() {

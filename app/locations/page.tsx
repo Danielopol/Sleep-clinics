@@ -53,8 +53,8 @@ export default function LocationsHubPage() {
             Sleep Clinics by State
           </h1>
           <p className="text-lg text-slate-200 leading-relaxed max-w-3xl mt-4">
-            Find sleep clinics, sleep centers, and sleep labs near you. Browse {totalClinics.toLocaleString()} verified
-            providers across {states.length} states for the diagnosis and treatment of sleep apnea, insomnia, and other
+            Find sleep clinics, sleep centers, and sleep labs near you. Browse {totalClinics.toLocaleString()} sleep
+            clinics across {states.length} states and territories for the diagnosis and treatment of sleep apnea, insomnia, and other
             sleep disorders.
           </p>
         </div>

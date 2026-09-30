@@ -1,0 +1,17 @@
+{
+  "_comment": "Rows in the Excel sheet that describe the same physical clinic as another row. Keys are the duplicate slug, values the slug that is kept. generate-clinic-data.mjs drops each duplicate (filling any blank fields on the kept row from it), and next.config.mjs 301s the duplicate URL to the kept one. Only list rows with the same address; most -2 slugs are genuinely separate locations and must not be merged.",
+  "redirects": {
+    "somnos-mayaguez-mayag-pr": "somnos-mayaguez-mayaguez-pr",
+    "somnos-sleep-clinic-mayagez-pr": "somnos-mayaguez-mayaguez-pr",
+    "somnos-mayaguez-ponce-pr": "somnos-sleep-clinic-inc-ponce-pr",
+    "sleep-better-austin-austin-tx-3": "sleep-better-austin-austin-tx",
+    "ognomy-ga-llc-overland-park-ks-2": "ognomy-ga-llc-overland-park-ks",
+    "ognomy-sleep-associates-de-llc-denver-co-2": "ognomy-sleep-associates-de-llc-denver-co",
+    "sd-diagnostics-inc-austin-tx-2": "sd-diagnostics-inc-austin-tx",
+    "franciscan-health-sleep-center-crown-point-crown-point-in-2": "franciscan-health-sleep-center-crown-point-crown-point-in",
+    "sleep-apnea-and-tmj-solutions-brentwood-tn-2": "sleep-apnea-and-tmj-solutions-brentwood-tn",
+    "neurocare-center-for-sleep-brockton-ma-2": "neurocare-center-for-sleep-brockton-ma",
+    "medical-edge-healthcare-group-pa-fort-worth-tx-2": "medical-edge-healthcare-group-pa-fort-worth-tx",
+    "usa-sleep-diagnostic-mobile-service-north-charleston-sc-2": "usa-sleep-diagnostic-mobile-service-north-charleston-sc"
+  }
+}

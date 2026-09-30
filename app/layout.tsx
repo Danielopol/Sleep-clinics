@@ -8,19 +8,27 @@ import { GoogleAnalytics } from "@/components/google-analytics"
 import { GrowAnalytics } from "@/components/grow-analytics"
 import { JsonLd } from "@/components/json-ld"
 import { OG_IMAGE } from "@/lib/og-image"
+import { getClinicsData } from "@/lib/clinics"
 import "./globals.css"
 
 // <CHANGE> Using Inter font as specified in the requirements
 const inter = Inter({ subsets: ["latin"] })
 
+// The homepage inherits this title and description. Its search demand is
+// "sleep clinic / sleep center / sleep study near me", so those words lead.
+// The clinic count is read from the data so it never goes stale, rounded down
+// to the hundred.
+const CLINIC_COUNT = `${(Math.floor(getClinicsData().length / 100) * 100).toLocaleString("en-US")}+`
+const SITE_TITLE = "Sleep Clinics & Sleep Study Centers Near You | US Sleep Clinics"
+const SITE_DESCRIPTION = `Find a sleep clinic, sleep study center, or sleep doctor near you. Compare ${CLINIC_COUNT} sleep centers by city and state, with phone numbers, reviews, and AASM accreditation.`
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.ussleepclinics.com"),
   title: {
-    default: "US Sleep Clinics - Find Expert Sleep Care Near You",
+    default: SITE_TITLE,
     template: "%s | US Sleep Clinics",
   },
-  description:
-    "Find sleep clinics near you from 4,000+ verified providers. Search AASM-accredited sleep centers, compare specialists, and get expert treatment for sleep apnea, insomnia, and more.",
+  description: SITE_DESCRIPTION,
   // Sends only the origin (www.ussleepclinics.com) on cross-origin requests,
   // never the full path, so a visitor's specific health-topic browsing is not
   // leaked to third parties. Affiliate networks need to see us as the referring
@@ -30,17 +38,16 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     siteName: "US Sleep Clinics",
-    title: "US Sleep Clinics - Find Expert Sleep Care Near You",
-    description:
-      "Find sleep clinics near you from 4,000+ verified providers. Search AASM-accredited sleep centers, compare specialists, and get expert treatment for sleep apnea, insomnia, and more.",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
     url: "https://www.ussleepclinics.com",
     images: OG_IMAGE,
   },
   twitter: {
     card: "summary_large_image",
-    title: "US Sleep Clinics - Find Expert Sleep Care Near You",
+    title: SITE_TITLE,
     description:
-      "Find sleep clinics near you from 4,000+ verified providers. AASM-accredited sleep centers for sleep apnea, insomnia, and more.",
+      `Find a sleep clinic, sleep study, or sleep doctor near you. ${CLINIC_COUNT} sleep centers for sleep apnea, insomnia, and more.`,
     images: OG_IMAGE,
   },
   alternates: {

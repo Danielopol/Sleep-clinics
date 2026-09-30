@@ -2,7 +2,9 @@ import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { ClinicCard } from "@/components/clinic-card"
 import { JsonLd } from "@/components/json-ld"
-import { getCityData, getTopCityParams, humanList } from "@/lib/locations"
+import { getCityData, getTopCityParams, humanList, type CityData } from "@/lib/locations"
+import { FaqList, type FaqItem } from "@/components/faq-list"
+import { GuideLinks } from "@/components/guide-links"
 import { getListingBadges } from "@/lib/listings"
 import { ChevronRight } from "lucide-react"
 import Link from "next/link"
@@ -33,8 +35,18 @@ export async function generateMetadata({
   if (!data) return { title: "City Not Found", robots: { index: false, follow: false } }
 
   const count = data.clinics.length
-  const title = `Sleep Clinics in ${data.cityName}, ${data.stateAbbr} - ${count} Sleep ${count === 1 ? "Center" : "Centers"}`
-  const description = `Find ${count} sleep ${count === 1 ? "clinic" : "clinics"} in ${data.cityName}, ${data.stateName}. Compare sleep centers and labs for sleep apnea, insomnia, and other sleep disorders, with addresses, phone numbers, and services.`
+  // Search demand for these pages is "sleep study <city>" and "sleep center
+  // <city>" as much as "sleep clinic", so the title carries both.
+  // Puerto Rico searches are often in Spanish ("estudio de apnea del sueño").
+  const title =
+    data.stateAbbr === "PR"
+      ? `Sleep Centers in ${data.cityName}, PR: Estudios del Sueño (${count} ${count === 1 ? "Centro" : "Centros"})`
+      : `Sleep Clinics & Sleep Studies in ${data.cityName}, ${data.stateAbbr} (${count} ${count === 1 ? "Center" : "Centers"})`
+  const testing = [
+    data.inLabCount > 0 && `${data.inLabCount} ${data.inLabCount === 1 ? "offers" : "offer"} in-lab sleep studies`,
+    data.homeTestCount > 0 && `${data.homeTestCount} ${data.homeTestCount === 1 ? "offers" : "offer"} home sleep testing`,
+  ].filter(Boolean) as string[]
+  const description = `Compare ${count} sleep ${count === 1 ? "clinic" : "clinics"} in ${data.cityName}, ${data.stateName}${testing.length > 0 ? `: ${humanList(testing)}` : ""}. Addresses, phone numbers, reviews, and services for sleep apnea, insomnia, and other sleep disorders.`
 
   return {
     title,
@@ -47,6 +59,41 @@ export async function generateMetadata({
       images: OG_IMAGE,
     },
   }
+}
+
+// Answers built from this city's own listings, so every city page says
+// something specific instead of repeating one template paragraph.
+function cityFaq(data: CityData): FaqItem[] {
+  const count = data.clinics.length
+  const place = `${data.cityName}, ${data.stateAbbr}`
+  const of = count === 1 ? "The one clinic" : `Of the ${count} clinics`
+  const items: FaqItem[] = []
+
+  if (data.inLabCount > 0 || data.homeTestCount > 0) {
+    const parts = [
+      data.inLabCount > 0 && `${data.inLabCount} list in-lab sleep studies (polysomnography)`,
+      data.homeTestCount > 0 && `${data.homeTestCount} list home sleep apnea testing`,
+    ].filter(Boolean) as string[]
+    items.push({
+      question: `Where can I get a sleep study in ${place}?`,
+      answer: `${of} listed in ${data.cityName}, ${humanList(parts)}. An in-lab study is done overnight at the sleep center and can diagnose the full range of sleep disorders. A home test is done in your own bed and is mainly used to check for obstructive sleep apnea. Call the clinic to confirm which tests it currently offers.`,
+    })
+  }
+
+  items.push({
+    question: `Do I need a referral to see a sleep doctor in ${data.cityName}?`,
+    answer: `It depends on your insurance, not on the clinic. Many HMO plans require a referral from your primary care doctor, and most insurers require prior authorization for a sleep study. Check with your plan first, then ask the clinic whether it accepts self-referrals.`,
+  })
+
+  items.push({
+    question: `Are sleep centers in ${data.cityName} accredited?`,
+    answer:
+      data.aasmCount > 0
+        ? `${data.aasmCount} of the ${count} ${count === 1 ? "clinic" : "clinics"} listed in ${data.cityName} ${data.aasmCount === 1 ? "is" : "are"} accredited by the American Academy of Sleep Medicine (AASM), which reviews a center's staff, equipment, and testing standards. You can confirm a center's status on the AASM website.`
+        : `None of the clinics listed in ${data.cityName} are marked as AASM-accredited in our data. Accreditation is voluntary, so an unaccredited clinic can still provide good care, but it is worth asking who reads your sleep study and whether they are board-certified in sleep medicine.`,
+  })
+
+  return items
 }
 
 export default async function CityPage({
@@ -119,6 +166,12 @@ export default async function CityPage({
             {data.cityName}, {data.stateName}.{servicesSentence}{aasmSentence} Compare locations, services, and contact
             details below to find care for sleep apnea, insomnia, and other sleep disorders.
           </p>
+          {data.stateAbbr === "PR" && (
+            <p lang="es" className="text-base text-slate-300 leading-relaxed max-w-3xl mt-3">
+              Centros de sueño en {data.cityName}: compare {count === 1 ? "la clínica" : `las ${count} clínicas`} para
+              estudios del sueño, pruebas de apnea del sueño y consultas con especialistas del sueño.
+            </p>
+          )}
         </div>
       </section>
 
@@ -139,6 +192,37 @@ export default async function CityPage({
               information, its rating, or whether it appears in this directory.
             </p>
           )}
+
+          <FaqList items={cityFaq(data)} title={`Sleep studies and sleep doctors in ${data.cityName}`} />
+
+          <GuideLinks
+            slugs={[
+              "what-to-expect-during-a-sleep-study",
+              "home-sleep-test-vs-in-lab-sleep-study",
+              "how-much-does-a-sleep-study-cost",
+              "does-insurance-cover-sleep-studies",
+            ]}
+          />
+
+          <p className="mt-10 text-[var(--text-secondary)]">
+            Looking beyond {data.cityName}? See all{" "}
+            <Link href={`/locations/${data.stateSlug}`} className="text-[var(--healing-teal)] hover:underline">
+              sleep clinics in {data.stateName}
+            </Link>
+            , or browse by need:{" "}
+            <Link href="/sleep-study-near-me" className="text-[var(--healing-teal)] hover:underline">
+              sleep studies
+            </Link>
+            ,{" "}
+            <Link href="/sleep-doctors-near-me" className="text-[var(--healing-teal)] hover:underline">
+              sleep doctors
+            </Link>
+            , and{" "}
+            <Link href="/insomnia-treatment-near-me" className="text-[var(--healing-teal)] hover:underline">
+              insomnia treatment
+            </Link>
+            .
+          </p>
         </div>
       </section>
 
