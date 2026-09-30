@@ -91,7 +91,7 @@ The most interesting machine on this list, and the one most people have not hear
 
 ## The travel machines
 
-Travel machines are a second machine, not a first one. They trade humidification and comfort for size, and the ones below are designed for weeks per year, not every night.
+Travel machines are a second machine, not a first one. They trade humidification and comfort for size, and the ones below are designed for weeks per year, not every night. Our [travel CPAP comparison](/blog/best-travel-cpap-machines-2026) covers these two in depth, including batteries and the rules for flying with them.
 
 ### ResMed AirMini AutoSet, $919
 
@@ -109,6 +109,8 @@ Travel machines are a second machine, not a first one. They trade humidification
 - 0.48 lbs, 3.6 x 3.6 x 2.4 inches, the smallest machine here
 - AirMist HME waterless humidification
 - Works with the cordless PowerAway battery, rated up to 17.5 hours, which is not included and not built in
+- Takes most standard 22mm CPAP masks
+- 3 year warranty
 - Sold at CPAP.com as a standalone unit, an Essentials bundle at $988.90, and a Power bundle at $1,338.85
 
 **Who it suits:** campers, van travelers, and anyone who needs off-grid nights. The battery ecosystem is the reason to choose it over the AirMini.
@@ -128,8 +130,8 @@ Do not treat these as upgrades. Bilevel therapy is prescribed for specific reaso
 | ResMed AirSense 11 AutoSet | $1,004 | 2.5 lbs | 4-20 cm H2O | Built in, heated hose extra | 27 dBA | 2 years |
 | ResMed AirSense 10 AutoSet | $960 | 2.75 lbs | 4-20 cm H2O | Built in, heated hose extra | 26.6 dBA | 2 years |
 | React Health G3 X Auto | $873 | Not published | 4-20 cm H2O | Built in, heated tube included | Under 28 dBA at 10 cm | 5 years |
-| ResMed AirMini AutoSet | $919 | 0.66 lbs | Auto | Waterless HumidX, sold separately | Not published | 2 years |
-| Transcend Micro 510 | $829 | 0.48 lbs | Auto | Waterless AirMist HME | Not published | Check listing |
+| ResMed AirMini AutoSet | $919 | 0.66 lbs | 4-20 cm H2O | Waterless HumidX, sold separately | 29 dBA | 2 years |
+| Transcend Micro 510 | $829 | 0.48 lbs | 4-20 cm H2O | Waterless AirMist HME | 25-29 dBA with muffler | 3 years |
 
 The AirMini requires a compatible ResMed mask, and the Transcend battery is sold separately. Noise figures are manufacturer specifications measured under standardized conditions and are not directly comparable to each other or to your bedroom.
 

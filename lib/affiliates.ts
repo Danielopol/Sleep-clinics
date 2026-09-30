@@ -101,6 +101,8 @@ const CPAPCOM_ELIGIBLE_BLOG_SLUGS = new Set([
   // Mode explainer that lands on "buy the machine, not the mode", and sends
   // readers to the machine comparison to do it.
   "cpap-vs-apap",
+  // Travel machines and batteries, both priced off CPAP.com's listings.
+  "best-travel-cpap-machines-2026",
 ])
 
 export function isBlogPostEligibleForCpapCom(slug: string): boolean {
