@@ -167,7 +167,7 @@ Three honest observations about where the differences live.
 
 - You have not had a sleep study and do not have a diagnosis or a prescription.
 - Your diagnosis is central sleep apnea rather than obstructive. The machine categories are different, and the standard auto CPAP on this list is not the right device. See our explainer on [central versus obstructive sleep apnea](/blog/central-vs-obstructive-sleep-apnea).
-- You are replacing a machine because therapy is not working. A machine that does not fit your needs is rarely the cause, and a pressure or mask adjustment is free. Talk to your clinic first.
+- You are replacing a machine because therapy is not working. A machine that does not fit your needs is rarely the cause, and a pressure or mask adjustment is free. Talk to your clinic first, and see [when to replace a CPAP machine](/blog/when-to-replace-cpap-machine) for the signs that do point at the machine.
 - You are buying for someone else who has not been evaluated.
 
 ## The bottom line

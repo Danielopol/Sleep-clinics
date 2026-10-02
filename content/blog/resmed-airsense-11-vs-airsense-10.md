@@ -131,7 +131,7 @@ The AirSense 11 is the better machine for someone starting therapy: the guided s
 
 The AirSense 10 is the better machine for someone who already lives with one, prefers the dial, and has a drawer of accessories that fit it. It is not a compromise. It is the same therapy with an older interface and a slightly lower noise figure.
 
-And if you already have a working AirSense 10, the honest advice is to keep it, spend the money on a mask that fits properly, and revisit machines when this one wears out.
+And if you already have a working AirSense 10, the honest advice is to keep it, spend the money on a mask that fits properly, and revisit machines when this one wears out. [Seven signs that it has](/blog/when-to-replace-cpap-machine), and what insurance will pay for after five years, are in our replacement guide.
 
 ## Sources
 

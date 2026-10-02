@@ -103,6 +103,9 @@ const CPAPCOM_ELIGIBLE_BLOG_SLUGS = new Set([
   "cpap-vs-apap",
   // Travel machines and batteries, both priced off CPAP.com's listings.
   "best-travel-cpap-machines-2026",
+  // Replacement guide: mostly about when not to buy, with the machine prices
+  // for the readers who do need one.
+  "when-to-replace-cpap-machine",
 ])
 
 export function isBlogPostEligibleForCpapCom(slug: string): boolean {
