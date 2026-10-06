@@ -129,7 +129,7 @@ At CPAP.com on October 2, 2026: the ResMed AirSense 11 AutoSet at $1,004, the Ai
 
 A replacement requires a valid prescription like any machine, so bring your current one or ask your clinic for a fresh copy. CPAP.com gives machines a one-time 60 night risk-free return from the ship date, in original packaging and free of heavy wear, with return shipping at your cost. Check the terms of whichever retailer you use.
 
-**If you are moving from an AirSense 10 to an AirSense 11,** budget for accessories, because the water chamber, heated hose, filters and power supply do not carry over, as we detail in the comparison linked above.
+**If you are moving from an AirSense 10 to an AirSense 11,** budget for the heated hose, which does not carry over and is not included with the AirSense 11. A new machine ships with its own water chamber, filter and power supply, so the rest is mainly spares, as we detail in the comparison linked above.
 
 ## When you replace one, do it carefully
 

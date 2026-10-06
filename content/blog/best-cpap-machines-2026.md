@@ -28,7 +28,7 @@ Read your prescription before you read any review. It settles most of the choice
 
 **CPAP or APAP.** A prescription for fixed CPAP means one constant pressure all night. An auto-adjusting (APAP) prescription gives a range, and the machine moves inside it breath by breath. Nearly every machine below is an auto model that can also run in fixed mode, but the mode must match what you were prescribed. We cover the difference, and why it is not really a purchase decision, in [CPAP vs APAP](/blog/cpap-vs-apap).
 
-**Your pressure.** Standard machines cover 4 to 20 cm H2O. If your titration landed near the top of that range, or if you were prescribed bilevel therapy, you are in a different and more expensive category (see below).
+**Your pressure.** Standard machines cover 4 to 20 cm H2O. If your titration landed above that range, or if you were prescribed bilevel therapy, you are in a different and more expensive category (see below). Near the top of the range a standard machine still works, but comfort gets harder, which we cover in [CPAP machines for high pressure settings](/blog/best-cpap-machines-high-pressure-settings).
 
 **Bilevel or not.** Bilevel (BiPAP) machines deliver a separate inhale and exhale pressure. They are prescribed for people who cannot tolerate high single pressures, and for certain central and hypoventilation diagnoses. You cannot substitute one for the other on your own.
 
@@ -56,7 +56,7 @@ The default recommendation for most newly diagnosed adults, and the machine most
 
 **Who it suits:** first-time users, and anyone who wants the onboarding coaching. If you were diagnosed recently, start with our [guide for a new diagnosis](/blog/best-cpap-machine-for-beginners) instead, which covers the mask and insurance decisions before the machine. The setup guidance and nightly scoring in myAir are the clearest reason to pay the premium over the AirSense 10, and early adherence is the single strongest predictor of whether CPAP works for you long term.
 
-**The catch:** the heated hose is an extra purchase, and the touchscreen interface is a preference, not an upgrade. Several long-term users prefer the AirSense 10's physical dial. If these two are your shortlist, we compare them directly in [AirSense 11 vs AirSense 10](/blog/resmed-airsense-11-vs-airsense-10), including which accessories carry over if you already own the older machine.
+**The catch:** the heated hose is an extra purchase ($46 on sale, $66 list at CPAP.com), which matters because the AirSense 10's box includes one, and the touchscreen interface is a preference, not an upgrade. Several long-term users prefer the AirSense 10's physical dial. If these two are your shortlist, we compare them directly in [AirSense 11 vs AirSense 10](/blog/resmed-airsense-11-vs-airsense-10), including which accessories carry over if you already own the older machine.
 
 ### ResMed AirSense 10 AutoSet, $960
 
@@ -64,14 +64,14 @@ The previous generation, still sold, still excellent, and quieter on paper than 
 
 - Pressure range 4 to 20 cm H2O
 - 2.75 lbs
-- Built-in HumidAir heated humidifier
+- Built-in HumidAir heated humidifier, with a heated ClimateLine hose included in the box at CPAP.com
 - 26.6 dBA manufacturer specification
 - 2 year limited manufacturer warranty
 - Bluetooth with myAir, with an airplane mode to disable wireless
 
 **Who it suits:** people who want the ResMed algorithm and the enormous accessory ecosystem without the AirSense 11 price, and people who actively prefer a dial to a touchscreen. It is also the machine most DME suppliers and clinics have the deepest experience troubleshooting.
 
-**The catch:** at a $44 difference, the case for saving money is thin. Buy this one because you prefer it, not to economize. Note that AirSense 10 units exist in several variants, including card-to-cloud versions with different data handling, so confirm which one a listing is actually selling.
+**The catch:** it is the previous generation, with no guided onboarding and no built-in cellular. Because its box includes a heated hose that the AirSense 11's does not, set up the same way it is about $90 to $110 cheaper, a modest saving rather than a reason on its own. Note that AirSense 10 units exist in several variants, including card-to-cloud versions with different data handling, so confirm which one a listing is actually selling.
 
 ### React Health G3 X Auto, $873
 
@@ -85,7 +85,7 @@ The most interesting machine on this list, and the one most people have not hear
 - 5 year warranty on the device
 - Model G4600
 
-**Who it suits:** two groups. People for whom the Philips foam recall is the reason they are nervous about CPAP at all, and value shoppers who want the longest warranty on this list plus an included heated hose, which is a $30 to $100 accessory on the ResMed side.
+**Who it suits:** two groups. People for whom the Philips foam recall is the reason they are nervous about CPAP at all, and value shoppers who want the longest warranty on this list plus an included heated hose. The AirSense 10 includes one as well, but the AirSense 11's costs $46 to $66 extra.
 
 **The catch:** a smaller ecosystem and a smaller community. If something behaves oddly at 3am, there are fewer forum posts about it, and fewer clinicians who know the interface by heart. The cellular modem also means the machine reports therapy data by default, which some people want and some people do not.
 
@@ -119,7 +119,7 @@ Travel machines are a second machine, not a first one. They trade humidification
 
 ## If you were prescribed bilevel
 
-Bilevel is a different price tier. At the time of writing CPAP.com listed the ResMed AirCurve 11 VAuto at $1,796, the AirCurve 10 VAuto at $1,776, and the React Health Luna G3 BPAP 25A at $1,549.
+Bilevel is a different price tier. At the time of writing CPAP.com listed the ResMed AirCurve 11 VAuto at $1,796, the AirCurve 10 VAuto at $1,776, and the React Health Luna G3 BPAP 25A at $1,549. Our guide to [high pressure settings and bilevel](/blog/best-cpap-machines-high-pressure-settings) covers the pressure ranges, when clinicians move patients to bilevel, and what Medicare requires first.
 
 Do not treat these as upgrades. Bilevel therapy is prescribed for specific reasons, and buying one without the prescription to match means you will not be able to get it configured correctly. If high pressure is making CPAP intolerable, that is a conversation with your sleep physician about whether bilevel, or a pressure relief setting you are not using, is the right answer. Our guide to [CPAP alternatives](/blog/cpap-alternatives-sleep-apnea-treatments-2026) covers the options beyond changing machines.
 
@@ -128,7 +128,7 @@ Do not treat these as upgrades. Bilevel therapy is prescribed for specific reaso
 | Machine | Price | Weight | Pressure | Humidification | Noise (mfr) | Warranty |
 |---|---|---|---|---|---|---|
 | ResMed AirSense 11 AutoSet | $1,004 | 2.5 lbs | 4-20 cm H2O | Built in, heated hose extra | 27 dBA | 2 years |
-| ResMed AirSense 10 AutoSet | $960 | 2.75 lbs | 4-20 cm H2O | Built in, heated hose extra | 26.6 dBA | 2 years |
+| ResMed AirSense 10 AutoSet | $960 | 2.75 lbs | 4-20 cm H2O | Built in, heated hose included | 26.6 dBA | 2 years |
 | React Health G3 X Auto | $873 | Not published | 4-20 cm H2O | Built in, heated tube included | Under 28 dBA at 10 cm | 5 years |
 | ResMed AirMini AutoSet | $919 | 0.66 lbs | 4-20 cm H2O | Waterless HumidX, sold separately | 29 dBA | 2 years |
 | Transcend Micro 510 | $829 | 0.48 lbs | 4-20 cm H2O | Waterless AirMist HME | 25-29 dBA with muffler | 3 years |
@@ -141,7 +141,7 @@ Three honest observations about where the differences live.
 
 **The mask matters more than the machine.** Leaks, pressure sores, dry mouth and claustrophobia are mask problems. Every machine here delivers the prescribed pressure competently. If you are choosing between spending $130 more on a machine or spending it on getting the mask right, spend it on the mask.
 
-**Humidification is the comfort feature people underrate.** Dry mouth and nasal irritation are among the most common reasons people abandon therapy in the first month. Built-in heated humidification plus a heated hose is the configuration that solves it. On the ResMed machines the heated hose is a separate purchase; on the G3 X it is in the box.
+**Humidification is the comfort feature people underrate.** Dry mouth and nasal irritation are among the most common reasons people abandon therapy in the first month. Built-in heated humidification plus a heated hose is the configuration that solves it. The AirSense 11's heated hose is a separate purchase ($46 to $66 at CPAP.com); the AirSense 10 and the G3 X include one.
 
 **The onboarding software is worth something, and less than it looks.** App-based nightly scores genuinely help some people through the first weeks. They also become wallpaper by month three. If you already know you will not open an app, do not pay for one.
 

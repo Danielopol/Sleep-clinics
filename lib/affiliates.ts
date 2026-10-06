@@ -106,6 +106,8 @@ const CPAPCOM_ELIGIBLE_BLOG_SLUGS = new Set([
   // Replacement guide: mostly about when not to buy, with the machine prices
   // for the readers who do need one.
   "when-to-replace-cpap-machine",
+  // High-pressure and bilevel guide, priced off CPAP.com's own listings.
+  "best-cpap-machines-high-pressure-settings",
 ])
 
 export function isBlogPostEligibleForCpapCom(slug: string): boolean {

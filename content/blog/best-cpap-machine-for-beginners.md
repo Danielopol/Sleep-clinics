@@ -71,7 +71,7 @@ There are three interface types, and the right one depends on how you breathe at
 A new machine typically ships with the device, a humidifier chamber, a hose, a power supply, one filter and a manual. It usually does not include:
 
 - **A mask.** Bought separately unless you buy a bundle.
-- **A heated hose**, on the ResMed machines. Separate purchase, and the thing that solves rainout and dry air.
+- **A heated hose**, on the AirSense 11. Separate purchase ($46 on sale, $66 list at CPAP.com), and the thing that solves rainout and dry air. The AirSense 10 and the G3 X include one.
 - **Distilled water.** Use distilled, not tap. Mineral scale ruins chambers.
 - **Spare filters and a spare cushion.** Cushions wear out fastest of anything in the system.
 
@@ -83,7 +83,7 @@ Most of what alarms beginners is normal and fixable. Here is what to expect and 
 
 **Air feels like too much when you lie down.** Use the ramp. It starts you at a low pressure and builds to your prescribed setting as you fall asleep.
 
-**Exhaling feels like pushing against a wall.** This is the single most common early complaint and it has a specific fix: exhale pressure relief, called EPR on ResMed machines. It drops pressure slightly as you breathe out. Ask your clinician whether it is enabled and at what level.
+**Exhaling feels like pushing against a wall.** This is among the most common early complaints, and the usual first adjustment is exhale pressure relief, called EPR on ResMed machines. It drops pressure slightly as you breathe out. It is a setting for your clinician to choose and check, because pressure relief can affect how well therapy controls events in some people. Ask whether it is enabled and at what level.
 
 **Dry mouth, dry nose, or a blocked nose in the morning.** Turn humidification up. If you get condensation in the hose instead ("rainout"), that is a heated hose problem, not a humidity problem.
 

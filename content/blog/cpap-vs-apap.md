@@ -22,7 +22,7 @@ What follows is what the two modes actually do, what the clinical evidence says 
 
 Both are treating the same thing the same way: holding your airway open with air pressure. The difference is whether the amount is fixed in advance or adjusted in real time.
 
-A third term you will see is **bilevel (BiPAP)**, which uses separate inhale and exhale pressures. That is a different category with its own prescribing reasons, not a premium version of the two above.
+A third term you will see is **bilevel (BiPAP)**, which uses separate inhale and exhale pressures. That is a different category with its own prescribing reasons, not a premium version of the two above. We cover when clinicians reach for it in our guide to [high pressure settings](/blog/best-cpap-machines-high-pressure-settings).
 
 ## Why this is not really a shopping decision
 
@@ -92,7 +92,7 @@ If a supplier presents APAP as a paid upgrade over CPAP, ask them to show you wh
 If the reason you are researching modes is that therapy is uncomfortable, mode is unlikely to be the lever. In order of how often they are the real cause:
 
 1. **Mask fit and leak.** By a wide margin the most common cause of everything people dislike about CPAP.
-2. **Exhale pressure relief**, called EPR on ResMed machines. It drops pressure as you breathe out and is the standard fix for "it feels like exhaling against a wall."
+2. **Exhale pressure relief**, called EPR on ResMed machines. It drops pressure as you breathe out and is the usual first adjustment for "it feels like exhaling against a wall," set and checked by your clinician because it can affect event control in some people.
 3. **Humidification.** Dry mouth, dry nose, and morning congestion.
 4. **Ramp.** For the feeling that the pressure is too much at bedtime.
 5. **The mode.** Last, and usually only after the first four have been addressed.

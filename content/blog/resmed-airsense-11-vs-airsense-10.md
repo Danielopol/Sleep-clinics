@@ -10,9 +10,9 @@ tags: ["Sleep Apnea", "CPAP", "CPAP Machines", "Buying Guide", "ResMed"]
 
 If you are choosing between the ResMed AirSense 11 AutoSet and the AirSense 10 AutoSet, here is the part most comparison pages bury: these are not two different levels of therapy. They run the same AutoSet algorithm across the same 4 to 20 cm H2O range, with the same exhale relief, the same ramp, and the same two-year warranty. Whichever you pick, the air you get is effectively the same air.
 
-At the time of writing CPAP.com lists the AirSense 11 at $1,004 and the AirSense 10 at $960. A $44 gap on a machine you will use for five years is not a budget decision, so the usual "is it worth the upgrade" framing does not really apply. The real question is which interface and which data setup fits you, and, if you already own an AirSense 10, what the switch quietly costs in accessories.
+At the time of writing CPAP.com lists the AirSense 11 at $1,004 and the AirSense 10 at $960. The box matters, though. The AirSense 10 includes a heated ClimateLine hose, while the AirSense 11 ships with a standard SlimLine hose, and its ClimateLineAir 11 heated hose is a separate purchase at $46 on sale ($66 list). Set up the same way, the gap is about $90 to $110, which on a machine you will use for five years is still not a budget decision, so the usual "is it worth the upgrade" framing does not really apply. The real question is which interface and which data setup fits you, and, if you already own an AirSense 10, what switching actually costs.
 
-Prices and specifications here were checked on CPAP.com on September 23, 2026. This is a specification and feature comparison, not a hands-on test: we have not run either machine on a bench or slept on both.
+Prices and specifications here were checked on CPAP.com on September 23, 2026, and the heated hose, water chamber and filter prices on October 6, 2026. This is a specification and feature comparison, not a hands-on test: we have not run either machine on a bench or slept on both.
 
 ## The short answer
 
@@ -20,7 +20,7 @@ Prices and specifications here were checked on CPAP.com on September 23, 2026. T
 
 **Buy the AirSense 10 if** you already own one and your accessories still work, you prefer a physical dial to a touchscreen, or you want a machine your clinic and DME supplier have been troubleshooting for a decade.
 
-**Do not switch from a working AirSense 10 to an AirSense 11** expecting better therapy. You will spend the machine price plus roughly $150 to $250 replacing parts that do not carry over, for the same pressure delivered through a nicer screen.
+**Do not switch from a working AirSense 10 to an AirSense 11** expecting better therapy. You will pay the full machine price, plus $46 to $66 for the AirSense 11's heated hose, for the same pressure delivered through a nicer screen, and your spare AirSense 10 chambers, filters and hoses stop being useful.
 
 Everything below is the reasoning.
 
@@ -30,7 +30,7 @@ Worth stating plainly, because the marketing around the AirSense 11 does not mak
 
 - **The AutoSet algorithm.** Same breath-by-breath pressure adjustment, same underlying therapy logic.
 - **Pressure range.** 4 to 20 cm H2O on both.
-- **Expiratory Pressure Relief (EPR).** The setting that drops pressure as you breathe out, and the most common fix when someone says CPAP feels like exhaling against a wall.
+- **Expiratory Pressure Relief (EPR).** The setting that drops pressure as you breathe out, and the usual first adjustment when someone says CPAP feels like exhaling against a wall. Your clinician should set and check it.
 - **AutoRamp and SmartStart.** Gradual pressure at bedtime, automatic start when you breathe into the mask.
 - **Built-in heated humidification**, with climate control available through a heated hose.
 - **Masks.** Every ResMed mask, and every other brand's mask, fits both. Mask choice is completely independent of this decision.
@@ -82,6 +82,8 @@ The AirSense 11 uses a 65W power supply, the AirSense 10 a 90W one. They are not
 | | AirSense 11 AutoSet | AirSense 10 AutoSet |
 |---|---|---|
 | Price (CPAP.com) | $1,004 | $960 |
+| Heated hose in the box | No (ClimateLineAir 11, $46 to $66 extra) | Yes (ClimateLine) |
+| Price with a heated hose | About $1,050 to $1,070 | $960 |
 | Algorithm | AutoSet | AutoSet |
 | Pressure range | 4-20 cm H2O | 4-20 cm H2O |
 | Interface | 3.5" touchscreen | Display with dial |
@@ -96,20 +98,20 @@ The AirSense 11 uses a 65W power supply, the AirSense 10 a 90W one. They are not
 
 ## If you already own an AirSense 10
 
-This is where the $44 price gap stops being the number that matters.
+This is where the sticker price stops being the whole story, though in a smaller way than most people expect.
 
 **Carries over:** your mask, your headgear, and standard 22mm or SlimLine 15mm tubing.
 
 **Does not carry over:**
 
-- **The water chamber.** The AirSense 11 chamber is a different shape and does not fit the AirSense 10, or the reverse.
-- **The ClimateLineAir heated hose.** Model specific. An AirSense 10 climate hose will not run an AirSense 11, and you need the ClimateLineAir 11 instead.
-- **Filters.** The AirSense 11 uses a smaller filter with a different tab, made for the 11 and AirCurve 11 only. Your stock of AirSense 10 filters becomes useless.
+- **The heated hose.** An AirSense 10 ClimateLine hose will not run an AirSense 11, which needs the ClimateLineAir 11. This is the one part you have to buy, because the AirSense 11 does not include it: $46 on sale or $66 list at CPAP.com.
+- **Spare water chambers.** The AirSense 11 chamber is a different shape and does not fit the AirSense 10, or the reverse.
+- **Spare filters.** The AirSense 11 uses a smaller filter with a different tab, made for the 11 and AirCurve 11 only. Any AirSense 10 filters you have stocked become useless.
 - **The power supply.** 65W against 90W.
 
-Replacing a heated hose, a water chamber and a filter pack is realistically $150 to $250 depending on what you buy. Budget for it, or the upgrade costs meaningfully more than the shelf price suggested.
+A new AirSense 11 comes with its own water chamber, power supply and one filter in the box, so you are not buying those again. What you lose is the value of whatever AirSense 10 spares you have stocked. Replacement spares for the new machine are inexpensive: at CPAP.com an AirSense 11 water chamber is $29 on sale ($44 list) and a six-pack of filters is $9 ($11 list). The heated hose plus one spare chamber and one filter pack comes to about $85 to $120.
 
-None of this is a reason to avoid the AirSense 11. It is a reason not to be surprised, and a reason to order the accessories at the same time rather than discovering mid-week that your hose does not fit.
+That is worth knowing but not dramatic. None of it is a reason to avoid the AirSense 11. It is a reason to order the heated hose with the machine rather than discovering mid-week that your old one does not fit.
 
 ## Two things to check before you buy an AirSense 10
 
@@ -127,7 +129,7 @@ If you have not been diagnosed yet, that is the step before any of this. [Find a
 
 ## The bottom line
 
-The AirSense 11 is the better machine for someone starting therapy: the guided setup, practice mode and hands-off data upload all matter most in the weeks when people quit. For $44 over the AirSense 10, there is no real argument for saving the money if you are buying your first machine.
+The AirSense 11 is the better machine for someone starting therapy: the guided setup, practice mode and hands-off data upload all matter most in the weeks when people quit. The extra cost over an AirSense 10 set up the same way is about $90 to $110, small enough against five years of use that, for a first machine, the coaching is worth paying for.
 
 The AirSense 10 is the better machine for someone who already lives with one, prefers the dial, and has a drawer of accessories that fit it. It is not a compromise. It is the same therapy with an older interface and a slightly lower noise figure.
 
@@ -135,7 +137,7 @@ And if you already have a working AirSense 10, the honest advice is to keep it, 
 
 ## Sources
 
-- CPAP.com product listings and pricing for the AirSense 11 AutoSet, AirSense 10 AutoSet and certified pre-owned AirSense 10, checked September 23, 2026
+- CPAP.com product listings, included-items lists and pricing for the AirSense 11 AutoSet, AirSense 10 AutoSet and certified pre-owned AirSense 10, checked September 23, 2026, and for the ClimateLineAir 11 heated tubing, AirSense 11 water chamber and AirSense 11 filters, checked October 6, 2026
 - ResMed AirSense 11 product specifications, including connectivity and onboarding features
 - ResMed AirSense 10 product specifications, including the card-to-cloud variant
 - Accessory compatibility confirmed against ResMed AirSense 11 filter, humidifier chamber and ClimateLineAir 11 product documentation
