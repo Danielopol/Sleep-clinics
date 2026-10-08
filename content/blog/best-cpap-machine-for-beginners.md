@@ -70,7 +70,7 @@ There are three interface types, and the right one depends on how you breathe at
 
 A new machine typically ships with the device, a humidifier chamber, a hose, a power supply, one filter and a manual. It usually does not include:
 
-- **A mask.** Bought separately unless you buy a bundle.
+- **A mask.** Bought separately unless you buy a bundle, which at CPAP.com is priced at the same total as the parts, so it is a convenience rather than a discount. See [bundle vs buying separately](/blog/cpap-machine-bundle-vs-buying-separately).
 - **A heated hose**, on the AirSense 11. Separate purchase ($46 on sale, $66 list at CPAP.com), and the thing that solves rainout and dry air. The AirSense 10 and the G3 X include one.
 - **Distilled water.** Use distilled, not tap. Mineral scale ruins chambers.
 - **Spare filters and a spare cushion.** Cushions wear out fastest of anything in the system.

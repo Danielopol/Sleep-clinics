@@ -115,7 +115,7 @@ Travel machines are a second machine, not a first one. They trade humidification
 
 **Who it suits:** campers, van travelers, and anyone who needs off-grid nights. The battery ecosystem is the reason to choose it over the AirMini.
 
-**The catch:** the standalone price is the beginning of the cost, not the end. Compare bundles, not base prices.
+**The catch:** the standalone price is the beginning of the cost, not the end. Compare what is inside each bundle, not just the base prices: the Power bundle is the Essentials bundle plus the battery, and the Essentials bundle adds a year of supplies and travel accessories. Our [bundle vs separate comparison](/blog/cpap-machine-bundle-vs-buying-separately) prices the bundles against their parts.
 
 ## If you were prescribed bilevel
 
