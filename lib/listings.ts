@@ -93,6 +93,40 @@ export async function markSubmissionPaid(params: {
   if (error) console.error("markSubmissionPaid failed:", error)
 }
 
+/**
+ * Reads a submission back so the paid notification can carry the full details.
+ * Returns null without a database, or when the row was never stored.
+ */
+export async function getSubmission(submissionId: string): Promise<SubmissionInput | null> {
+  const supabase = getSupabaseAdmin()
+  if (!supabase) return null
+
+  const { data, error } = await supabase
+    .from("clinic_submissions")
+    .select("clinic_name, address, city, state, zip, phone, specialty, website, description, contact_email")
+    .eq("id", submissionId)
+    .maybeSingle()
+
+  if (error) {
+    console.error("getSubmission failed:", error)
+    return null
+  }
+  if (!data) return null
+
+  return {
+    clinicName: data.clinic_name as string,
+    address: data.address ?? undefined,
+    city: data.city ?? undefined,
+    state: data.state ?? undefined,
+    zip: data.zip ?? undefined,
+    phone: data.phone ?? undefined,
+    specialty: data.specialty ?? undefined,
+    website: data.website ?? undefined,
+    description: data.description ?? undefined,
+    contactEmail: data.contact_email ?? undefined,
+  }
+}
+
 // --- featured placements ---
 
 /**

@@ -4,6 +4,7 @@ import type Stripe from "stripe"
 import { getStripeClient } from "@/lib/stripe"
 import {
   markSubmissionPaid,
+  getSubmission,
   submissionRef,
   activateSubscription,
   setSubscriptionStatus,
@@ -88,6 +89,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session, stripe:
       contactEmail: session.customer_details?.email ?? session.customer_email ?? null,
       sessionId: session.id,
       storedInDatabase: isStoreConfigured(),
+      submission: await getSubmission(submissionId),
     })
     return
   }

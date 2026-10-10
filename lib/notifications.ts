@@ -118,7 +118,26 @@ export async function notifyPriorityAddPaid(params: {
   contactEmail: string | null
   sessionId: string
   storedInDatabase: boolean
+  /** The stored row, when there is one. Null without a database. */
+  submission: Partial<SubmissionFields> | null
 }) {
+  const s = params.submission
+  const detailsBlock = s
+    ? `<h3>Submitted details</h3>
+       ${submissionTable({
+         clinicName: s.clinicName ?? params.clinicName,
+         address: s.address ?? "",
+         city: s.city ?? params.city,
+         state: s.state ?? params.state,
+         zip: s.zip ?? "",
+         phone: s.phone ?? "",
+         specialty: s.specialty ?? "",
+         contactEmail: s.contactEmail ?? params.contactEmail ?? "",
+         website: s.website,
+         description: s.description,
+       })}`
+    : ""
+
   await send({
     to: operatorAddress(),
     subject: `PAID priority add: ${params.clinicName} (${params.city}, ${params.state})`,
@@ -131,10 +150,13 @@ export async function notifyPriorityAddPaid(params: {
       <p><strong>Amount:</strong> ${escapeHtml(formatPrice(params.amountCents))}</p>
       <p><strong>Contact:</strong> ${escapeHtml(params.contactEmail ?? "not provided")}</p>
       <p><strong>Stripe session:</strong> ${escapeHtml(params.sessionId)}</p>
-      <p>${params.storedInDatabase
-        ? "The full submission is in the clinic_submissions table, marked paid."
-        : "The full submission was emailed separately under the same reference."}</p>
+      <p>${s
+        ? "The full submission is below, and in the clinic_submissions table, marked paid."
+        : params.storedInDatabase
+          ? "The submission row could not be read back. Check the clinic_submissions table, or the earlier email with the same reference."
+          : "The full submission was emailed separately under the same reference."}</p>
       <p><strong>48 hour review clock starts now.</strong></p>
+      ${detailsBlock}
     `,
   })
 
