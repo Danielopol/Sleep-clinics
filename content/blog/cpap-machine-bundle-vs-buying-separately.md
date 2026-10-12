@@ -120,7 +120,7 @@ If you have never worn a CPAP mask, our [guide for a new diagnosis](/blog/best-c
 
 ## If you are paying through insurance
 
-Everything above is a cash purchase. If your plan covers a machine and supplies through a durable medical equipment supplier, price that route first, because a bundle bought at retail replaces coverage you may already have. Our [new diagnosis guide](/blog/best-cpap-machine-for-beginners) explains how the Medicare rental and adherence rules work, and most commercial plans follow a similar structure.
+Everything above is a cash purchase, and we add up what a full cash setup and five years of supplies cost in [what a CPAP machine costs without insurance](/blog/how-much-does-a-cpap-machine-cost-without-insurance). If your plan covers a machine and supplies through a durable medical equipment supplier, price that route first, because a bundle bought at retail replaces coverage you may already have. Our [new diagnosis guide](/blog/best-cpap-machine-for-beginners) explains how the Medicare rental and adherence rules work, and most commercial plans follow a similar structure.
 
 ## Before you buy any bundle
 

@@ -110,6 +110,9 @@ const CPAPCOM_ELIGIBLE_BLOG_SLUGS = new Set([
   "best-cpap-machines-high-pressure-settings",
   // Bundle-vs-parts price test, every figure from CPAP.com's own listings.
   "cpap-machine-bundle-vs-buying-separately",
+  // Cash cost of a working setup and five years of supplies, all priced off
+  // CPAP.com's own listings.
+  "how-much-does-a-cpap-machine-cost-without-insurance",
 ])
 
 export function isBlogPostEligibleForCpapCom(slug: string): boolean {

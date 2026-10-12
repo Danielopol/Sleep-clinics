@@ -147,7 +147,7 @@ Three honest observations about where the differences live.
 
 ## What this really costs
 
-**Buying outright.** The cash prices above are the full cost of the device before a mask, hose, filters and a prescription. Budget $150 to $300 more for a mask and starter supplies.
+**Buying outright.** The cash prices above are the full cost of the device before a mask, hose, filters and a prescription. Budget about $150 to $250 more for a $105 to $155 mask, the $46 heated hose if the machine does not include one, and cleaning supplies. We price the whole setup and five years of supplies in [what a CPAP machine costs without insurance](/blog/how-much-does-a-cpap-machine-cost-without-insurance).
 
 **Through insurance.** Most US plans, including Medicare, do not simply buy you a machine. Medicare's coverage policy for PAP devices (LCD L33718) runs a 13 month capped rental, with an initial trial period during which you must document adherence, commonly applied as at least 4 hours per night on 70% of nights in a consecutive 30 day window within the first three months. Miss it and coverage can be withdrawn, leaving you responsible for the equipment. Many commercial plans mirror this structure.
 

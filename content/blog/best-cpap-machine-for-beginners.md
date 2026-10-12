@@ -22,7 +22,7 @@ Most newly diagnosed people never shop for a machine at all. Your clinic sends t
 
 **Buying it yourself.** You can decline the supplier and buy a machine with your prescription. You pay the full price up front, you choose the exact model, and there is no adherence report going to a payer. That last part is not permission to use it less. The reason the rule exists is that the therapy only works on the nights you use it. It just means the decision stays between you and your sleep physician.
 
-**Which is cheaper** depends entirely on your plan. With a high deductible, the cash price can beat coinsurance across a 13 month rental. With a low deductible and good DME coverage, insurance usually wins. Get the rental terms from your supplier and compare them against the cash price before you commit, because switching later is harder than choosing now.
+**Which is cheaper** depends entirely on your plan. With a high deductible, the cash price can beat coinsurance across a 13 month rental. With a low deductible and good DME coverage, insurance usually wins. Get the rental terms from your supplier and compare them against the cash price before you commit, because switching later is harder than choosing now. We work out the cash side, a full setup and five years of supplies, in [what a CPAP machine costs without insurance](/blog/how-much-does-a-cpap-machine-cost-without-insurance).
 
 One more thing about the DME path: you can generally ask for a specific machine. Suppliers stock what they stock, but "I would like an AirSense 11 rather than whatever is on the shelf" is a reasonable request, and it costs nothing to ask.
 
