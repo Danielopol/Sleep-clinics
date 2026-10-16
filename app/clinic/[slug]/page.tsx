@@ -3,7 +3,8 @@ import { BadgeCheck, Star } from "lucide-react"
 import { Navigation } from "@/components/navigation"
 import { ClinicDetailCard } from "@/components/clinic-detail-card"
 import { getListingBadges } from "@/lib/listings"
-import { getClinicBySlug, getClinicById, getClinicsData, formatOpeningHours } from "@/lib/clinics"
+import { getClinicBySlug, getClinicsData, formatOpeningHours } from "@/lib/clinics"
+import { resolveLegacyClinicId } from "@/lib/legacy-ids"
 import { notFound, permanentRedirect } from "next/navigation"
 import { BackLink } from "@/components/back-link"
 import { ClinicRelatedLinks } from "@/components/clinic-related-links"
@@ -32,8 +33,9 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
-  const clinic = /^\d+$/.test(slug)
-    ? getClinicById(Number(slug))
+  const legacy = /^\d+$/.test(slug) ? resolveLegacyClinicId(slug) : null
+  const clinic = legacy
+    ? typeof legacy === "object" ? getClinicBySlug(legacy.slug) : undefined
     : getClinicBySlug(slug)
 
   if (!clinic) {
@@ -186,10 +188,11 @@ export default async function ClinicDetailPage({
 }) {
   const { slug } = await params
 
-  // Handle legacy numeric ID URLs, permanently redirect to slug URL
+  // Legacy numeric ID URLs are normally rewritten to /api/clinic-redirect
+  // (next.config.mjs) before reaching this page; this is only a fallback.
   if (/^\d+$/.test(slug)) {
-    const clinic = getClinicById(Number(slug))
-    if (clinic?.slug) permanentRedirect(`/clinic/${clinic.slug}`)
+    const resolved = resolveLegacyClinicId(slug)
+    if (typeof resolved === "object") permanentRedirect(`/clinic/${resolved.slug}`)
     notFound()
   }
 

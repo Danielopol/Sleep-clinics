@@ -26,6 +26,15 @@ This is a **US Sleep Clinics** website built with Next.js 16 (App Router), React
 3. **API Layer**: `/app/api/clinics/route.ts` reads and caches `data/clinics.json` / `data/metadata.json` in memory (the cache is populated on first request and not invalidated, so a running dev server must be restarted to pick up regenerated data)
 4. **Frontend**: Client components fetch from `/api/clinics` on mount
 
+**Clinic ids are not stable.** `clinic.id` is the row position in the Excel
+file, so it shifts whenever rows are added, removed, or merged. Never use it in
+a URL or anything persisted. Legacy `/clinic/<numeric-id>` URLs (the site's
+URLs until 2026-05-09) resolve through `scripts/legacy-id-map.json`, a frozen,
+append-only id -> slug map rebuilt from git history by
+`scripts/build-legacy-id-map.mjs` (`lib/legacy-ids.ts` reads it, following
+`scripts/duplicate-clinics.json` merges). Never edit or regenerate existing
+entries; a clinic removed from the Excel file just makes its id answer 410.
+
 After editing the Excel file, run `npm run geocode` (only needed when addresses change, geocodes new ones into the cache) and then `npm run generate-data` to refresh the site data.
 
 The API supports two modes:
