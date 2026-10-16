@@ -87,8 +87,12 @@ Key rules:
   `docs/PAID-LISTINGS.md`). Featured placement, which is labeled advertising and
   claims nothing about anyone, does activate on payment.
 - **Every plan can be bought by a clinic that is not listed yet.** Those rows
-  carry `pending_clinic` and a null `clinic_id`, and render nothing until the
+  carry `pending_clinic` and a null `clinic_slug`, and render nothing until the
   listing is created by hand and linked.
+- **Paid rows are keyed by `clinic_slug`, never `clinic.id`.** The id is a
+  row position and shifts on every data update, which would move a paid badge
+  onto another clinic. Lookups, upserts, badge sets, `/claim?clinic=` and the
+  `FEATURED_CLINIC_SLUGS`/`VERIFIED_CLINIC_SLUGS` overrides all use the slug.
 - **Paid state lives in Supabase, never in the Excel file.** `data/clinics.json`
   is regenerated on every deploy, so anything written there would be lost.
   Featured flags are attached at request time in `lib/listings.ts`.

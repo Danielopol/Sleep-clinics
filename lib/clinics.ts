@@ -26,11 +26,9 @@ export function getMetadata() {
   return cachedMetadata!
 }
 
-export function getClinicById(id: number): Clinic | undefined {
-  const clinics = getClinicsData()
-  return clinics.find(c => c.id === id)
-}
-
+// There is deliberately no getClinicById: clinic.id is the clinic's row position
+// in the Excel file and shifts on every data update. Look clinics up by slug, and
+// resolve legacy numeric URLs through lib/legacy-ids.ts.
 export function getClinicBySlug(slug: string): Clinic | undefined {
   const clinics = getClinicsData()
   return clinics.find(c => c.slug === slug)

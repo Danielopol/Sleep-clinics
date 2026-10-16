@@ -203,8 +203,8 @@ export default async function ClinicDetailPage({
   }
 
   const badges = await getListingBadges()
-  const isVerified = badges.verified.has(clinic.id)
-  const isFeatured = badges.featured.has(clinic.id)
+  const isVerified = badges.verified.has(slug)
+  const isFeatured = badges.featured.has(slug)
 
   return (
     <div className="min-h-screen bg-[image:var(--bg-primary)]">
@@ -330,7 +330,7 @@ export default async function ClinicDetailPage({
                 </p>
               </div>
               <Link
-                href={`/claim?clinic=${clinic.id}`}
+                href={`/claim?clinic=${slug}`}
                 className="shrink-0 px-5 py-2.5 rounded-lg bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-400 hover:to-violet-400 text-white font-semibold transition-all text-sm shadow-md shadow-indigo-500/20"
               >
                 Claim this listing

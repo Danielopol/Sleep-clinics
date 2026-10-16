@@ -131,7 +131,7 @@ export async function getSubmission(submissionId: string): Promise<SubmissionInp
 
 /**
  * A clinic that is not in the directory yet, bought as part of a subscription.
- * Held verbatim until the listing is created by hand and linked by clinic_id.
+ * Held verbatim until the listing is created by hand and linked by clinic_slug.
  */
 export interface PendingClinic {
   clinicName: string
@@ -147,8 +147,7 @@ export interface PendingClinic {
 
 export interface SubscriptionInput {
   plan: SubscriptionPlanId
-  /** Null when the clinic is not in the directory yet. */
-  clinicId?: number | null
+  /** The key for everything paid. Null when the clinic is not in the directory yet. */
   clinicSlug?: string | null
   clinicName?: string | null
   /** Null for a new clinic outside any known city page. */
@@ -224,14 +223,14 @@ export async function getCitySlotAvailability(
 }
 
 /** The subscription this clinic already holds, live or pending, if any. */
-export async function getSubscriptionForClinic(clinicId: number) {
+export async function getSubscriptionForClinic(clinicSlug: string) {
   const supabase = getSupabaseAdmin()
   if (!supabase) return null
 
   const { data, error } = await supabase
     .from("featured_listings")
     .select("id, plan, status, verified_at, current_period_end")
-    .eq("clinic_id", clinicId)
+    .eq("clinic_slug", clinicSlug)
     .maybeSingle()
 
   if (error) {
@@ -244,7 +243,7 @@ export async function getSubscriptionForClinic(clinicId: number) {
 /**
  * Reserves the row while the customer is in Stripe Checkout.
  *
- * A new clinic has no clinic_id to conflict on, so each such checkout inserts
+ * A new clinic has no clinic_slug to conflict on, so each such checkout inserts
  * its own row. That is intended: the rows are pending until paid, and the
  * webhook only ever promotes the one whose session completed.
  */
@@ -253,7 +252,6 @@ export async function reserveSubscriptionSlot(input: SubscriptionInput): Promise
   if (!supabase) return
 
   const row = {
-    clinic_id: input.clinicId ?? null,
     clinic_slug: input.clinicSlug ?? null,
     clinic_name: input.clinicName ?? null,
     city_slug: input.citySlug ?? null,
@@ -268,8 +266,8 @@ export async function reserveSubscriptionSlot(input: SubscriptionInput): Promise
   }
 
   const { error } =
-    input.clinicId != null
-      ? await supabase.from("featured_listings").upsert(row, { onConflict: "clinic_id" })
+    input.clinicSlug != null
+      ? await supabase.from("featured_listings").upsert(row, { onConflict: "clinic_slug" })
       : await supabase.from("featured_listings").insert(row)
 
   if (error) console.error("reserveSubscriptionSlot failed:", error)
@@ -282,14 +280,13 @@ export async function reserveSubscriptionSlot(input: SubscriptionInput): Promise
  * claim and only a human sets it, via markVerified below. Featured placement,
  * which is advertising rather than a claim about anyone, goes live here.
  *
- * Upserts rather than updates when a clinic id is known: the reservation row is
+ * Upserts rather than updates when the clinic is known: the reservation row is
  * written before the customer leaves for Stripe, and if that write failed (or
  * Supabase was added between the two steps) an update would match nothing and
  * the clinic would have paid for something that never appears.
  */
 export async function activateSubscription(params: {
   plan: SubscriptionPlanId
-  clinicId?: number | null
   clinicSlug?: string | null
   clinicName?: string | null
   citySlug?: string | null
@@ -305,7 +302,6 @@ export async function activateSubscription(params: {
   if (!supabase) return
 
   const row = {
-    clinic_id: params.clinicId ?? null,
     clinic_slug: params.clinicSlug ?? null,
     clinic_name: params.clinicName ?? null,
     city_slug: params.citySlug ?? null,
@@ -323,11 +319,11 @@ export async function activateSubscription(params: {
     updated_at: new Date().toISOString(),
   }
 
-  // A new clinic has no id to upsert on, so promote the pending row by its
+  // A new clinic has no slug to upsert on, so promote the pending row by its
   // Stripe session instead. That row was written when checkout opened.
   const { error } =
-    params.clinicId != null
-      ? await supabase.from("featured_listings").upsert(row, { onConflict: "clinic_id" })
+    params.clinicSlug != null
+      ? await supabase.from("featured_listings").upsert(row, { onConflict: "clinic_slug" })
       : await supabase
           .from("featured_listings")
           .upsert(row, { onConflict: "stripe_session_id" })
@@ -364,7 +360,7 @@ export async function setSubscriptionStatus(
  * the clinic. Nothing in the payment path calls this: run it by hand once the
  * check is done (see docs/PAID-LISTINGS.md).
  */
-export async function markVerified(clinicId: number, verified = true): Promise<boolean> {
+export async function markVerified(clinicSlug: string, verified = true): Promise<boolean> {
   const supabase = getSupabaseAdmin()
   if (!supabase) return false
 
@@ -374,7 +370,7 @@ export async function markVerified(clinicId: number, verified = true): Promise<b
       verified_at: verified ? new Date().toISOString() : null,
       updated_at: new Date().toISOString(),
     })
-    .eq("clinic_id", clinicId)
+    .eq("clinic_slug", clinicSlug)
 
   if (error) {
     console.error("markVerified failed:", error)
@@ -387,8 +383,7 @@ export async function markVerified(clinicId: number, verified = true): Promise<b
 /** Links a paid subscription to the listing once it has been created by hand. */
 export async function attachClinicToSubscription(params: {
   subscriptionRowId: string
-  clinicId: number
-  clinicSlug?: string | null
+  clinicSlug: string
   citySlug: string
   stateSlug: string
 }): Promise<boolean> {
@@ -398,8 +393,7 @@ export async function attachClinicToSubscription(params: {
   const { error } = await supabase
     .from("featured_listings")
     .update({
-      clinic_id: params.clinicId,
-      clinic_slug: params.clinicSlug ?? null,
+      clinic_slug: params.clinicSlug,
       city_slug: params.citySlug,
       state_slug: params.stateSlug,
       updated_at: new Date().toISOString(),
@@ -421,7 +415,7 @@ export async function getSubscriptionByStripeId(subscriptionId: string) {
 
   const { data, error } = await supabase
     .from("featured_listings")
-    .select("clinic_id, clinic_slug, clinic_name, city_slug, state_slug, plan, contact_email")
+    .select("clinic_slug, clinic_name, city_slug, state_slug, plan, contact_email")
     .eq("stripe_subscription_id", subscriptionId)
     .maybeSingle()
 
@@ -458,7 +452,7 @@ export async function getUnlinkedSubscriptions() {
   const { data, error } = await supabase
     .from("featured_listings")
     .select("id, plan, pending_clinic, contact_email, created_at")
-    .is("clinic_id", null)
+    .is("clinic_slug", null)
     .in("status", ["active", "past_due"])
     .order("created_at", { ascending: true })
 
@@ -471,9 +465,14 @@ export async function getUnlinkedSubscriptions() {
 
 // --- listing reads (hot path: runs on every city page render) ---
 
+/**
+ * Clinic slugs, never `clinic.id`: the id is the clinic's row position in the
+ * Excel file and shifts on every data update, which would move a paid badge
+ * onto a different clinic.
+ */
 interface ListingFlags {
-  featured: Set<number>
-  verified: Set<number>
+  featured: Set<string>
+  verified: Set<string>
 }
 
 let listingCache: { flags: ListingFlags; at: number } | null = null
@@ -483,17 +482,25 @@ export function invalidateListingCaches(): void {
   listingCache = null
 }
 
-function manualIds(envValue: string | undefined): number[] {
+function manualSlugs(envValue: string | undefined): string[] {
   return (envValue ?? "")
     .split(",")
-    .map((v) => Number(v.trim()))
-    .filter((n) => Number.isFinite(n) && n > 0)
+    .map((v) => v.trim())
+    .filter(Boolean)
+}
+
+// The id-based overrides these replaced would now point at whatever clinic
+// happens to sit on that row, so they are ignored rather than honored.
+for (const legacy of ["FEATURED_CLINIC_IDS", "VERIFIED_CLINIC_IDS"]) {
+  if (process.env[legacy]) {
+    console.warn(`${legacy} is no longer read: list clinic slugs in ${legacy.replace("_IDS", "_SLUGS")} instead.`)
+  }
 }
 
 /**
  * One query for both badges, since every page that needs one needs the other.
  *
- * FEATURED_CLINIC_IDS and VERIFIED_CLINIC_IDS (comma separated) are merged on
+ * FEATURED_CLINIC_SLUGS and VERIFIED_CLINIC_SLUGS (comma separated) are merged on
  * top of the database result, so placements can be run manually, or previewed,
  * without a Supabase project.
  *
@@ -501,8 +508,8 @@ function manualIds(envValue: string | undefined): number[] {
  * rather than taking down a city page.
  */
 async function getListingFlags(): Promise<ListingFlags> {
-  const manualFeatured = manualIds(process.env.FEATURED_CLINIC_IDS)
-  const manualVerified = manualIds(process.env.VERIFIED_CLINIC_IDS)
+  const manualFeatured = manualSlugs(process.env.FEATURED_CLINIC_SLUGS)
+  const manualVerified = manualSlugs(process.env.VERIFIED_CLINIC_SLUGS)
 
   const merge = (flags: ListingFlags): ListingFlags => ({
     featured: new Set([...flags.featured, ...manualFeatured]),
@@ -527,18 +534,18 @@ async function getListingFlags(): Promise<ListingFlags> {
     // yanking a paying customer off the page over one failed card charge.
     const { data, error } = await supabase
       .from("featured_listings")
-      .select("clinic_id, plan, verified_at")
+      .select("clinic_slug, plan, verified_at")
       .in("status", ["active", "past_due"])
-      .not("clinic_id", "is", null)
+      .not("clinic_slug", "is", null)
 
     if (error) throw error
 
     const flags: ListingFlags = { featured: new Set(), verified: new Set() }
     for (const row of data ?? []) {
-      const id = row.clinic_id as number
-      if (row.plan === "featured-city") flags.featured.add(id)
+      const slug = row.clinic_slug as string
+      if (row.plan === "featured-city") flags.featured.add(slug)
       // Both plans carry the badge, but only once a human has signed off.
-      if (row.verified_at) flags.verified.add(id)
+      if (row.verified_at) flags.verified.add(slug)
     }
 
     listingCache = { flags, at: now }
@@ -550,13 +557,13 @@ async function getListingFlags(): Promise<ListingFlags> {
   }
 }
 
-/** Clinic ids with a live featured placement. */
-export async function getFeaturedClinicIds(): Promise<Set<number>> {
+/** Clinic slugs with a live featured placement. */
+export async function getFeaturedClinicSlugs(): Promise<Set<string>> {
   return (await getListingFlags()).featured
 }
 
-/** Clinic ids whose owner has been verified and holds a live subscription. */
-export async function getVerifiedClinicIds(): Promise<Set<number>> {
+/** Clinic slugs whose owner has been verified and holds a live subscription. */
+export async function getVerifiedClinicSlugs(): Promise<Set<string>> {
   return (await getListingFlags()).verified
 }
 
@@ -568,7 +575,6 @@ export async function getListingBadges(): Promise<ListingFlags> {
 // --- claim waitlist ---
 
 export interface WaitlistInput {
-  clinicId?: number | null
   clinicSlug?: string | null
   clinicName?: string | null
   contactName?: string | null
@@ -582,7 +588,6 @@ export async function addToClaimWaitlist(input: WaitlistInput): Promise<boolean>
   if (!supabase) return false
 
   const { error } = await supabase.from("claim_waitlist").insert({
-    clinic_id: input.clinicId ?? null,
     clinic_slug: input.clinicSlug ?? null,
     clinic_name: input.clinicName ?? null,
     contact_name: input.contactName ?? null,

@@ -95,12 +95,13 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session, stripe:
   }
 
   if (kind && isSubscriptionPlanId(kind)) {
-    // An empty clinicId means the clinic is not in the directory yet: the
+    // An empty clinicSlug means the clinic is not in the directory yet: the
     // purchase is real, but nothing can render against it until the listing is
     // created by hand and linked. The operator email says exactly that.
-    const rawClinicId = session.metadata?.clinicId
-    const clinicId = rawClinicId ? Number(rawClinicId) : null
-    const isNewClinic = session.metadata?.newClinic === "yes" || !clinicId
+    // Sessions also carried a numeric clinicId until slugs became the key; it
+    // is ignored, since row ids shift on every data update.
+    const clinicSlug = session.metadata?.clinicSlug || null
+    const isNewClinic = session.metadata?.newClinic === "yes" || !clinicSlug
 
     const subscriptionId =
       typeof session.subscription === "string"
@@ -128,8 +129,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session, stripe:
 
     await activateSubscription({
       plan: kind,
-      clinicId: clinicId && Number.isFinite(clinicId) ? clinicId : null,
-      clinicSlug: session.metadata?.clinicSlug || null,
+      clinicSlug: isNewClinic ? null : clinicSlug,
       clinicName: session.metadata?.clinicName || null,
       citySlug: session.metadata?.citySlug || null,
       stateSlug: session.metadata?.stateSlug || null,
@@ -146,9 +146,8 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session, stripe:
     await notifySubscriptionActivated({
       plan: kind,
       planName: getPlan(kind).name,
-      clinicId: clinicId && Number.isFinite(clinicId) ? clinicId : null,
       clinicName: session.metadata?.clinicName ?? "unknown clinic",
-      clinicSlug: session.metadata?.clinicSlug || null,
+      clinicSlug: isNewClinic ? null : clinicSlug,
       citySlug: session.metadata?.citySlug ?? "",
       stateSlug: session.metadata?.stateSlug ?? "",
       amountCents: session.amount_total,
@@ -191,7 +190,7 @@ async function handleSubscriptionChange(subscription: Stripe.Subscription) {
     await notifySubscriptionEnded({
       planName: getPlan(kind).name,
       clinicName: record?.clinic_name ?? subscription.metadata?.clinicName ?? null,
-      clinicId: record?.clinic_id ?? Number(subscription.metadata?.clinicId) ?? null,
+      clinicSlug: record?.clinic_slug ?? (subscription.metadata?.clinicSlug || null),
       reason: mapped === "past_due" ? "past_due" : "canceled",
       contactEmail: record?.contact_email ?? null,
       subscriptionId: subscription.id,

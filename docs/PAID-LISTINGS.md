@@ -11,7 +11,7 @@ pricing page, the buttons, and the amount Stripe charges all move together.
 
 Every plan includes adding the clinic when it is not in the directory yet, so a
 brand new clinic can buy any tier directly. Those purchases arrive with
-`clinic_id` empty and the submitted details in `pending_clinic`, and nothing
+`clinic_slug` empty and the submitted details in `pending_clinic`, and nothing
 renders for them until you create the listing and link it.
 
 There is no free submission path. `/submit` is checkout for the $99 priority
@@ -49,7 +49,9 @@ own.
 ### 2. Supabase
 
 1. Create a project.
-2. Run `supabase/schema.sql` in the SQL editor.
+2. Run `supabase/schema.sql` in the SQL editor. On a project created before
+   October 2026, run `supabase/migrations/003_key_by_clinic_slug.sql` instead,
+   and run it before deploying code that keys on `clinic_slug`.
 3. Copy the project URL into `SUPABASE_URL` and the **service role** key into
    `SUPABASE_SERVICE_ROLE_KEY`. Server only. Never `NEXT_PUBLIC_`.
 
@@ -58,7 +60,7 @@ read these tables. That is deliberate: they hold customer emails.
 
 Skipping Supabase is supported. Checkout still works and you still get an email
 for every order, but nothing is recorded, city slot caps cannot be enforced,
-and featured placements have to be set by hand through `FEATURED_CLINIC_IDS`.
+and featured placements have to be set by hand through `FEATURED_CLINIC_SLUGS`.
 
 ### 3. Email
 
@@ -110,8 +112,15 @@ Placements live in Supabase, not in the Excel file, so
 calls `revalidatePath` on the affected city and state pages, so a purchase
 appears within seconds instead of waiting for the next deploy.
 
-`FEATURED_CLINIC_IDS` (comma separated clinic ids) forces a placement without a
-subscription. Use it for comps, make-goods, and local testing.
+`FEATURED_CLINIC_SLUGS` (comma separated clinic slugs, `VERIFIED_CLINIC_SLUGS`
+for the badge) forces a placement without a subscription. Use it for comps,
+make-goods, and local testing.
+
+**Every paid row is keyed by `clinic_slug`, never by the numeric clinic id.**
+The id is the clinic's row position in the Excel file and shifts whenever rows
+are added or removed, so a badge keyed on it would move to another clinic on the
+next data update. If a clinic's slug ever changes (it is built from name, city
+and state), update `clinic_slug` on its row in the same deploy.
 
 ## What each purchase needs from you
 
@@ -130,7 +139,7 @@ a card charge cannot grant it. After each subscription:
    ```sql
    update public.featured_listings
    set verified_at = now(), updated_at = now()
-   where clinic_id = <id>;
+   where clinic_slug = '<clinic slug>';
    ```
 3. If you cannot verify them, refund in Stripe and cancel the subscription. The
    pricing page promises exactly that, so honor it.
@@ -147,8 +156,7 @@ same way as a priority add (below), then link it:
 
 ```sql
 update public.featured_listings
-set clinic_id = <new id>,
-    clinic_slug = '<new slug>',
+set clinic_slug = '<new slug>',
     city_slug = '<city slug>',
     state_slug = '<state slug>',
     updated_at = now()
@@ -161,7 +169,7 @@ To find anything left in that state:
 ```sql
 select id, plan, contact_email, pending_clinic, created_at
 from public.featured_listings
-where clinic_id is null and status in ('active', 'past_due')
+where clinic_slug is null and status in ('active', 'past_due')
 order by created_at;
 ```
 

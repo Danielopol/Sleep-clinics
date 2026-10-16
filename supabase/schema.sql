@@ -44,7 +44,7 @@ create index if not exists clinic_submissions_status_idx
 --
 -- Three columns gate what renders, and they are deliberately independent:
 --   * status       mirrors the Stripe subscription, nothing else
---   * clinic_id    null until the clinic exists in the directory. A brand new
+--   * clinic_slug  null until the clinic exists in the directory. A brand new
 --                  clinic can buy any plan, but nothing can render against it
 --                  until the listing is created and this is filled in.
 --   * verified_at  null until a human confirms the buyer represents the clinic.
@@ -52,12 +52,13 @@ create index if not exists clinic_submissions_status_idx
 --                  claim on a healthcare listing, so a card charge cannot grant
 --                  it. Featured placement is advertising and does not wait.
 --
--- clinic_id refers to Clinic.id in data/clinics.json, which is regenerated from
--- the Excel source on every deploy. clinic_slug is stored alongside it as the
--- stable human-readable key: if ids ever shift, reconcile on slug.
+-- clinic_slug is the clinic's public URL slug, the only stable key a clinic
+-- has. Never key on Clinic.id from data/clinics.json: it is a row position in
+-- the Excel file and shifts on every data update, which moves paid badges onto
+-- the wrong clinic. Installs older than migration 003 still have an unused
+-- clinic_id column.
 create table if not exists public.featured_listings (
   id uuid primary key default gen_random_uuid(),
-  clinic_id integer,
   clinic_slug text,
   clinic_name text,
   city_slug text,
@@ -84,7 +85,6 @@ create table if not exists public.featured_listings (
 alter table public.featured_listings add column if not exists plan text not null default 'featured-city';
 alter table public.featured_listings add column if not exists pending_clinic jsonb;
 alter table public.featured_listings add column if not exists verified_at timestamptz;
-alter table public.featured_listings alter column clinic_id drop not null;
 alter table public.featured_listings alter column city_slug drop not null;
 alter table public.featured_listings alter column state_slug drop not null;
 
@@ -100,9 +100,13 @@ begin
 end $$;
 
 -- One live placement per clinic. A clinic that cancels and comes back reuses
--- the row (the webhook upserts on clinic_id) rather than stacking duplicates.
-create unique index if not exists featured_listings_clinic_idx
-  on public.featured_listings (clinic_id);
+-- the row (the webhook upserts on clinic_slug) rather than stacking duplicates.
+create unique index if not exists featured_listings_clinic_slug_idx
+  on public.featured_listings (clinic_slug);
+
+create index if not exists featured_listings_unlinked_slug_idx
+  on public.featured_listings (status, created_at)
+  where clinic_slug is null;
 
 create index if not exists featured_listings_city_idx
   on public.featured_listings (state_slug, city_slug, status);
@@ -110,7 +114,6 @@ create index if not exists featured_listings_city_idx
 -- Waitlist for the Claimed and Verified tier, which is not self-serve yet.
 create table if not exists public.claim_waitlist (
   id uuid primary key default gen_random_uuid(),
-  clinic_id integer,
   clinic_slug text,
   clinic_name text,
   contact_name text,

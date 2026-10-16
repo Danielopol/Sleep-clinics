@@ -10,7 +10,7 @@ import {
   getSubscriptionForClinic,
   type PendingClinic,
 } from "@/lib/listings"
-import { getClinicById } from "@/lib/clinics"
+import { getClinicBySlug } from "@/lib/clinics"
 import { getClinicLocationSlugs } from "@/lib/locations"
 import { notifyPriorityAddStarted } from "@/lib/notifications"
 
@@ -47,12 +47,14 @@ const newClinicSchema = z.object({
   description: z.string().trim().max(3000).optional().or(z.literal("")),
 })
 
-// Both recurring plans take the same shape: an existing clinic id, or the
+// Both recurring plans take the same shape: an existing clinic's slug, or the
 // details of a clinic we have not listed yet. Exactly one is required, checked
-// after parsing since a discriminated union cannot carry a refinement.
+// after parsing since a discriminated union cannot carry a refinement. The slug,
+// not clinic.id, identifies the clinic: the id is a row position in the Excel
+// file and shifts on every data update.
 const subscriptionFields = {
   interval: z.enum(["month", "year"]),
-  clinicId: z.number().int().positive().optional().nullable(),
+  clinicSlug: z.string().trim().max(300).regex(/^[a-z0-9-]+$/).optional().nullable(),
   newClinic: newClinicSchema.optional().nullable(),
   contactEmail: z.string().trim().email().max(200).optional().or(z.literal("")),
 }
@@ -159,7 +161,7 @@ export async function POST(request: Request) {
       ? parsed.interval
       : plan.prices[0].interval
 
-    if (!parsed.clinicId && !parsed.newClinic) {
+    if (!parsed.clinicSlug && !parsed.newClinic) {
       return NextResponse.json(
         { error: "Select your clinic, or send us its details if it is not listed yet." },
         { status: 400 }
@@ -168,7 +170,6 @@ export async function POST(request: Request) {
 
     // Resolve the clinic, whether it already exists or is being added with this
     // purchase. Both paths must end up with a city so the cap can be enforced.
-    let clinicId: number | null = null
     let clinicSlug: string | null = null
     let clinicName: string
     let cityName: string
@@ -177,9 +178,9 @@ export async function POST(request: Request) {
     let stateSlug: string | null = null
     let pendingClinic: PendingClinic | null = null
 
-    if (parsed.clinicId) {
-      const clinic = getClinicById(parsed.clinicId)
-      if (!clinic) {
+    if (parsed.clinicSlug) {
+      const clinic = getClinicBySlug(parsed.clinicSlug)
+      if (!clinic?.slug) {
         return NextResponse.json({ error: "We could not find that clinic." }, { status: 404 })
       }
 
@@ -191,7 +192,7 @@ export async function POST(request: Request) {
         )
       }
 
-      const existing = await getSubscriptionForClinic(clinic.id)
+      const existing = await getSubscriptionForClinic(clinic.slug)
       if (existing && (existing.status === "active" || existing.status === "past_due")) {
         return NextResponse.json(
           { error: "This clinic already has an active plan. Contact us to change it." },
@@ -199,8 +200,7 @@ export async function POST(request: Request) {
         )
       }
 
-      clinicId = clinic.id
-      clinicSlug = clinic.slug ?? null
+      clinicSlug = clinic.slug
       clinicName = clinic.name
       cityName = clinic.city
       stateAbbr = location.stateAbbr
@@ -253,7 +253,6 @@ export async function POST(request: Request) {
 
     const metadata: Record<string, string> = {
       kind: planId,
-      clinicId: clinicId != null ? String(clinicId) : "",
       clinicSlug: clinicSlug ?? "",
       clinicName: clinicName.slice(0, 200),
       citySlug: citySlug ?? "",
@@ -286,7 +285,7 @@ export async function POST(request: Request) {
             },
       ],
       customer_email: parsed.contactEmail || undefined,
-      client_reference_id: clinicId != null ? String(clinicId) : undefined,
+      client_reference_id: clinicSlug ?? undefined,
       allow_promotion_codes: true,
       billing_address_collection: "required",
       metadata,
@@ -294,12 +293,11 @@ export async function POST(request: Request) {
       // traced back to a clinic without a database lookup.
       subscription_data: { metadata },
       success_url: `${baseUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${baseUrl}/claim?${clinicId != null ? `clinic=${clinicId}&` : ""}canceled=1`,
+      cancel_url: `${baseUrl}/claim?${clinicSlug != null ? `clinic=${clinicSlug}&` : ""}canceled=1`,
     })
 
     await reserveSubscriptionSlot({
       plan: planId,
-      clinicId,
       clinicSlug,
       clinicName,
       citySlug,

@@ -111,8 +111,8 @@ export default async function CityPage({
   // affect ordering: it is a fact about the listing, not an ad slot.
   const badges = await getListingBadges()
   const clinics = data.clinics.map((c) => {
-    const featured = badges.featured.has(c.id)
-    const verified = badges.verified.has(c.id)
+    const featured = !!c.slug && badges.featured.has(c.slug)
+    const verified = !!c.slug && badges.verified.has(c.slug)
     return featured || verified ? { ...c, ...(featured && { featured }), ...(verified && { verified }) } : c
   })
   const hasFeatured = clinics.some((c) => c.featured)
