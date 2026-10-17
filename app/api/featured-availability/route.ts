@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { getClinicById } from "@/lib/clinics"
+import { getClinicBySlug } from "@/lib/clinics"
 import { getClinicLocationSlugs } from "@/lib/locations"
 import { getCitySlotAvailability, getSubscriptionForClinic } from "@/lib/listings"
 import { FEATURED_SLOTS_PER_CITY } from "@/lib/pricing"
@@ -12,13 +12,13 @@ export const dynamic = "force-dynamic"
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
-  const clinicId = Number(searchParams.get("clinicId"))
+  const clinicSlug = searchParams.get("clinic")?.trim() ?? ""
 
-  if (!Number.isFinite(clinicId) || clinicId <= 0) {
-    return NextResponse.json({ error: "Invalid clinic id" }, { status: 400 })
+  if (!/^[a-z0-9-]+$/.test(clinicSlug)) {
+    return NextResponse.json({ error: "Invalid clinic" }, { status: 400 })
   }
 
-  const clinic = getClinicById(clinicId)
+  const clinic = getClinicBySlug(clinicSlug)
   if (!clinic) {
     return NextResponse.json({ error: "Clinic not found" }, { status: 404 })
   }
@@ -26,7 +26,7 @@ export async function GET(request: Request) {
   const location = getClinicLocationSlugs(clinic)
   if (!location) {
     return NextResponse.json({
-      clinicId,
+      clinicSlug,
       city: clinic.city,
       state: clinic.state,
       eligible: false,
@@ -37,7 +37,7 @@ export async function GET(request: Request) {
 
   const [availability, existing] = await Promise.all([
     getCitySlotAvailability(location.stateSlug, location.citySlug),
-    getSubscriptionForClinic(clinicId),
+    getSubscriptionForClinic(clinicSlug),
   ])
 
   // Any live plan blocks a second purchase for the same clinic, not just a
@@ -45,7 +45,7 @@ export async function GET(request: Request) {
   const hasActivePlan = existing?.status === "active" || existing?.status === "past_due"
 
   return NextResponse.json({
-    clinicId,
+    clinicSlug,
     clinicName: clinic.name,
     city: clinic.city,
     state: location.stateAbbr,

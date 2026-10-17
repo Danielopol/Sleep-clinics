@@ -181,7 +181,6 @@ export async function notifyPriorityAddPaid(params: {
 export async function notifySubscriptionActivated(params: {
   plan: "claim-verified" | "featured-city"
   planName: string
-  clinicId: number | null
   clinicName: string
   clinicSlug: string | null
   citySlug: string
@@ -215,13 +214,13 @@ export async function notifySubscriptionActivated(params: {
   if (!params.storedInDatabase) {
     todo.push(
       `No database is configured, so nothing was flagged. Add ${escapeHtml(
-        String(params.clinicId ?? "the clinic id")
-      )} to FEATURED_CLINIC_IDS and redeploy, then finish the Supabase setup in docs/PAID-LISTINGS.md.`
+        params.clinicSlug ?? "the clinic slug"
+      )} to FEATURED_CLINIC_SLUGS and redeploy, then finish the Supabase setup in docs/PAID-LISTINGS.md.`
     )
   }
   if (params.isNewClinic) {
     todo.push(
-      "This clinic is NOT in the directory yet. Add it to the Excel file, run the geocode and generate-data scripts, deploy, then link the new clinic id onto this subscription row (see docs/PAID-LISTINGS.md)."
+      "This clinic is NOT in the directory yet. Add it to the Excel file, run the geocode and generate-data scripts, deploy, then link the new clinic slug onto this subscription row (see docs/PAID-LISTINGS.md)."
     )
   }
   todo.push(
@@ -256,7 +255,7 @@ export async function notifySubscriptionActivated(params: {
     html: `
       ${todoBlock}
       <h2>${escapeHtml(params.planName)} activated</h2>
-      <p><strong>Clinic:</strong> ${escapeHtml(params.clinicName)} (id ${escapeHtml(String(params.clinicId ?? "not listed yet"))})</p>
+      <p><strong>Clinic:</strong> ${escapeHtml(params.clinicName)} (${escapeHtml(params.clinicSlug ?? "not listed yet")})</p>
       ${params.citySlug ? `<p><strong>City page:</strong> <a href="${escapeHtml(cityUrl)}">${escapeHtml(cityUrl)}</a></p>` : ""}
       ${listingUrl ? `<p><strong>Listing:</strong> <a href="${escapeHtml(listingUrl)}">${escapeHtml(listingUrl)}</a></p>` : ""}
       <p><strong>Amount:</strong> ${params.amountCents != null ? escapeHtml(formatPrice(params.amountCents)) : "see Stripe"}</p>
@@ -297,7 +296,7 @@ export async function notifySubscriptionActivated(params: {
 export async function notifySubscriptionEnded(params: {
   planName: string
   clinicName: string | null
-  clinicId: number | null
+  clinicSlug: string | null
   reason: "canceled" | "past_due"
   contactEmail: string | null
   subscriptionId: string
@@ -307,7 +306,7 @@ export async function notifySubscriptionEnded(params: {
     subject: `${params.planName} ${params.reason}: ${params.clinicName ?? params.subscriptionId}`,
     html: `
       <h2>${escapeHtml(params.planName)} ${escapeHtml(params.reason)}</h2>
-      <p><strong>Clinic:</strong> ${escapeHtml(params.clinicName ?? "unknown")} (id ${escapeHtml(String(params.clinicId ?? "unknown"))})</p>
+      <p><strong>Clinic:</strong> ${escapeHtml(params.clinicName ?? "unknown")} (${escapeHtml(params.clinicSlug ?? "slug unknown")})</p>
       <p><strong>Contact:</strong> ${escapeHtml(params.contactEmail ?? "not provided")}</p>
       <p><strong>Subscription:</strong> ${escapeHtml(params.subscriptionId)}</p>
       <p>${params.reason === "past_due"
@@ -319,7 +318,6 @@ export async function notifySubscriptionEnded(params: {
 
 export async function notifyClaimWaitlist(params: {
   clinicName: string | null
-  clinicId: number | null
   clinicSlug: string | null
   contactName: string | null
   contactEmail: string
@@ -337,7 +335,7 @@ export async function notifyClaimWaitlist(params: {
     replyTo: params.contactEmail,
     html: `
       <h2>Listing claim request</h2>
-      <p><strong>Clinic:</strong> ${escapeHtml(params.clinicName ?? "not specified")} (id ${escapeHtml(String(params.clinicId ?? "n/a"))})</p>
+      <p><strong>Clinic:</strong> ${escapeHtml(params.clinicName ?? "not specified")} (${escapeHtml(params.clinicSlug ?? "n/a")})</p>
       ${listingUrl ? `<p><strong>Listing:</strong> <a href="${escapeHtml(listingUrl)}">${escapeHtml(listingUrl)}</a></p>` : ""}
       <p><strong>Name:</strong> ${escapeHtml(params.contactName ?? "not provided")}</p>
       <p><strong>Email:</strong> ${escapeHtml(params.contactEmail)}</p>

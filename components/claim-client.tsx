@@ -19,7 +19,7 @@ const FEATURED_YEARLY = getPlanPrice("featured-city", "year")
 const FEATURED_MONTHLY = getPlanPrice("featured-city", "month")
 
 interface ClinicResult {
-  id: number
+  slug: string
   name: string
   address: string
   city: string
@@ -27,7 +27,7 @@ interface ClinicResult {
 }
 
 interface Availability {
-  clinicId: number
+  clinicSlug: string
   clinicName?: string
   city: string
   state: string
@@ -80,10 +80,10 @@ export function ClaimClient() {
   const [waitlist, setWaitlist] = useState({ contactName: "", contactEmail: "", phone: "", notes: "" })
   const [waitlistState, setWaitlistState] = useState<"idle" | "sending" | "sent" | "error">("idle")
 
-  const loadAvailability = useCallback(async (clinicId: number) => {
+  const loadAvailability = useCallback(async (clinicSlug: string) => {
     setAvailability(null)
     try {
-      const response = await fetch(`/api/featured-availability?clinicId=${clinicId}`)
+      const response = await fetch(`/api/featured-availability?clinic=${encodeURIComponent(clinicSlug)}`)
       if (response.ok) setAvailability(await response.json())
     } catch (err) {
       console.error("Availability lookup failed:", err)
@@ -91,9 +91,11 @@ export function ClaimClient() {
   }, [])
 
   // Deep link from a cancelled checkout, or from "claim this listing" on a page.
+  // Older links carried a numeric row id, which no longer identifies a clinic
+  // reliably, so only a slug preselects one.
   useEffect(() => {
-    const preselected = Number(searchParams.get("clinic"))
-    if (Number.isFinite(preselected) && preselected > 0) {
+    const preselected = searchParams.get("clinic") ?? ""
+    if (/^[a-z0-9-]+$/.test(preselected) && !/^\d+$/.test(preselected)) {
       loadAvailability(preselected)
     }
   }, [searchParams, loadAvailability])
@@ -120,7 +122,7 @@ export function ClaimClient() {
     setMode("existing")
     setError(null)
     setShowWaitlist(false)
-    loadAvailability(clinic.id)
+    loadAvailability(clinic.slug)
   }
 
   const newClinicReady =
@@ -132,13 +134,14 @@ export function ClaimClient() {
     newClinic.phone.trim().length > 6 &&
     newClinic.specialty.trim().length > 0
 
-  const existingClinicId = mode === "existing" ? selected?.id ?? availability?.clinicId ?? null : null
+  const existingClinicSlug =
+    mode === "existing" ? selected?.slug ?? availability?.clinicSlug ?? null : null
   const clinicLabel =
     mode === "new"
       ? newClinic.clinicName.trim() || null
       : selected?.name ?? availability?.clinicName ?? null
 
-  const ready = mode === "new" ? newClinicReady : existingClinicId != null
+  const ready = mode === "new" ? newClinicReady : existingClinicSlug != null
 
   const startCheckout = async (plan: SubscriptionPlanId) => {
     if (!ready) return
@@ -154,7 +157,7 @@ export function ClaimClient() {
           interval: plan === "featured-city" ? interval : "year",
           ...(mode === "new"
             ? { newClinic }
-            : { clinicId: existingClinicId }),
+            : { clinicSlug: existingClinicSlug }),
           ...(contactEmail ? { contactEmail } : {}),
         }),
       })
@@ -180,7 +183,7 @@ export function ClaimClient() {
       const response = await fetch("/api/claim-waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ clinicId: existingClinicId, ...waitlist }),
+        body: JSON.stringify({ clinicSlug: existingClinicSlug, ...waitlist }),
       })
       setWaitlistState(response.ok ? "sent" : "error")
     } catch (err) {
@@ -234,12 +237,12 @@ export function ClaimClient() {
           {results && results.length > 0 && (
             <ul className="space-y-2 mb-6">
               {results.map((clinic) => (
-                <li key={clinic.id}>
+                <li key={clinic.slug}>
                   <button
                     type="button"
                     onClick={() => select(clinic)}
                     className={`w-full text-left p-4 rounded-xl border transition-all ${
-                      mode === "existing" && selected?.id === clinic.id
+                      mode === "existing" && selected?.slug === clinic.slug
                         ? "border-[var(--healing-teal)] bg-[var(--healing-teal)]/5"
                         : "border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 bg-slate-50 dark:bg-slate-900"
                     }`}

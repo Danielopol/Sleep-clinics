@@ -159,8 +159,8 @@ export async function GET(request: Request) {
       const badges = await getListingBadges()
       if (badges.featured.size > 0 || badges.verified.size > 0) {
         filteredClinics = filteredClinics.map((clinic) => {
-          const featured = badges.featured.has(clinic.id)
-          const verified = badges.verified.has(clinic.id)
+          const featured = !!clinic.slug && badges.featured.has(clinic.slug)
+          const verified = !!clinic.slug && badges.verified.has(clinic.slug)
           return featured || verified
             ? { ...clinic, ...(featured && { featured }), ...(verified && { verified }) }
             : clinic

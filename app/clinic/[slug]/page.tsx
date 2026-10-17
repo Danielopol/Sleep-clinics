@@ -3,7 +3,8 @@ import { BadgeCheck, Star } from "lucide-react"
 import { Navigation } from "@/components/navigation"
 import { ClinicDetailCard } from "@/components/clinic-detail-card"
 import { getListingBadges } from "@/lib/listings"
-import { getClinicBySlug, getClinicById, getClinicsData, formatOpeningHours } from "@/lib/clinics"
+import { getClinicBySlug, getClinicsData, formatOpeningHours } from "@/lib/clinics"
+import { resolveLegacyClinicId } from "@/lib/legacy-ids"
 import { notFound, permanentRedirect } from "next/navigation"
 import { BackLink } from "@/components/back-link"
 import { ClinicRelatedLinks } from "@/components/clinic-related-links"
@@ -32,8 +33,9 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
-  const clinic = /^\d+$/.test(slug)
-    ? getClinicById(Number(slug))
+  const legacy = /^\d+$/.test(slug) ? resolveLegacyClinicId(slug) : null
+  const clinic = legacy
+    ? typeof legacy === "object" ? getClinicBySlug(legacy.slug) : undefined
     : getClinicBySlug(slug)
 
   if (!clinic) {
@@ -186,10 +188,11 @@ export default async function ClinicDetailPage({
 }) {
   const { slug } = await params
 
-  // Handle legacy numeric ID URLs, permanently redirect to slug URL
+  // Legacy numeric ID URLs are normally rewritten to /api/clinic-redirect
+  // (next.config.mjs) before reaching this page; this is only a fallback.
   if (/^\d+$/.test(slug)) {
-    const clinic = getClinicById(Number(slug))
-    if (clinic?.slug) permanentRedirect(`/clinic/${clinic.slug}`)
+    const resolved = resolveLegacyClinicId(slug)
+    if (typeof resolved === "object") permanentRedirect(`/clinic/${resolved.slug}`)
     notFound()
   }
 
@@ -200,8 +203,8 @@ export default async function ClinicDetailPage({
   }
 
   const badges = await getListingBadges()
-  const isVerified = badges.verified.has(clinic.id)
-  const isFeatured = badges.featured.has(clinic.id)
+  const isVerified = badges.verified.has(slug)
+  const isFeatured = badges.featured.has(slug)
 
   return (
     <div className="min-h-screen bg-[image:var(--bg-primary)]">
@@ -327,7 +330,7 @@ export default async function ClinicDetailPage({
                 </p>
               </div>
               <Link
-                href={`/claim?clinic=${clinic.id}`}
+                href={`/claim?clinic=${slug}`}
                 className="shrink-0 px-5 py-2.5 rounded-lg bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-400 hover:to-violet-400 text-white font-semibold transition-all text-sm shadow-md shadow-indigo-500/20"
               >
                 Claim this listing
