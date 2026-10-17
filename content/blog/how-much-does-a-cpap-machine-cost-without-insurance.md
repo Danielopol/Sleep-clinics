@@ -127,7 +127,7 @@ Insurance also changes the supplies math. CPAP.com's guide notes that Medicare a
 
 ## Before you pay cash
 
-1. **Get the prescription first,** because no legitimate US seller will ship a machine without one.
+1. **Get the prescription first,** because no legitimate US seller will ship a machine without one. [Where to buy a CPAP machine online](/blog/where-to-buy-a-cpap-machine-online) lists what a valid one must include.
 2. **Price the whole setup,** not the machine: mask, heated hose, chamber, filters and cleaning supplies.
 3. **Decide your replacement schedule** and price a year of supplies before you choose a mask.
 4. **Check the return terms.** At CPAP.com a machine carries a one-time 60 night risk-free return from the ship date, in original packaging and free of heavy wear, with return shipping at your cost. Opened masks can be exchanged within 60 nights. Other sellers differ.

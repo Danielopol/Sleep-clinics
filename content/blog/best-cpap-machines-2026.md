@@ -157,6 +157,8 @@ Three honest observations about where the differences live.
 
 ## Buying online without getting burned
 
+We cover this in depth in [where to buy a CPAP machine online](/blog/where-to-buy-a-cpap-machine-online), including how CPAP.com and ResMed's own store compare on price and returns. The essentials:
+
 - **Upload a current prescription.** No legitimate US retailer will ship a machine without one. A site that offers to skip it is telling you something about the rest of its operation.
 - **Confirm the return window for the machine specifically.** Machines and masks are covered by separate policies. At CPAP.com a machine carries a one-time 60 night risk-free return from the ship date, in original packaging, undamaged and free of heavy wear, with return shipping at your cost; the 60 night mask fit guarantee is a separate program covering mask exchanges. Other retailers differ, so check rather than assume.
 - **Check what is in the box.** Heated hose, humidifier chamber, filters and carry case are included on some models and extra on others. That is where an apparent bargain usually disappears.

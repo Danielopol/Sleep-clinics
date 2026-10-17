@@ -116,6 +116,8 @@ A retailer can solve mask and equipment problems. These are clinical, and belong
 
 ## If you are buying online for the first time
 
+Our guide to [where to buy a CPAP machine online](/blog/where-to-buy-a-cpap-machine-online) compares ResMed's own store with CPAP.com and lists the checks that separate a legitimate seller from a risky one. The short version:
+
 - **Upload your prescription.** Every legitimate US retailer requires it.
 - **Know the return terms before you buy.** At CPAP.com, machines carry a one-time 60 night risk-free return from the ship date, in original packaging, undamaged and free of heavy wear, with return shipping at your cost. Other retailers differ, so check rather than assume.
 - **Know what cannot go back.** Cushions, headgear, frames, filters and tubing bought separately are non-returnable once opened. The mask fit guarantee covers complete masks, not parts.

@@ -129,7 +129,7 @@ Everything above is a cash purchase, and we add up what a full cash setup and fi
 3. **Check the hose.** Heated or not, and for which machine.
 4. **Check the sale banners.** CPAP.com was showing sitewide sale banners while we checked, and we could not tell whether they apply to machines or to bundles. Compare the cart total, not the listed price.
 5. **Ask about returns on the bundle specifically,** since the published policy does not address it.
-6. **Upload your prescription.** Every legitimate US retailer needs one before a machine ships.
+6. **Upload your prescription.** Every legitimate US retailer needs one before a machine ships. We list what a valid one must include, and how to vet a seller, in [where to buy a CPAP machine online](/blog/where-to-buy-a-cpap-machine-online).
 
 For the machines themselves, see our [2026 CPAP machine comparison](/blog/best-cpap-machines-2026).
 

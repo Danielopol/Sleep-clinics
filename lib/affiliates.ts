@@ -113,6 +113,9 @@ const CPAPCOM_ELIGIBLE_BLOG_SLUGS = new Set([
   // Cash cost of a working setup and five years of supplies, all priced off
   // CPAP.com's own listings.
   "how-much-does-a-cpap-machine-cost-without-insurance",
+  // Where-to-buy guide: seller comparison and legitimacy checks, built from
+  // CPAP.com's and ResMed's own published policies.
+  "where-to-buy-a-cpap-machine-online",
 ])
 
 export function isBlogPostEligibleForCpapCom(slug: string): boolean {
