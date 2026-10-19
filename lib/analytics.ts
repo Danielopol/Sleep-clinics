@@ -46,20 +46,33 @@ export function trackAffiliateClick(details: {
   })
 }
 
+export type ClinicOutboundTarget = "website" | "phone" | "directions" | "fax" | "email"
+
 /**
- * Fired when a visitor clicks through to a clinic's own website or phone
- * number from one of our clinic pages.
+ * Where the clicked contact detail sat: "clinic_page" is the clinic's own
+ * detail page, "clinic_card" is a card in a list (homepage results, a city
+ * page, the VA page). GA4's page_location says which list it was.
+ */
+export type ClinicClickPlacement = "clinic_page" | "clinic_card"
+
+/**
+ * Fired when a visitor acts on a clinic's contact details: opens its website,
+ * taps its phone number or email, opens directions, or copies its fax number.
  *
- * This is not a monetisation event today, but it is the number that proves
- * referral value when pitching clinics on a paid listing later, so it is worth
- * collecting from the start.
+ * Per-clinic monthly counts of this event, split by target and placement, feed
+ * the reports we send to partner clinics, so every contact link should call it.
+ * A clinic without a slug is skipped rather than keyed by its id, which shifts
+ * whenever the data is regenerated.
  */
 export function trackClinicOutboundClick(details: {
-  clinicSlug: string
-  target: "website" | "phone" | "directions"
+  clinicSlug: string | undefined
+  target: ClinicOutboundTarget
+  placement: ClinicClickPlacement
 }): void {
+  if (!details.clinicSlug) return
   trackEvent("clinic_outbound_click", {
     clinic_slug: details.clinicSlug,
     target: details.target,
+    placement: details.placement,
   })
 }
