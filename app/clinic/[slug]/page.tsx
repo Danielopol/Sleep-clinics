@@ -2,6 +2,7 @@ import Link from "next/link"
 import { BadgeCheck, Star } from "lucide-react"
 import { Navigation } from "@/components/navigation"
 import { ClinicDetailCard } from "@/components/clinic-detail-card"
+import { LeadRequestForm } from "@/components/lead-request-form"
 import { getListingBadges } from "@/lib/listings"
 import { getClinicBySlug, getClinicsData, formatOpeningHours } from "@/lib/clinics"
 import { resolveLegacyClinicId } from "@/lib/legacy-ids"
@@ -314,6 +315,9 @@ export default async function ClinicDetailPage({
       <section className="py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ClinicDetailCard clinic={clinic} />
+
+          {/* Renders only for an active lead partner (docs/LEAD-REQUESTS.md). */}
+          <LeadRequestForm clinicSlug={slug} clinicName={clinic.name} clinicPhone={clinic.phone} />
 
           {/* Owner entry point. Clinic staff usually arrive here by searching
               their own name, so this is where a claim gets started. Hidden once

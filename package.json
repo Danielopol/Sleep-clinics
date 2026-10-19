@@ -6,6 +6,7 @@
     "geocode": "node scripts/geocode-clinics.mjs",
     "generate-data": "node scripts/generate-clinic-data.mjs",
     "generate-og-image": "node scripts/generate-og-image.mjs",
+    "export-lead-billing": "node --env-file-if-exists=.env scripts/export-lead-billing.mjs",
     "prebuild": "npm run generate-data",
     "build": "next build",
     "dev": "next dev",

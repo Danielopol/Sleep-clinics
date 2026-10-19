@@ -3,6 +3,9 @@
 -- Run once in the Supabase SQL editor (Dashboard > SQL Editor > New query).
 -- Safe to re-run: everything is IF NOT EXISTS.
 --
+-- The appointment request tables (lead_partners, lead_requests) are not in this
+-- file: run supabase/migrations/004_lead_requests.sql as well.
+--
 -- Row level security is enabled with no policies, which denies all access to
 -- the anon and authenticated keys. Only the service-role key used by the API
 -- routes in app/api/ can read or write these tables. Do not add a permissive
