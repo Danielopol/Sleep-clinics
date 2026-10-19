@@ -3,8 +3,10 @@
 import type { Clinic } from "@/lib/data"
 import { Star, MapPin, Phone, Mail, Globe, Navigation, Clock, ChevronDown, CheckCircle, FileText } from "lucide-react"
 import Image from "next/image"
-import { useState } from "react"
+import { Fragment, useState } from "react"
 import { GoogleReviews } from "@/components/google-reviews"
+import { FaxCopyButton } from "@/components/fax-copy-button"
+import { trackClinicOutboundClick, type ClinicOutboundTarget } from "@/lib/analytics"
 
 interface ClinicDetailCardProps {
   clinic: Clinic
@@ -75,6 +77,8 @@ export function ClinicDetailCard({ clinic }: ClinicDetailCardProps) {
   const fullAddress = `${clinic.address}, ${clinic.city}, ${clinic.state} ${clinic.zip}`
   const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`
   const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(fullAddress)}`
+  const trackClick = (target: ClinicOutboundTarget) =>
+    trackClinicOutboundClick({ clinicSlug: clinic.slug, target, placement: "clinic_page" })
 
   // Get today's day of week
   const today = new Date().toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase()
@@ -148,6 +152,7 @@ export function ClinicDetailCard({ clinic }: ClinicDetailCardProps) {
                 <span className="text-xs uppercase tracking-wider text-[var(--text-secondary)] font-semibold block mb-0.5">Phone</span>
                 <a
                   href={`tel:${clinic.phone.replace(/\D/g, "")}`}
+                  onClick={() => trackClick("phone")}
                   className="text-sm text-[var(--dream-blue)] hover:text-[var(--dream-blue-dark)] font-medium transition-colors"
                 >
                   {clinic.phone}
@@ -163,7 +168,20 @@ export function ClinicDetailCard({ clinic }: ClinicDetailCardProps) {
                 </div>
                 <div className="flex-1 min-w-0">
                   <span className="text-xs uppercase tracking-wider text-[var(--text-secondary)] font-semibold block mb-0.5">Fax</span>
-                  <span className="text-sm text-[var(--text-primary)] dark:text-[var(--text-primary)] font-medium">{clinic.fax}</span>
+                  {/* Some clinics list several fax numbers; each copies on its own */}
+                  <span className="text-sm text-[var(--text-primary)] dark:text-[var(--text-primary)] font-medium">
+                    {clinic.fax.split(";").map((fax) => fax.trim()).filter(Boolean).map((fax, i) => (
+                      <Fragment key={fax}>
+                        {i > 0 && "; "}
+                        <FaxCopyButton
+                          fax={fax}
+                          clinicSlug={clinic.slug}
+                          placement="clinic_page"
+                          className="hover:text-[var(--dream-blue)] transition-colors"
+                        />
+                      </Fragment>
+                    ))}
+                  </span>
                 </div>
               </div>
             )}
@@ -178,6 +196,7 @@ export function ClinicDetailCard({ clinic }: ClinicDetailCardProps) {
                   <span className="text-xs uppercase tracking-wider text-[var(--text-secondary)] font-semibold block mb-0.5">Email</span>
                   <a
                     href={`mailto:${clinic.email}`}
+                    onClick={() => trackClick("email")}
                     className="text-sm text-[var(--dream-blue)] hover:text-[var(--dream-blue-dark)] font-medium transition-colors break-all"
                   >
                     {clinic.email}
@@ -317,6 +336,7 @@ export function ClinicDetailCard({ clinic }: ClinicDetailCardProps) {
               href={clinic.website}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackClick("website")}
               className="inline-flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-[var(--dream-blue)] via-[var(--healing-teal)] to-[var(--calm-indigo)] text-white rounded-xl text-sm font-semibold shadow-[0_4px_14px_rgba(14,165,233,0.35)] hover:shadow-[0_6px_20px_rgba(14,165,233,0.45)] hover:-translate-y-0.5 transition-all"
             >
               <Globe className="w-4 h-4" />
@@ -327,6 +347,7 @@ export function ClinicDetailCard({ clinic }: ClinicDetailCardProps) {
             href={directionsUrl}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackClick("directions")}
             className="inline-flex items-center justify-center gap-2 px-4 py-3 bg-white dark:bg-[var(--bg-card)] text-[var(--text-primary)] dark:text-[var(--text-primary)] border-2 border-[var(--border-color)] rounded-xl text-sm font-semibold hover:border-[var(--dream-blue)] hover:text-[var(--dream-blue)] hover:bg-[var(--dream-blue)]/5 transition-all"
           >
             <Navigation className="w-4 h-4" />
