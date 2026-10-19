@@ -48,3 +48,6 @@ Thumbs.db
 
 # Generated data (rebuilt from Excel on each deploy)
 data/
+
+# Invoicing exports (scripts/export-lead-billing.mjs)
+exports/

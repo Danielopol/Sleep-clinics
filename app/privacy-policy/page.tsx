@@ -32,7 +32,7 @@ export default function PrivacyPolicyPage() {
             <h1 className="text-4xl sm:text-5xl font-bold text-white tracking-tight leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
               Privacy Policy
             </h1>
-            <p className="text-slate-300 text-sm">Last updated: January 2025</p>
+            <p className="text-slate-300 text-sm">Last updated: October 2026</p>
           </div>
         </div>
       </section>
@@ -61,6 +61,7 @@ export default function PrivacyPolicyPage() {
               </p>
               <ul className="list-disc list-inside space-y-2 text-slate-300">
                 <li>Submit a sleep clinic for inclusion in our directory</li>
+                <li>Request an appointment with a clinic through our Site (see Section 5)</li>
                 <li>Subscribe to our newsletter</li>
                 <li>Contact us through our website</li>
                 <li>Leave a review or comment</li>
@@ -92,6 +93,7 @@ export default function PrivacyPolicyPage() {
               <ul className="list-disc list-inside space-y-2 text-slate-300">
                 <li>Operate, maintain, and improve our sleep clinic directory</li>
                 <li>Process clinic submissions and directory updates</li>
+                <li>Send appointment requests to the clinic you choose</li>
                 <li>Send newsletters and updates you have opted into</li>
                 <li>Respond to your inquiries and provide customer support</li>
                 <li>Analyze usage patterns to improve user experience</li>
@@ -123,6 +125,7 @@ export default function PrivacyPolicyPage() {
                 We do not sell your personal information. We may share your information in the following circumstances:
               </p>
               <ul className="list-disc list-inside space-y-2 text-slate-300">
+                <li><strong className="text-white">Clinics you ask us to contact:</strong> When you send an appointment request, we share it with the one clinic you sent it to, at your direction and with your consent. See Section 5.</li>
                 <li><strong className="text-white">Service providers:</strong> Third-party vendors who assist us in operating the Site (hosting, analytics, email delivery) and are bound by confidentiality obligations.</li>
                 <li><strong className="text-white">Legal requirements:</strong> When required by law, court order, or governmental regulation.</li>
                 <li><strong className="text-white">Protection of rights:</strong> To protect the rights, property, or safety of US Sleep Clinics, our users, or the public.</li>
@@ -130,21 +133,65 @@ export default function PrivacyPolicyPage() {
               </ul>
             </div>
 
-            {/* Section 5 */}
-            <div>
-              <h2 className="text-xl font-bold text-white mb-4">5. Health Information Disclaimer</h2>
+            {/* Section 5. Draft pending legal review: see docs/LEAD-REQUESTS.md. */}
+            <div id="appointment-requests" className="scroll-mt-24">
+              <h2 className="text-xl font-bold text-white mb-4">5. Appointment Requests</h2>
+              <p className="text-slate-300 leading-relaxed mb-4">
+                Some clinics in our directory accept appointment requests through our Site. When you send one, we
+                collect:
+              </p>
+              <ul className="list-disc list-inside space-y-2 text-slate-300">
+                <li>Your name and phone number, and your email address if you give it</li>
+                <li>Your type of insurance (for example commercial, Medicare, or self-pay)</li>
+                <li>The general reason for your visit that you select, and any short note you add</li>
+                <li>The time of day you prefer to be contacted</li>
+                <li>Your agreement that we may share the request with the clinic, and when you gave it</li>
+                <li>A one-way scrambled (hashed) version of your IP address, used only to stop spam and repeated submissions</li>
+              </ul>
+              <h3 className="text-lg font-semibold text-slate-200 mt-6 mb-2">Who we share it with</h3>
               <p className="text-slate-300 leading-relaxed">
-                US Sleep Clinics is an informational directory service. We do not collect, store, or process
-                protected health information (PHI) as defined by HIPAA. Our Site provides general information about sleep
-                disorders and treatments for educational purposes only. We do not provide medical advice, diagnosis, or
-                treatment. Any interaction between you and a sleep clinic listed in our directory is subject to that
-                clinic's own privacy policies and practices.
+                We send your request only to the clinic you chose, so its staff can contact you to schedule. We do
+                not send it to any other clinic, and we do not use it for advertising. We do not send the contents of
+                your request to analytics or advertising providers. We record only that a request was sent to a
+                given clinic. Our email and database providers process the request on our behalf. Once the clinic
+                receives your request, its own privacy practices, and HIPAA where it applies to that clinic, govern
+                how the clinic handles it.
+              </p>
+              <h3 className="text-lg font-semibold text-slate-200 mt-6 mb-2">How we are paid</h3>
+              <p className="text-slate-300 leading-relaxed">
+                Clinics that accept requests through our Site pay us a fee for some of the requests we send them. We
+                never charge a clinic for a request from a patient who reports Medicare, Medicaid, Tricare, or VA
+                coverage. You never pay us anything, and payment does not change a clinic&apos;s listing or rating.
+              </p>
+              <h3 className="text-lg font-semibold text-slate-200 mt-6 mb-2">How long we keep it</h3>
+              <p className="text-slate-300 leading-relaxed">
+                We keep appointment requests for up to 24 months, so we can answer questions about a request and
+                keep accurate billing records with clinics. After that we delete your name, phone number, email
+                address, and note. We may keep a record that does not identify you (the clinic, the date, the
+                insurance category, and a reference number) for as long as we need it for accounting and tax
+                purposes. You can ask us to delete your request sooner by emailing us (see Section 12). Deleting it
+                from our records does not delete the copy the clinic already received.
               </p>
             </div>
 
             {/* Section 6 */}
             <div>
-              <h2 className="text-xl font-bold text-white mb-4">6. Data Security</h2>
+              <h2 className="text-xl font-bold text-white mb-4">6. Health Information</h2>
+              <p className="text-slate-300 leading-relaxed">
+                US Sleep Clinics is a directory, not a healthcare provider or health plan, so we are not a covered
+                entity under HIPAA. An appointment request (Section 5) includes information about your health, such
+                as the reason for your visit, and we treat it as sensitive: we use it only to send your request to
+                the clinic you chose, we never use it for advertising, and access to it is restricted. Apart from
+                appointment requests, we do not ask for health information. Our Site provides general information
+                about sleep disorders and treatments for educational purposes only. We do not provide medical advice,
+                diagnosis, or treatment. Any interaction between you and a sleep clinic listed in our directory is
+                subject to that clinic&apos;s own privacy policies and practices.
+              </p>
+            </div>
+
+            {/* Section 7 */}
+            <div>
+              <h2 className="text-xl font-bold text-white mb-4">7. Data Security</h2>
               <p className="text-slate-300 leading-relaxed">
                 We implement commercially reasonable technical and organizational measures to protect your personal
                 information against unauthorized access, alteration, disclosure, or destruction. These measures include
@@ -153,9 +200,9 @@ export default function PrivacyPolicyPage() {
               </p>
             </div>
 
-            {/* Section 7 */}
+            {/* Section 8 */}
             <div>
-              <h2 className="text-xl font-bold text-white mb-4">7. Third-Party Links</h2>
+              <h2 className="text-xl font-bold text-white mb-4">8. Third-Party Links</h2>
               <p className="text-slate-300 leading-relaxed">
                 Our Site contains links to third-party websites, including sleep clinic websites, medical organizations,
                 and educational resources. We are not responsible for the privacy practices or content of these external
@@ -163,9 +210,9 @@ export default function PrivacyPolicyPage() {
               </p>
             </div>
 
-            {/* Section 8 */}
+            {/* Section 9 */}
             <div>
-              <h2 className="text-xl font-bold text-white mb-4">8. Your Rights and Choices</h2>
+              <h2 className="text-xl font-bold text-white mb-4">9. Your Rights and Choices</h2>
               <p className="text-slate-300 leading-relaxed mb-4">
                 Depending on your jurisdiction, you may have the following rights regarding your personal information:
               </p>
@@ -181,9 +228,9 @@ export default function PrivacyPolicyPage() {
               </p>
             </div>
 
-            {/* Section 9 */}
+            {/* Section 10 */}
             <div>
-              <h2 className="text-xl font-bold text-white mb-4">9. Children's Privacy</h2>
+              <h2 className="text-xl font-bold text-white mb-4">10. Children's Privacy</h2>
               <p className="text-slate-300 leading-relaxed">
                 Our Site is not directed to children under the age of 13. We do not knowingly collect personal
                 information from children under 13. If you believe we have inadvertently collected such information,
@@ -191,9 +238,9 @@ export default function PrivacyPolicyPage() {
               </p>
             </div>
 
-            {/* Section 10 */}
+            {/* Section 11 */}
             <div>
-              <h2 className="text-xl font-bold text-white mb-4">10. Changes to This Policy</h2>
+              <h2 className="text-xl font-bold text-white mb-4">11. Changes to This Policy</h2>
               <p className="text-slate-300 leading-relaxed">
                 We may update this Privacy Policy from time to time to reflect changes in our practices or applicable
                 laws. We will post the revised policy on this page with an updated "Last updated" date. Your continued
@@ -201,9 +248,9 @@ export default function PrivacyPolicyPage() {
               </p>
             </div>
 
-            {/* Section 11 */}
+            {/* Section 12 */}
             <div>
-              <h2 className="text-xl font-bold text-white mb-4">11. Contact Us</h2>
+              <h2 className="text-xl font-bold text-white mb-4">12. Contact Us</h2>
               <p className="text-slate-300 leading-relaxed">
                 If you have questions or concerns about this Privacy Policy or our data practices, please contact us at:
               </p>

@@ -102,6 +102,22 @@ Key rules:
 - **Paid placement must stay labeled.** The "Featured" badge on the card and the
   disclosure under the city grid are FTC-facing, not decoration.
 
+### Appointment Requests (lead partners)
+
+Clinics in `lead_partners` (Supabase, keyed by `clinic_slug`) with
+`active = true` get a "Request an appointment" form on their clinic page
+(`components/lead-request-form.tsx`, `app/api/lead-request/route.ts`). See
+`docs/LEAD-REQUESTS.md` for turning a clinic on or off and for invoicing.
+
+- **Invisible everywhere else.** No teaser and no fallback collection. Missing
+  Supabase, Resend, or `EMAIL_FROM` hides the form (development logs the email
+  instead).
+- **Government-insured requests are never billable** (Medicare, Medicaid,
+  Tricare/VA), enforced in `lib/lead-request-options.ts` and by a database
+  constraint.
+- **No form contents in analytics or ad tags.** The only event is
+  `lead_request_submitted` with `clinic_slug`.
+
 ### Blog System
 
 #### Adding Blog Posts
