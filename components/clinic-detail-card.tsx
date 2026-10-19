@@ -150,13 +150,21 @@ export function ClinicDetailCard({ clinic }: ClinicDetailCardProps) {
               </div>
               <div className="flex-1 min-w-0">
                 <span className="text-xs uppercase tracking-wider text-[var(--text-secondary)] font-semibold block mb-0.5">Phone</span>
-                <a
-                  href={`tel:${clinic.phone.replace(/\D/g, "")}`}
-                  onClick={() => trackClick("phone")}
-                  className="text-sm text-[var(--dream-blue)] hover:text-[var(--dream-blue-dark)] font-medium transition-colors"
-                >
-                  {clinic.phone}
-                </a>
+                {/* Some clinics list several phone numbers; each dials on its own */}
+                <span className="text-sm text-[var(--dream-blue)] font-medium">
+                  {clinic.phone.split(";").map((phone) => phone.trim()).filter(Boolean).map((phone, i) => (
+                    <Fragment key={phone}>
+                      {i > 0 && "; "}
+                      <a
+                        href={`tel:${phone.replace(/\D/g, "")}`}
+                        onClick={() => trackClick("phone")}
+                        className="hover:text-[var(--dream-blue-dark)] transition-colors"
+                      >
+                        {phone}
+                      </a>
+                    </Fragment>
+                  ))}
+                </span>
               </div>
             </div>
 
@@ -194,13 +202,21 @@ export function ClinicDetailCard({ clinic }: ClinicDetailCardProps) {
                 </div>
                 <div className="flex-1 min-w-0">
                   <span className="text-xs uppercase tracking-wider text-[var(--text-secondary)] font-semibold block mb-0.5">Email</span>
-                  <a
-                    href={`mailto:${clinic.email}`}
-                    onClick={() => trackClick("email")}
-                    className="text-sm text-[var(--dream-blue)] hover:text-[var(--dream-blue-dark)] font-medium transition-colors break-all"
-                  >
-                    {clinic.email}
-                  </a>
+                  {/* Some clinics list several addresses; each opens on its own */}
+                  <span className="text-sm text-[var(--dream-blue)] font-medium break-all">
+                    {clinic.email.split(";").map((email) => email.trim()).filter(Boolean).map((email, i) => (
+                      <Fragment key={email}>
+                        {i > 0 && "; "}
+                        <a
+                          href={`mailto:${email}`}
+                          onClick={() => trackClick("email")}
+                          className="hover:text-[var(--dream-blue-dark)] transition-colors"
+                        >
+                          {email}
+                        </a>
+                      </Fragment>
+                    ))}
+                  </span>
                 </div>
               </div>
             )}
