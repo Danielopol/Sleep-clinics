@@ -64,10 +64,34 @@ const HEALSEND_ELIGIBLE_BLOG_SLUGS = new Set([
   "sleep-apnea-type-2-diabetes",
   "snoring-vs-sleep-apnea-warning-sign",
   "untreated-sleep-apnea-effects-brain-heart-metabolism",
+  // The tirzepatide / GLP-1 funnel posts. Every one of these also needs the
+  // "compounded" card copy below, never the default card.
+  "tirzepatide-for-sleep-apnea-who-qualifies-cost",
 ])
 
 export function isBlogPostEligibleForHealSend(slug: string): boolean {
   return HEALSEND_ELIGIBLE_BLOG_SLUGS.has(slug)
+}
+
+/**
+ * Posts about tirzepatide or other GLP-1 medicines for sleep apnea, where the
+ * HealSend card must say what HealSend actually sells.
+ *
+ * HealSend's own sign-up page labels its tirzepatide and semaglutide as
+ * compounded and says they are fulfilled by state-licensed compounding
+ * pharmacies. That is not Zepbound, which is the only tirzepatide the FDA has
+ * approved for sleep apnea. The FDA lists "claims that the compounded drug is
+ * the same as an FDA-approved drug" as a telehealth red flag, so the default
+ * card's wording ("See if you qualify", under an article about Zepbound for
+ * OSA) could read as offering the approved product. These posts get explicit
+ * copy instead. Add a slug here for every GLP-1 post that carries the card.
+ */
+const HEALSEND_COMPOUNDED_COPY_SLUGS = new Set([
+  "tirzepatide-for-sleep-apnea-who-qualifies-cost",
+])
+
+export function usesHealSendCompoundedCopy(slug: string): boolean {
+  return HEALSEND_COMPOUNDED_COPY_SLUGS.has(slug)
 }
 
 /**

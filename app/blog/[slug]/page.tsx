@@ -13,6 +13,7 @@ import { CpapComSponsoredPostCard } from "@/components/cpapcom-sponsored-post-ca
 import { SleepingComSponsoredPostCard } from "@/components/sleepingcom-sponsored-post-card"
 import {
   isBlogPostEligibleForHealSend,
+  usesHealSendCompoundedCopy,
   isBlogPostEligibleForCpapCom,
   isBlogPostEligibleForSleepingCom,
 } from "@/lib/affiliates"
@@ -246,7 +247,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             />
 
             {isBlogPostEligibleForHealSend(slug) && (
-              <HealSendSponsoredPostCard page={`/blog/${slug}`} />
+              <HealSendSponsoredPostCard
+                page={`/blog/${slug}`}
+                compounded={usesHealSendCompoundedCopy(slug)}
+              />
             )}
 
             {/* All three eligibility sets in lib/affiliates.ts are mutually
