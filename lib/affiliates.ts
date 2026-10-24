@@ -67,6 +67,7 @@ const HEALSEND_ELIGIBLE_BLOG_SLUGS = new Set([
   // The tirzepatide / GLP-1 funnel posts. Every one of these also needs the
   // "compounded" card copy below, never the default card.
   "tirzepatide-for-sleep-apnea-who-qualifies-cost",
+  "zepbound-sleep-apnea-insurance-coverage-cost",
 ])
 
 export function isBlogPostEligibleForHealSend(slug: string): boolean {
@@ -88,6 +89,7 @@ export function isBlogPostEligibleForHealSend(slug: string): boolean {
  */
 const HEALSEND_COMPOUNDED_COPY_SLUGS = new Set([
   "tirzepatide-for-sleep-apnea-who-qualifies-cost",
+  "zepbound-sleep-apnea-insurance-coverage-cost",
 ])
 
 export function usesHealSendCompoundedCopy(slug: string): boolean {

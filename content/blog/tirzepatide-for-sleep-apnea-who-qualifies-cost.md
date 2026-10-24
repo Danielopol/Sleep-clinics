@@ -92,7 +92,7 @@ The cost depends on which route you take, and the routes are not equivalent prod
 
 ### Through insurance or Medicare
 
-Coverage varies by plan, and the AASM's own guidance is that your care team can help with insurance questions. Some points are firm:
+Coverage varies by plan, and the AASM's own guidance is that your care team can help with insurance questions. Our guide to [getting Zepbound covered for sleep apnea](/blog/zepbound-sleep-apnea-insurance-coverage-cost) covers prior authorization, exceptions and appeals in detail. Some points are firm:
 
 - **Medicare Part D plans may cover Zepbound for sleep apnea.** CMS's temporary Medicare GLP-1 Bridge, which charges $50 a month for weight management, excludes people with moderate to severe sleep apnea. Medicare.gov says those people may still get their GLP-1 drug covered through their Part D plan.
 - **What you pay then depends on your plan's formulary and cost sharing.** Ask your plan whether Zepbound is covered for sleep apnea and what it requires before it will pay.
