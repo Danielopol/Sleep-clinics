@@ -14,6 +14,6 @@ export const OG_IMAGE = [
     url: "/images/og-default.jpg",
     width: 1200,
     height: 630,
-    alt: "US Sleep Clinics: find expert sleep care near you, with 4,000+ verified clinics and AASM-accredited sleep centers.",
+    alt: "US Sleep Clinics: find expert sleep care near you, with 4,000+ sleep clinics and AASM-accredited sleep centers.",
   },
 ]

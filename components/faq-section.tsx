@@ -8,7 +8,7 @@ const faqData = [
     id: "clinics-count",
     icon: Building2,
     question: "How many sleep clinics are in your directory?",
-    answer: "Our directory features over 4,000 verified sleep clinics and sleep disorder centers across the United States. This makes us the most comprehensive online resource for finding sleep care providers nationwide. Each clinic in our database has been carefully verified to ensure you're connecting with legitimate, professional healthcare facilities. Whether you're in a major metropolitan area or a smaller community, our extensive network helps you find qualified sleep specialists near you."
+    answer: "Our directory features over 4,000 sleep clinics and sleep disorder centers across the United States. This makes us the most comprehensive online resource for finding sleep care providers nationwide. Each clinic is researched from public sources such as clinic websites and map listings, and clinics can correct their own details for free. Whether you're in a major metropolitan area or a smaller community, our extensive network helps you find qualified sleep specialists near you."
   },
   {
     id: "clinic-info",

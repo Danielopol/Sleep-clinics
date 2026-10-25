@@ -17,7 +17,7 @@
     <path d="M8 13l3 3 5-6" fill="none" stroke="#6B7F60" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
   </g>
   <!-- Text -->
-  <text x="50" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#64748b" font-weight="500" letter-spacing="0.5">FEATURED ON</text>
+  <text x="50" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#64748b" font-weight="500" letter-spacing="0.5">LISTED ON</text>
   <text x="50" y="49" font-family="system-ui, -apple-system, sans-serif" font-size="15" fill="#0f172a" font-weight="700">US Sleep Clinics</text>
-  <text x="50" y="65" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#6B7F60" font-weight="500">&#x2713; Verified Provider</text>
+  <text x="50" y="65" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#6B7F60" font-weight="500">Sleep clinic directory</text>
 </svg>

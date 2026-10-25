@@ -286,10 +286,25 @@ get a quote. Requests arrive by email (the pricing and claim pages link to
 
 ## Before charging real money
 
-- **Terms**: `/terms-of-service` says nothing about paid listings. It needs
-  refund terms, subscription renewal and cancellation terms, and a statement
-  that payment does not affect rankings, ratings, or editorial content. Have
-  this reviewed rather than copied from a template.
+- **Terms**: section 6 of `/terms-of-service` covers paid plans (October
+  2026 draft, not yet reviewed by a lawyer; have it reviewed). It commits you
+  to the following, so fulfillment has to match:
+  - **Refund in full** if a new clinic cannot be verified and published, or if
+    you cannot confirm the buyer represents the clinic within 30 days of
+    purchase. Track the purchase date on each open identity check.
+  - **Cancellation** stops the next renewal; the plan stays active to the end
+    of the paid period. No partial refunds otherwise, except when you cancel a
+    plan for reasons other than breach or non-payment, or stop offering it:
+    then refund the unused part.
+  - **Price changes**: email every affected subscriber at least 30 days
+    before the new price applies, and change the price in `lib/pricing.ts`
+    and Stripe only for renewals after that.
+  - **Changes to section 6**: update `LAST_UPDATED` in the page and email
+    active subscribers 30 days before the change applies to them.
+  - **Plan ends**: remove the photos and other content added under it.
+  Also in Stripe: **Settings > Billing > Subscriptions and emails**, turn on
+  reminders for upcoming renewals. Several US states require an annual
+  renewal reminder, and the terms rely on it not being a surprise.
 - **Disclosure**: the "Featured · Ad" label and the notes under the city grid
   and the state strip are the FTC-facing pieces. Do not remove them, and do
   not let a paid placement appear unlabeled anywhere new. An attorney review

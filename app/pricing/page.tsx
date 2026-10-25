@@ -193,8 +193,14 @@ export default function PricingPage() {
             </p>
             <p>
               Prices are in US dollars. Paid plans renew automatically and can be canceled at any
-              time from the billing portal link in your Stripe receipt. A paid plan bought for a
-              clinic we cannot verify is refunded in full. Questions?{" "}
+              time from the billing portal link in your Stripe receipt; the plan stays active to the
+              end of the period you paid for. We refund a paid plan in full if it was bought for a
+              new clinic we cannot verify, or if we cannot confirm you represent the clinic within 30
+              days. The full terms are in our{" "}
+              <Link href="/terms-of-service" className="text-[var(--healing-teal)] hover:underline">
+                Terms of Service
+              </Link>
+              . Questions?{" "}
               <Link href="/contact" className="text-[var(--healing-teal)] hover:underline">
                 Contact us
               </Link>

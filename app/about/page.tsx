@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "About US Sleep Clinics",
     description:
-      "Connecting you with expert sleep care professionals and accredited clinics nationwide. Over 4,000 verified sleep clinics.",
+      "Connecting you with expert sleep care professionals and accredited clinics nationwide. Over 4,000 sleep clinics listed.",
     url: "https://www.ussleepclinics.com/about",
     images: OG_IMAGE,
   },
@@ -74,7 +74,7 @@ export default function AboutPage() {
           <p className="text-lg text-slate-600 dark:text-slate-300 leading-relaxed text-center">
             We are dedicated to connecting individuals experiencing sleep disturbances with expert sleep care professionals
             and accredited clinics nationwide. Whether you're struggling with insomnia, restless legs, sleep apnea, or other
-            sleep-related disorders, our comprehensive directory of over 4,000 verified sleep clinics makes it easy to find
+            sleep-related disorders, our comprehensive directory of over 4,000 sleep clinics makes it easy to find
             qualified sleep specialists in your area. We believe that quality sleep is fundamental to health and well-being,
             and everyone deserves access to professional care that can help them achieve better sleep and improved quality of life.
           </p>
@@ -98,11 +98,11 @@ export default function AboutPage() {
                   <Shield className="h-6 w-6 text-white" />
                 </div>
                 <h3 className="text-xl font-semibold text-slate-900 dark:text-white mb-3">
-                  Comprehensive Database of Verified Sleep Care Providers
+                  Comprehensive, Researched Database of Sleep Care Providers
                 </h3>
                 <p className="text-slate-600 dark:text-slate-300">
-                  Our directory features more than 4,000 sleep clinics across the United States, each carefully verified to ensure
-                  you're connecting with legitimate, professional healthcare providers. We've done the research so you don't have to,
+                  Our directory features more than 4,000 sleep clinics across the United States, each researched from public
+                  sources such as clinic websites and map listings, and clinics can correct their own details for free. We've done the research so you don't have to,
                   compiling the most extensive database of sleep medicine specialists, sleep disorder centers, and AASM-accredited
                   facilities available online.
                 </p>
@@ -387,7 +387,7 @@ export default function AboutPage() {
           </div>
           <p className="text-lg text-slate-600 dark:text-slate-300 leading-relaxed text-center mb-8">
             Finding quality healthcare shouldn't be complicated. We've eliminated the frustration of searching through scattered
-            resources, outdated listings, and incomplete information. With over 4,000 verified clinics, comprehensive details for
+            resources, outdated listings, and incomplete information. With over 4,000 clinics listed, comprehensive details for
             each location, and user-friendly search tools, we've created the most reliable resource for finding sleep care in the
             United States.
           </p>

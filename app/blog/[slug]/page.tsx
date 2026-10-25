@@ -307,7 +307,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               Ready to Find a Sleep Specialist?
             </h2>
             <p className="font-[family-name:var(--font-cormorant)] text-xl text-[#8b9dc3] mb-8 italic">
-              Browse our directory of over 4,000 verified sleep clinics and find the care you need.
+              Browse our directory of over 4,000 sleep clinics and find the care you need.
             </p>
             <Link
               href="/"
