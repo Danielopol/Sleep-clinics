@@ -10,6 +10,8 @@ import { trackClinicOutboundClick, type ClinicOutboundTarget } from "@/lib/analy
 
 interface ClinicDetailCardProps {
   clinic: Clinic
+  /** True when an Enhanced Profile shows the clinic's own services list below. */
+  hideServices?: boolean
 }
 
 // Helper function to check if clinic is currently open
@@ -71,7 +73,7 @@ function getImageUrl(url: string | undefined): string {
   return url
 }
 
-export function ClinicDetailCard({ clinic }: ClinicDetailCardProps) {
+export function ClinicDetailCard({ clinic, hideServices = false }: ClinicDetailCardProps) {
   const [hoursExpanded, setHoursExpanded] = useState(false)
   const [imgSrc, setImgSrc] = useState(getImageUrl(clinic.image))
   const fullAddress = `${clinic.address}, ${clinic.city}, ${clinic.state} ${clinic.zip}`
@@ -320,7 +322,7 @@ export function ClinicDetailCard({ clinic }: ClinicDetailCardProps) {
         )}
 
         {/* Services Section */}
-        {clinic.services && clinic.services.length > 0 && (
+        {!hideServices && clinic.services && clinic.services.length > 0 && (
           <div className="mb-6">
             <span className="text-xs uppercase tracking-wider text-[var(--text-secondary)] font-semibold block mb-2">
               Services

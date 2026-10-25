@@ -76,6 +76,7 @@ own.
    - `003_key_by_clinic_slug.sql` (before deploying code that keys on `clinic_slug`)
    - `004_lead_requests.sql`
    - `005_free_claims.sql` (before deploying the free claim flow; creates `clinic_claims`)
+   - `006_enhanced_profiles.sql` (creates `enhanced_profiles` and the `clinic-photos` bucket)
 3. Copy the project URL into `SUPABASE_URL` and the **service role** key into
    `SUPABASE_SERVICE_ROLE_KEY`. Server only. Never `NEXT_PUBLIC_`.
 
@@ -248,10 +249,12 @@ Every order email leads with a numbered list of what is still outstanding.
    where clinic_slug is null and status in ('active', 'past_due')
    order by created_at;
    ```
-3. **Profile changes.** Photos (up to 10), description, services, equipment,
-   insurance, and other changes arrive by email and are applied within 1
-   business day of the identity check. Edit the Excel source, regenerate,
-   deploy.
+3. **Enhanced Profile content.** Photos (up to 10), the full description,
+   services, equipment, insurance, and the Call and Visit website targets
+   arrive by email and are applied within 1 business day of the identity
+   check. They go in Supabase, not the Excel file, and need no deploy (see
+   "Editing an Enhanced Profile" below). Corrections to the basic facts
+   (address, hours, phone) still go in the Excel file, as for a free claim.
 4. **AdSense exclusion.** Add the clinic page to the excluded pages (setup
    step 4).
 5. **Monthly report.** From Google Analytics, filtered to the clinic's slug:
@@ -269,6 +272,63 @@ Every order email leads with a numbered list of what is still outstanding.
    on them; GA4 does not backfill, so register them before the first sale.
    The VA sleep clinics page does not count impressions (VA facilities do not
    buy plans).
+
+### Editing an Enhanced Profile
+
+Run `supabase/migrations/006_enhanced_profiles.sql` once first. It creates the
+`enhanced_profiles` table and the public `clinic-photos` Storage bucket.
+
+1. **Photos.** In Supabase, **Storage > clinic-photos**, make a folder named
+   after the clinic slug and upload up to 10 images (landscape, at least 1200
+   px wide, under about 500 KB each). Copy each file's public URL.
+2. **The row.** In **Table Editor > enhanced_profiles**, insert a row (or edit
+   the existing one) with `clinic_slug` set to the clinic's slug:
+   - `description`: the full description. Replaces the directory's.
+   - `photos`: a JSON array, first photo first (it also becomes the main
+     image): `[{"url": "https://...", "alt": "Reception"}, ...]`. Only https
+     URLs show; anything past the tenth is ignored.
+   - `services`, `equipment`, `insurance`: arrays of keys from
+     `lib/enhanced-profile.ts`, e.g. `{in-lab-sleep-study,home-sleep-test,cbt-i}`
+     and `{medicare,aetna,self-pay}`. A misspelled key is ignored (and logged),
+     not shown.
+   - `insurance_note`: free text for plans not in the list.
+   - `call_phone`, `website_url`: only if the clinic wants different targets
+     for the big Call and Visit website buttons than its listing has.
+3. **Check it.** The page picks it up within about 5 minutes: listing reads are
+   cached for 60 seconds and clinic pages regenerate at most every 5 minutes
+   (`revalidate = 300`).
+
+Or in SQL:
+
+```sql
+insert into public.enhanced_profiles
+  (clinic_slug, description, photos, services, equipment, insurance, insurance_note)
+values (
+  '<clinic slug>',
+  '<full description>',
+  '[{"url": "https://<project>.supabase.co/storage/v1/object/public/clinic-photos/<slug>/1.jpg", "alt": "Reception"}]',
+  '{in-lab-sleep-study,home-sleep-test}',
+  '{pap-devices}',
+  '{medicare,aetna}',
+  null
+)
+on conflict (clinic_slug) do update set
+  description = excluded.description,
+  photos = excluded.photos,
+  services = excluded.services,
+  equipment = excluded.equipment,
+  insurance = excluded.insurance,
+  insurance_note = excluded.insurance_note;
+```
+
+The content renders only while the clinic has a live paid plan, so when a
+plan ends it disappears from the page by itself. The terms (section 6.8) also
+promise to remove it: delete the row and the clinic's photo folder within a
+few weeks of the plan ending.
+
+To preview locally without Supabase, put an array of rows in
+`data/enhanced-profiles.preview.json` (gitignored, read only by `npm run dev`)
+and comp the clinic with `FEATURED_CLINIC_SLUGS` so it counts as paid.
 
 ### Clinic Group
 
@@ -302,9 +362,10 @@ get a quote. Requests arrive by email (the pricing and claim pages link to
 
 ## Not built yet
 
-Accounts and login, automated domain-email verification, a self-serve edit UI,
-photo uploads, and an overrides layer so a clinic's edits survive the next
-Excel regeneration. Until those exist, identity checks, edits, and reports are
+Accounts and login, automated domain-email verification, a self-serve edit UI
+(clinics cannot edit their Enhanced Profile themselves; you enter it in
+Supabase), and an overrides layer so a free claim's corrections live outside
+the Excel file. Until those exist, identity checks, edits, and reports are
 manual, which is why the paid plans are yearly with a human in the loop.
 
 The volume that justifies building them is the number of open `clinic_claims`

@@ -1,6 +1,9 @@
 import { getSupabaseAdmin } from "./supabase"
 import { FEATURED_SLOTS_PER_CITY, type SubscriptionPlanId } from "./pricing"
 import type { Clinic } from "./data"
+import { existsSync, readFileSync } from "node:fs"
+import { join } from "node:path"
+import { parseEnhancedProfile, type EnhancedProfile, type EnhancedProfileRow } from "./enhanced-profile"
 
 /**
  * Persistence for everything the paid listing flows need to remember.
@@ -646,6 +649,69 @@ export function rotateFeatured<T>(
   const day = Math.floor(now.getTime() / 86_400_000)
   const start = (day * max) % ordered.length
   return Array.from({ length: max }, (_, i) => ordered[(start + i) % ordered.length])
+}
+
+// --- enhanced profiles ---
+
+const enhancedCache = new Map<string, { row: EnhancedProfileRow | null; at: number }>()
+
+/**
+ * Development only, with no Supabase configured: rows from
+ * data/enhanced-profiles.preview.json (an array of enhanced_profiles rows), so
+ * the layout can be previewed locally. data/ is gitignored and production
+ * never reads it.
+ */
+function previewEnhancedRow(clinicSlug: string): EnhancedProfileRow | null {
+  if (process.env.NODE_ENV === "production") return null
+  try {
+    const file = join(process.cwd(), "data", "enhanced-profiles.preview.json")
+    if (!existsSync(file)) return null
+    const rows = JSON.parse(readFileSync(file, "utf8")) as EnhancedProfileRow[]
+    return rows.find((r) => r.clinic_slug === clinicSlug) ?? null
+  } catch (error) {
+    console.error("Could not read enhanced-profiles.preview.json:", error)
+    return null
+  }
+}
+
+/**
+ * The Enhanced Profile content for a clinic, or null. Callers must check that
+ * the clinic holds a live paid plan first (ListingFlags.paid): the row is kept
+ * after a plan ends, and must stop rendering when it does.
+ *
+ * Cached per clinic for the same 60 seconds as the listing flags. Never throws:
+ * a database error renders the plain listing.
+ */
+export async function getEnhancedProfile(
+  clinicSlug: string,
+  clinicName: string
+): Promise<EnhancedProfile | null> {
+  const now = Date.now()
+  const cached = enhancedCache.get(clinicSlug)
+  if (cached && now - cached.at < LISTING_TTL_MS) {
+    return cached.row ? parseEnhancedProfile(cached.row, clinicName) : null
+  }
+
+  let row: EnhancedProfileRow | null = null
+  const supabase = getSupabaseAdmin()
+  if (!supabase) {
+    row = previewEnhancedRow(clinicSlug)
+  } else {
+    const { data, error } = await supabase
+      .from("enhanced_profiles")
+      .select(
+        "clinic_slug, description, photos, services, equipment, insurance, insurance_note, call_phone, website_url, updated_at"
+      )
+      .eq("clinic_slug", clinicSlug)
+      .maybeSingle()
+    // A missing table (migration 006 not run) lands here too: log, render plainly.
+    if (error) console.error("getEnhancedProfile failed:", error)
+    row = (data as EnhancedProfileRow | null) ?? null
+  }
+
+  enhancedCache.set(clinicSlug, { row, at: now })
+  if (enhancedCache.size > 2_000) enhancedCache.clear()
+  return row ? parseEnhancedProfile(row, clinicName) : null
 }
 
 // --- free claims ---

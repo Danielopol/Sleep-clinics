@@ -111,6 +111,11 @@ Key rules:
   page's featured strip are FTC-facing, not decoration.
 - **Paid clinic pages carry no third-party ads.** `AdFreeGuard` must stay in
   the root layout's `<head>`, before `<AdSense />`.
+- **Enhanced Profile content lives in `enhanced_profiles` (Supabase).** Photos,
+  description, and structured services/equipment/insurance
+  (`lib/enhanced-profile.ts`) render on the clinic page only while
+  `ListingFlags.paid` has the slug. Clinic pages use `revalidate = 300` so
+  edits show without a deploy.
 
 ### Appointment Requests (lead partners)
 
