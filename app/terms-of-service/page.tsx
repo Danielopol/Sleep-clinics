@@ -291,8 +291,8 @@ export default function TermsOfServicePage() {
                 </li>
                 <li>
                   Featured clinics also appear in their state's results. A state shows at most{" "}
-                  {FEATURED_PER_STATE_PAGE} at a time, and when more hold a placement they take turns daily, so a
-                  clinic will not appear there every day.
+                  {FEATURED_PER_STATE_PAGE} at a time, and when more hold a placement they take turns, so a
+                  clinic will not appear there at all times.
                 </li>
                 <li>
                   Featured placement is not applied to "near me" results or to the unfiltered national list.

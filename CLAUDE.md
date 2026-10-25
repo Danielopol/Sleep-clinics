@@ -114,8 +114,11 @@ Key rules:
 - **Enhanced Profile content lives in `enhanced_profiles` (Supabase).** Photos,
   description, and structured services/equipment/insurance
   (`lib/enhanced-profile.ts`) render on the clinic page only while
-  `ListingFlags.paid` has the slug. Clinic pages use `revalidate = 300` so
-  edits show without a deploy.
+  `ListingFlags.paid` has the slug. Edits show on the next deploy.
+- **No time-based `revalidate` on pages.** Every ISR regeneration is a billed
+  write, and the owner keeps pages built at deploy time. Refresh on demand
+  instead (`revalidatePath` in the Stripe webhook when a plan starts or ends).
+  Do not add `export const revalidate = <seconds>` to a page.
 
 ### Appointment Requests (lead partners)
 

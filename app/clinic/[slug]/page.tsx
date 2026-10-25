@@ -23,10 +23,10 @@ import { AdFreePage } from "@/components/ad-free-page"
 // build from statically rendering all ~4,700 clinic pages, cutting build CPU.
 export const dynamicParams = true
 
-// Regenerate a visited page at most every 5 minutes, so listing state kept in
-// Supabase (an Enhanced Profile edit, a confirmation, a plan starting or
-// ending) reaches the page without a deploy.
-export const revalidate = 300
+// No time-based revalidate, deliberately: every regeneration is a billed ISR
+// write, and ~4,700 pages on a timer adds up. A page is rebuilt on deploy, or
+// on demand when a paid plan starts or ends (the Stripe webhook). Supabase
+// edits (an Enhanced Profile, a confirmation) appear on the next deploy.
 
 export async function generateStaticParams() {
   const clinics = getClinicsData()

@@ -38,7 +38,7 @@ the fulfillment below in step with it.
   business days.
 - **Featured.** Everything in Enhanced, plus the top of the city page (3 per
   city, waitlist when full), up to 6 at a time in the state's results
-  (rotating daily), the "Featured · Ad" label everywhere, never promoted in
+  (taking turns), the "Featured · Ad" label everywhere, never promoted in
   "near me" results, and impressions in the monthly report.
 - **Clinic Group.** 20% off each location for 2 to 9 locations, a quote for
   10 or more. Handled by email (see below).
@@ -139,6 +139,24 @@ The webhook still handles `priority-add` sessions, so a $99 checkout opened
 before that product was retired is recorded if it completes. Fulfill it as a
 free submission with the 48 hour promise it was sold with.
 
+## When pages update
+
+Pages are built at deploy time and are **not** regenerated on a timer: every
+ISR regeneration is a billed write, and a timer on ~4,700 clinic pages adds
+up. (The top 150 clinic pages and top 100 city pages are built during the
+deploy; the rest are built on their first visit after it and then kept.)
+
+| Change | Shows up |
+| --- | --- |
+| A paid plan starts, ends, or changes status | Within a minute: the Stripe webhook revalidates that clinic's page and its city and state pages (one write each, per event) |
+| Enhanced Profile edit, confirmation marker, Excel data edit | On the next deploy |
+| State page featured strip's turn | When the state page is rebuilt (deploy, or a plan event in that state) |
+| `/api/clinics` search results (homepage search) | Immediately: not cached, rotates daily |
+
+To publish Supabase-only edits (an Enhanced Profile, a confirmation) without a
+code change, use **Redeploy** on the current production deployment in Vercel.
+Do not add a time-based `revalidate` to a page to fix freshness.
+
 ## Where featured placement shows up
 
 - `/locations/[state]/[city]`: every featured clinic first, with an
@@ -146,8 +164,11 @@ free submission with the 48 hour promise it was sold with.
 - `/locations/[state]`: a "Featured sleep clinics" strip of at most 6
   (`FEATURED_PER_STATE_PAGE`), with the disclosure. When more than 6 clinics in
   the state are featured they take turns: `rotateFeatured` in `lib/listings.ts`
-  orders them by slug and advances the window by 6 each UTC day. The page
-  regenerates hourly (`revalidate = 3600`) to pick up the next turn.
+  orders them by slug and advances the window by 6 each UTC day. The state
+  page has no time-based revalidate (ISR writes are billed), so it takes the
+  turn of the day it was built: on deploy, or when a purchase or cancellation
+  in the state revalidates it. The state search results below are not cached
+  and do change daily.
 - `/api/clinics` with a `city` filter (all featured first) or a `state` filter
   (today's 6 first, the rest labeled but in their normal position), which is
   what the homepage search uses.
@@ -201,8 +222,9 @@ and a red box of steps.
    set status = 'applied', confirmed_at = now(), updated_at = now()
    where id = '<row id>';
    ```
-   The marker appears within a minute (the read cache is 60 seconds) on pages
-   rendered after that; the next deploy covers prerendered ones.
+   The marker appears on the next deploy (pages are not regenerated on a
+   timer, see "When pages update" below). Batch confirmations into the
+   deploy you make for the corrections.
 4. If the check fails, set `status = 'rejected'` and change nothing.
 
 ### A free submission
@@ -294,9 +316,10 @@ Run `supabase/migrations/006_enhanced_profiles.sql` once first. It creates the
    - `insurance_note`: free text for plans not in the list.
    - `call_phone`, `website_url`: only if the clinic wants different targets
      for the big Call and Visit website buttons than its listing has.
-3. **Check it.** The page picks it up within about 5 minutes: listing reads are
-   cached for 60 seconds and clinic pages regenerate at most every 5 minutes
-   (`revalidate = 300`).
+3. **Deploy.** The page shows the new content after the next deploy (see
+   "When pages update" below). The plan promises changes within 1 business
+   day, so deploy within that window: a Vercel **Redeploy** of the current
+   production deployment is enough when nothing in the code changed.
 
 Or in SQL:
 

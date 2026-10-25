@@ -48,9 +48,21 @@ function periodEnd(subscription: Stripe.Subscription): number | null {
   return typeof item?.current_period_end === "number" ? item.current_period_end : null
 }
 
-function revalidateFeaturedPages(stateSlug?: string | null, citySlug?: string | null) {
+/**
+ * Rebuilds the pages a plan change shows on, once per Stripe event. Pages have
+ * no time-based revalidate (each regeneration is a billed ISR write), so this
+ * is what makes a plan appear, or disappear when it ends, before the next
+ * deploy: the clinic's own page (badge, ad-free, Enhanced content) and its
+ * city and state pages (placement).
+ */
+function revalidateListingPages(
+  clinicSlug?: string | null,
+  stateSlug?: string | null,
+  citySlug?: string | null
+) {
   invalidateListingCaches()
   try {
+    if (clinicSlug) revalidatePath(`/clinic/${clinicSlug}`)
     if (stateSlug && citySlug) revalidatePath(`/locations/${stateSlug}/${citySlug}`)
     if (stateSlug) revalidatePath(`/locations/${stateSlug}`)
   } catch (error) {
@@ -144,7 +156,11 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session, stripe:
       currentPeriodEnd: renewsAt,
     })
 
-    revalidateFeaturedPages(session.metadata?.stateSlug, session.metadata?.citySlug)
+    revalidateListingPages(
+      isNewClinic ? null : clinicSlug,
+      session.metadata?.stateSlug,
+      session.metadata?.citySlug
+    )
 
     await notifySubscriptionActivated({
       plan: kind,
@@ -186,10 +202,17 @@ async function handleSubscriptionChange(subscription: Stripe.Subscription) {
   if (mapped === null) return
 
   await setSubscriptionStatus(subscription.id, mapped, periodEnd(subscription))
-  revalidateFeaturedPages(subscription.metadata?.stateSlug, subscription.metadata?.citySlug)
+
+  // The row, not the metadata, has the slug of a clinic that was added by hand
+  // after it bought its plan (its metadata slug is empty).
+  const record = await getSubscriptionByStripeId(subscription.id)
+  revalidateListingPages(
+    record?.clinic_slug ?? (subscription.metadata?.clinicSlug || null),
+    record?.state_slug ?? subscription.metadata?.stateSlug,
+    record?.city_slug ?? subscription.metadata?.citySlug
+  )
 
   if (mapped !== "active") {
-    const record = await getSubscriptionByStripeId(subscription.id)
     await notifySubscriptionEnded({
       planName: getPlan(kind).name,
       clinicName: record?.clinic_name ?? subscription.metadata?.clinicName ?? null,
