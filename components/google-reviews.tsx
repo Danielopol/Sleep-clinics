@@ -99,7 +99,7 @@ export function GoogleReviews({
               Google Reviews
             </h3>
             <p className="text-xs text-[var(--text-secondary)]">
-              Verified patient experiences
+              Patient reviews from Google
             </p>
           </div>
         </div>

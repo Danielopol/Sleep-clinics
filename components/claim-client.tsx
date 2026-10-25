@@ -701,10 +701,19 @@ export function ClaimClient() {
           </div>
 
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-6 leading-relaxed">
-            Payment is handled by Stripe, and you can cancel any time. Paying does not change your
-            ranking or buy any trust marker. Before we change your page we confirm you represent the
-            clinic. If you add a new clinic with a paid plan and we cannot verify it, we refund you
-            in full.
+            <strong className="text-slate-700 dark:text-slate-300">
+              Paid plans renew automatically
+            </strong>{" "}
+            each year (or each month for monthly Featured) until you cancel. Cancel any time from the
+            billing portal link in your Stripe receipt; the plan runs to the end of the period you
+            paid for. Payment is handled by Stripe. Paying does not change your ranking or buy any
+            trust marker. Before we change your page we confirm you represent the clinic, and we
+            refund you in full if we cannot within 30 days, or if you add a new clinic and we cannot
+            verify it. By continuing to checkout you agree to our{" "}
+            <Link href="/terms-of-service" className="text-[var(--healing-teal)] hover:underline">
+              Terms of Service
+            </Link>
+            .
           </p>
 
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-3 leading-relaxed">

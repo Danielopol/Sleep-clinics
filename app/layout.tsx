@@ -81,7 +81,7 @@ export default function RootLayout({
             url: "https://www.ussleepclinics.com",
             logo: "https://www.ussleepclinics.com/images/Logo.png",
             description:
-              "The nation's largest directory of verified sleep clinics and AASM-accredited sleep centers. Find expert sleep care providers near you.",
+              "A national directory of sleep clinics and AASM-accredited sleep centers. Find expert sleep care providers near you.",
             contactPoint: {
               "@type": "ContactPoint",
               email: "contact@ussleepclinics.com",

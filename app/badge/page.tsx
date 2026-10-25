@@ -38,9 +38,9 @@ function CopyButton({ text, label }: { text: string; label: string }) {
 }
 
 export default function BadgePage() {
-  const lightEmbed = `<a href="${BADGE_BASE_URL}" target="_blank" rel="noopener" title="Featured on US Sleep Clinics - Verified Provider"><img src="${BADGE_BASE_URL}/images/featured-badge-light.svg" alt="Featured on US Sleep Clinics - Verified Provider" width="240" height="80" style="border:0" /></a>`
+  const lightEmbed = `<a href="${BADGE_BASE_URL}" target="_blank" rel="noopener" title="Listed on US Sleep Clinics"><img src="${BADGE_BASE_URL}/images/featured-badge-light.svg" alt="Listed on US Sleep Clinics" width="240" height="80" style="border:0" /></a>`
 
-  const darkEmbed = `<a href="${BADGE_BASE_URL}" target="_blank" rel="noopener" title="Featured on US Sleep Clinics - Verified Provider"><img src="${BADGE_BASE_URL}/images/featured-badge-dark.svg" alt="Featured on US Sleep Clinics - Verified Provider" width="240" height="80" style="border:0" /></a>`
+  const darkEmbed = `<a href="${BADGE_BASE_URL}" target="_blank" rel="noopener" title="Listed on US Sleep Clinics"><img src="${BADGE_BASE_URL}/images/featured-badge-dark.svg" alt="Listed on US Sleep Clinics" width="240" height="80" style="border:0" /></a>`
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-800">
@@ -62,9 +62,9 @@ export default function BadgePage() {
               For Listed Clinics
             </div>
             <h1 className="text-4xl sm:text-5xl font-bold text-white tracking-tight leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
-              Show Patients You're{" "}
+              Show Patients Where{" "}
               <span className="bg-gradient-to-r from-[#7C9070] to-[#8BA17E] bg-clip-text text-transparent">
-                Verified
+                You&apos;re Listed
               </span>
             </h1>
             <p className="text-slate-300 text-lg max-w-2xl mx-auto">
@@ -90,7 +90,7 @@ export default function BadgePage() {
                 icon: Award,
                 title: "Build Trust",
                 description:
-                  "Being featured in a verified directory signals credibility to patients researching sleep care options online.",
+                  "Being listed in a national sleep clinic directory helps patients researching sleep care find and compare your clinic.",
               },
               {
                 icon: TrendingUp,

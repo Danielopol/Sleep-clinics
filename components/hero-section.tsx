@@ -57,7 +57,7 @@ export function HeroSection() {
 
           {/* Subheadline */}
           <p className="text-lg sm:text-xl text-slate-200 leading-relaxed max-w-3xl mx-auto drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)]">
-            Discover the nation's largest network of verified sleep specialists and AASM-accredited clinics.
+            Search more than 4,000 sleep clinics and AASM-accredited sleep centers across the US.
             Expert diagnosis and treatment for every sleep disorder, from chronic insomnia to sleep apnea, all within reach.
           </p>
 
