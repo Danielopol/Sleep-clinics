@@ -4,7 +4,9 @@
 -- Safe to re-run: everything is IF NOT EXISTS.
 --
 -- The appointment request tables (lead_partners, lead_requests) are not in this
--- file: run supabase/migrations/004_lead_requests.sql as well.
+-- file: run supabase/migrations/004_lead_requests.sql as well. Neither is the
+-- Enhanced Profile content (enhanced_profiles and the clinic-photos bucket):
+-- run supabase/migrations/006_enhanced_profiles.sql.
 --
 -- Row level security is enabled with no policies, which denies all access to
 -- the anon and authenticated keys. Only the service-role key used by the API

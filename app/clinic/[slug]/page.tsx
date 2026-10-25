@@ -3,7 +3,8 @@ import { BadgeCheck, Star } from "lucide-react"
 import { Navigation } from "@/components/navigation"
 import { ClinicDetailCard } from "@/components/clinic-detail-card"
 import { LeadRequestForm } from "@/components/lead-request-form"
-import { getListingBadges } from "@/lib/listings"
+import { getEnhancedProfile, getListingBadges } from "@/lib/listings"
+import { EnhancedActionBar, EnhancedProfileDetails } from "@/components/enhanced-profile"
 import { getClinicBySlug, getClinicsData, formatOpeningHours } from "@/lib/clinics"
 import { resolveLegacyClinicId } from "@/lib/legacy-ids"
 import { notFound, permanentRedirect } from "next/navigation"
@@ -21,6 +22,11 @@ import { AdFreePage } from "@/components/ad-free-page"
 // rest render on-demand on first request and are then cached (ISR). This keeps the
 // build from statically rendering all ~4,700 clinic pages, cutting build CPU.
 export const dynamicParams = true
+
+// Regenerate a visited page at most every 5 minutes, so listing state kept in
+// Supabase (an Enhanced Profile edit, a confirmation, a plan starting or
+// ending) reaches the page without a deploy.
+export const revalidate = 300
 
 export async function generateStaticParams() {
   const clinics = getClinicsData()
@@ -200,9 +206,9 @@ export default async function ClinicDetailPage({
     notFound()
   }
 
-  const clinic = getClinicBySlug(slug)
+  const listed = getClinicBySlug(slug)
 
-  if (!clinic) {
+  if (!listed) {
     notFound()
   }
 
@@ -212,6 +218,21 @@ export default async function ClinicDetailPage({
   const isFeatured = badges.featured.has(slug)
   // Any live paid plan promises no third-party ads on the clinic's own page.
   const isAdFree = badges.paid.has(slug)
+
+  // Enhanced Profile content renders only while a paid plan is live; the row
+  // stays in Supabase after a plan ends and must stop showing then.
+  const enhanced = badges.paid.has(slug) ? await getEnhancedProfile(slug, listed.name) : null
+  // Its description and first photo replace the directory's, everywhere on the
+  // page including the structured data.
+  const clinic = enhanced
+    ? {
+        ...listed,
+        ...(enhanced.description && { description: enhanced.description }),
+        ...(enhanced.photos[0] && { image: enhanced.photos[0].url }),
+      }
+    : listed
+  const callPhone = enhanced ? enhanced.callPhone ?? (clinic.phone?.split(";")[0].trim() || null) : null
+  const websiteUrl = enhanced ? enhanced.websiteUrl ?? clinic.website ?? null : null
 
   return (
     <div className="min-h-screen bg-[image:var(--bg-primary)]">
@@ -244,7 +265,9 @@ export default async function ClinicDetailPage({
               longitude: clinic.coordinates.lng,
             },
           }),
-          ...(clinic.image && { image: clinic.image }),
+          ...(enhanced && enhanced.photos.length > 1
+            ? { image: enhanced.photos.map((photo) => photo.url) }
+            : clinic.image && { image: clinic.image }),
           ...(clinic.website && { sameAs: clinic.website }),
           ...(clinic.accreditation && clinic.accreditation.length > 0 && {
             hasCredential: clinic.accreditation.map(name => ({
@@ -317,13 +340,25 @@ export default async function ClinicDetailPage({
               )}
             </div>
           )}
+
+          {enhanced && <EnhancedActionBar clinicSlug={slug} phone={callPhone} website={websiteUrl} />}
         </div>
       </section>
 
       {/* Content Section with new card */}
       <section className="py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <ClinicDetailCard clinic={clinic} />
+          <ClinicDetailCard clinic={clinic} hideServices={(enhanced?.services.length ?? 0) > 0} />
+
+          {enhanced && (
+            <EnhancedProfileDetails
+              photos={enhanced.photos}
+              services={enhanced.services}
+              equipment={enhanced.equipment}
+              insurance={enhanced.insurance}
+              insuranceNote={enhanced.insuranceNote}
+            />
+          )}
 
           {/* Renders only for an active lead partner (docs/LEAD-REQUESTS.md). */}
           <LeadRequestForm clinicSlug={slug} clinicName={clinic.name} clinicPhone={clinic.phone} />
