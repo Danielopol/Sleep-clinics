@@ -209,8 +209,8 @@ export default function BadgePage() {
             Not listed yet?
           </h2>
           <p className="text-slate-400 mb-8">
-            Add your clinic to our directory of 4,000+ verified sleep care providers, reviewed and
-            published within 48 hours.
+            Add your clinic to our directory of 4,000+ sleep clinics, free. A person reviews every
+            submission against public records before it goes live.
           </p>
           <a
             href="/submit"

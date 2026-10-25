@@ -4,7 +4,7 @@ import { BadgeCheck, CheckCircle2, Clock, Mail } from "lucide-react"
 import Link from "next/link"
 import { Metadata } from "next"
 import { getStripeClient } from "@/lib/stripe"
-import { formatPrice } from "@/lib/pricing"
+import { formatPrice, FEATURED_LABEL, TURNAROUND } from "@/lib/pricing"
 
 export const metadata: Metadata = {
   title: "Thank you",
@@ -95,9 +95,10 @@ export default async function CheckoutSuccessPage({
                 <li className="flex items-start gap-3">
                   <Clock className="w-5 h-5 text-[var(--healing-teal)] mt-0.5 shrink-0" />
                   <span className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
-                    We are adding your clinic to the directory now. Your page, and everything else
-                    in your plan, goes live within 48 hours on business days, and we email you the
-                    link. If we cannot verify and publish your clinic, we refund you in full.
+                    We are adding your clinic to the directory now. We check it against public
+                    records and publish your page, with everything in your plan, within{" "}
+                    {TURNAROUND.paidSubmissionDays} business days, then email you the link. If we
+                    cannot verify your clinic, we refund you in full.
                   </span>
                 </li>
               ) : isFeatured ? (
@@ -105,16 +106,25 @@ export default async function CheckoutSuccessPage({
                   <Clock className="w-5 h-5 text-[var(--healing-teal)] mt-0.5 shrink-0" />
                   <span className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
                     Your featured placement goes live within a few minutes. Your clinic then appears
-                    at the top of its city results with a "Featured" label.
+                    at the top of its city results with a &quot;{FEATURED_LABEL}&quot; label.
                   </span>
                 </li>
-              ) : (
+              ) : isSubscription ? (
                 <li className="flex items-start gap-3">
                   <Clock className="w-5 h-5 text-[var(--healing-teal)] mt-0.5 shrink-0" />
                   <span className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
-                    A person reviews your submission and publishes your page within 48 hours on
-                    business days. We email you the link when it is live. If we cannot verify and
-                    publish your clinic, we refund you in full.
+                    Your Enhanced Profile is active, and your clinic&apos;s page no longer shows
+                    third-party ads.
+                  </span>
+                </li>
+              ) : (
+                // A $99 priority add opened before that product was retired.
+                <li className="flex items-start gap-3">
+                  <Clock className="w-5 h-5 text-[var(--healing-teal)] mt-0.5 shrink-0" />
+                  <span className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
+                    A person reviews your submission and publishes your page. We email you the link
+                    when it is live. If we cannot verify and publish your clinic, we refund you in
+                    full.
                   </span>
                 </li>
               )}
@@ -123,9 +133,9 @@ export default async function CheckoutSuccessPage({
                 <li className="flex items-start gap-3">
                   <BadgeCheck className="w-5 h-5 text-[var(--healing-teal)] mt-0.5 shrink-0" />
                   <span className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
-                    Next we confirm you represent the clinic, so we can add the "Verified" badge.
-                    We may email you to check. That usually takes under 48 hours on business days,
-                    and we refund you in full if we cannot verify it.
+                    Before we change your page we confirm you represent the clinic, so we may email
+                    or call you. Then send us your photos, description, services, and insurance,
+                    and we apply changes within {TURNAROUND.paidChangeDays} business day.
                   </span>
                 </li>
               )}

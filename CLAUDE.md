@@ -65,42 +65,52 @@ The API supports two modes:
 - `/about` - About page
 - `/blog` - Blog listing
 - `/blog/[slug]` - Individual blog post
-- `/submit` - Clinic listing form, paid only ($99 priority add, straight to Stripe Checkout)
-- `/pricing` - The three paid listing plans
-- `/claim` - Find your clinic, then buy featured placement or join the verified waitlist
+- `/submit` - Free submission for a clinic not listed yet (`POST /api/submit-clinic`)
+- `/pricing` - Free Listing, Enhanced Profile, and Featured, free tier first
+- `/claim` - Find your clinic, then claim it free (`POST /api/claim-listing`) or buy a paid plan
 - `/checkout/success` - Post-payment confirmation (dynamic, noindex)
 
-### Paid Listings
+### Listing Plans
 
-Three plans defined in `lib/pricing.ts`, which is the single source of truth for
-prices: the pricing page, the buttons, and the amount Stripe charges all read
-from it. See `docs/PAID-LISTINGS.md` for the setup runbook and the fulfillment
-process.
+Three plans defined in `lib/pricing.ts` (Free Listing, Enhanced Profile at
+$149/yr, Featured at $349/yr or $39/mo), which is the single source of truth
+for prices and promises: the pricing page, the claim page, the buttons, and the
+amount Stripe charges all read from it. See `docs/PAID-LISTINGS.md` for the
+setup runbook and the fulfillment process. Listing, claiming, and correcting a
+listing are free; money buys presentation and placement only.
 
 Key rules:
 
 - **Entitlements are granted only by `app/api/stripe/webhook/route.ts`**, on a
   signature-verified payload. `app/api/checkout/route.ts` only reserves a slot
   and opens the Stripe session; the browser never grants anything.
-- **Paying never grants the "Verified" badge.** It is an identity claim on a
-  healthcare listing, so only a human sets `verified_at` (see
-  `docs/PAID-LISTINGS.md`). Featured placement, which is labeled advertising and
-  claims nothing about anyone, does activate on payment.
-- **Every plan can be bought by a clinic that is not listed yet.** Those rows
-  carry `pending_clinic` and a null `clinic_slug`, and render nothing until the
-  listing is created by hand and linked.
+- **The only trust marker is free and never sold.** "Details confirmed by the
+  clinic" shows once a human sets `clinic_claims.confirmed_at` after an
+  identity check. Never sell, or call anything a clinic buys, "Verified".
+  Featured placement, which is labeled advertising and claims nothing about
+  anyone, does activate on payment.
+- **The Enhanced Profile's plan id is `claim-verified`.** It predates the
+  rename and is stored in the database and in live Stripe subscriptions, so
+  never rename it.
+- **Every paid plan can be bought by a clinic that is not listed yet.** Those
+  rows carry `pending_clinic` and a null `clinic_slug`, and render nothing until
+  the listing is created by hand and linked.
 - **Paid rows are keyed by `clinic_slug`, never `clinic.id`.** The id is a
   row position and shifts on every data update, which would move a paid badge
   onto another clinic. Lookups, upserts, badge sets, `/claim?clinic=` and the
-  `FEATURED_CLINIC_SLUGS`/`VERIFIED_CLINIC_SLUGS` overrides all use the slug.
-- **Paid state lives in Supabase, never in the Excel file.** `data/clinics.json`
-  is regenerated on every deploy, so anything written there would be lost.
-  Featured flags are attached at request time in `lib/listings.ts`.
+  `FEATURED_CLINIC_SLUGS`/`CONFIRMED_CLINIC_SLUGS` overrides all use the slug.
+- **Listing state lives in Supabase, never in the Excel file.**
+  `data/clinics.json` is regenerated on every deploy, so anything written there
+  would be lost. Flags are attached at request time by `withListingBadges` in
+  `lib/listings.ts`.
 - **Every paid feature degrades gracefully.** Missing Stripe keys, Supabase
   vars, or Resend key must never break a page render or a build; each client
   builder returns null and callers handle it.
-- **Paid placement must stay labeled.** The "Featured" badge on the card and the
-  disclosure under the city grid are FTC-facing, not decoration.
+- **Paid placement must stay labeled.** The "Featured · Ad" label
+  (`FEATURED_LABEL`) and the disclosures under the city grid and the state
+  page's featured strip are FTC-facing, not decoration.
+- **Paid clinic pages carry no third-party ads.** `AdFreeGuard` must stay in
+  the root layout's `<head>`, before `<AdSense />`.
 
 ### Appointment Requests (lead partners)
 

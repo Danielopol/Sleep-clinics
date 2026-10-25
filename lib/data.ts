@@ -12,13 +12,19 @@ export interface Clinic {
   coordinates?: { lat: number; lng: number }
   coordinatesApproximate?: boolean // true when coordinates come from the ZIP centroid, not the street address
   distance?: number // km from the user's location, set when the "near me" filter is active
-  // Paid listing state. Never present in data/clinics.json: both are attached at
-  // request time from the featured_listings table (see lib/listings.ts), so
-  // regenerating the data from Excel cannot wipe something someone paid for.
+  // Listing state. Never present in data/clinics.json: these are attached at
+  // request time from Supabase (see withListingBadges in lib/listings.ts), so
+  // regenerating the data from Excel cannot wipe something a clinic paid for
+  // or confirmed.
   featured?: boolean
-  // Set only after a human confirmed the subscriber represents the clinic.
-  // Paying does not set it: see the schema comment in supabase/schema.sql.
-  verified?: boolean
+  // "Details confirmed by the clinic": set by a human after a free claim's
+  // identity check. Free, and never sold: see clinic_claims in supabase/schema.sql.
+  confirmed?: boolean
+  // ISO date of that confirmation, when known.
+  confirmedAt?: string
+  // Holds a live paid plan (Enhanced or Featured). Only used to record card
+  // impressions for the clinic's monthly report; never shown.
+  paid?: boolean
   // Extended fields for enhanced card design
   clinicType?: string
   rating?: number

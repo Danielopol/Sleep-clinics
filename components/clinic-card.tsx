@@ -1,10 +1,18 @@
 "use client"
 
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { ArrowRight, MapPin, Phone, Navigation, Star, BadgeCheck } from "lucide-react"
 import Link from "next/link"
 import type { Clinic } from "@/lib/data"
 import { trackClinicOutboundClick } from "@/lib/analytics"
+import { FEATURED_LABEL } from "@/lib/pricing"
+import { formatConfirmedDate } from "@/lib/confirmed-date"
+import { useClinicImpression } from "@/lib/use-clinic-impression"
+
+function confirmedTitle(confirmedAt: string | undefined): string {
+  const date = formatConfirmedDate(confirmedAt)
+  return date ? `Details confirmed by the clinic on ${date}` : "Details confirmed by the clinic"
+}
 
 function formatDistance(km: number, approximate?: boolean): string {
   const value = km < 10 ? km.toFixed(1) : String(Math.round(km))
@@ -29,6 +37,13 @@ function getImageUrl(url: string | undefined): string {
 
 export function ClinicCard({ clinic }: ClinicCardProps) {
   const [imgSrc, setImgSrc] = useState(getImageUrl(clinic.image))
+  const cardRef = useRef<HTMLDivElement>(null)
+  // Paid clinics only: impressions feed their monthly report.
+  useClinicImpression(cardRef, {
+    clinicSlug: clinic.slug,
+    featured: Boolean(clinic.featured),
+    enabled: Boolean(clinic.paid),
+  })
   const fullAddress = `${clinic.address}, ${clinic.city}, ${clinic.state} ${clinic.zip}`
   const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`
   // Show only the first phone number on the card
@@ -36,10 +51,11 @@ export function ClinicCard({ clinic }: ClinicCardProps) {
 
   return (
     <div
+      ref={cardRef}
       className={`group bg-slate-50 dark:bg-slate-900 rounded-2xl overflow-hidden border transition-all duration-300 flex flex-col relative ${
         clinic.featured
           ? "border-amber-400/70 dark:border-amber-500/60 ring-1 ring-amber-400/30"
-          : clinic.verified
+          : clinic.confirmed
             ? "border-[var(--healing-teal)]/60 ring-1 ring-[var(--healing-teal)]/20"
             : "border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700"
       }`}
@@ -64,27 +80,27 @@ export function ClinicCard({ clinic }: ClinicCardProps) {
           </div>
         )}
 
-        {/* Featured badge. Labeled as paid placement, per FTC advertising
-            disclosure rules: the label plus the note on the city page. */}
+        {/* Featured badge. Labeled as advertising, per FTC native advertising
+            guidance: the "Ad" in the label plus the note on the page. */}
         {clinic.featured && (
           <div
-            title="Featured listings are paid placements"
+            title="Featured listings are paid advertising placements"
             className="absolute top-3 left-3 flex items-center gap-1.5 px-2 py-1 bg-amber-500 rounded text-xs font-bold text-white shadow-lg uppercase tracking-wide"
           >
             <Star size={11} fill="currentColor" />
-            Featured
+            {FEATURED_LABEL}
           </div>
         )}
 
-        {/* Verified badge. Granted only after a human confirmed the clinic's
-            owner, never by payment alone. */}
-        {clinic.verified && (
+        {/* Confirmed by the clinic. Free, set only after a human checked the
+            claimant, and never sold. */}
+        {clinic.confirmed && (
           <div
-            title="Verified: we confirmed this listing with the clinic"
+            title={confirmedTitle(clinic.confirmedAt)}
             className={`absolute ${clinic.featured ? "top-12" : "top-3"} left-3 flex items-center gap-1.5 px-2 py-1 bg-[var(--healing-teal)] rounded text-xs font-bold text-white shadow-lg`}
           >
             <BadgeCheck size={11} />
-            Verified
+            Confirmed by clinic
           </div>
         )}
 
@@ -92,9 +108,9 @@ export function ClinicCard({ clinic }: ClinicCardProps) {
         {clinic.distance != null && (
           <div
             className={`absolute ${
-              [clinic.featured, clinic.verified].filter(Boolean).length === 2
+              [clinic.featured, clinic.confirmed].filter(Boolean).length === 2
                 ? "top-[5.25rem]"
-                : clinic.featured || clinic.verified
+                : clinic.featured || clinic.confirmed
                   ? "top-12"
                   : "top-3"
             } left-3 flex items-center gap-1.5 px-2 py-1 bg-[var(--dream-blue)] rounded text-xs font-bold text-white shadow-lg`}

@@ -1,5 +1,5 @@
 /**
- * Single source of truth for the paid listing plans.
+ * Single source of truth for the listing plans.
  *
  * Prices live here, not in the Stripe dashboard, so the site copy and the
  * amount charged can never drift apart. Stripe Price IDs are optional: when the
@@ -7,17 +7,27 @@
  * from `amountCents` (`price_data`), so the plans work with nothing but a
  * Stripe secret key configured. Set the env vars later if you want the revenue
  * to roll up per Product in the Stripe dashboard.
+ *
+ * Pricing model (decided 2026-10-24, see us-sleep-clinics-pricing-decision.md):
+ * being listed, claiming a listing, and correcting its facts are free. Money
+ * buys presentation (Enhanced Profile) and placement (Featured), never the
+ * listing itself and never a trust marker.
  */
 
-export type PlanId = "priority-add" | "claim-verified" | "featured-city"
+/**
+ * "claim-verified" is the Enhanced Profile. The id predates the rename and is
+ * kept because it is stored in featured_listings.plan (with a check
+ * constraint) and in the metadata of every live Stripe subscription.
+ */
+export type PlanId = "free-listing" | "claim-verified" | "featured-city"
 
-export type BillingInterval = "one-time" | "month" | "year"
+export type BillingInterval = "free" | "month" | "year"
 
 export interface PlanPrice {
   interval: BillingInterval
   amountCents: number
   /** Optional Stripe Price ID env var name. Overrides amountCents when set. */
-  priceIdEnv: string
+  priceIdEnv?: string
   label: string
   /** Small print under the price, e.g. the annual equivalent of a monthly plan. */
   note?: string
@@ -35,84 +45,102 @@ export interface Plan {
   href: string
   highlight?: boolean
   footnote?: string
-  /**
-   * Recurring plans are Stripe subscriptions; the one-time add is a payment.
-   * Drives checkout mode and which lifecycle events matter.
-   */
+  /** Paid plans are Stripe subscriptions. The free listing never touches Stripe. */
   subscription: boolean
-  /**
-   * Grants the "Verified" badge, but only after a human confirms the buyer
-   * actually represents the clinic. Paying never grants it on its own: see
-   * `verified_at` in lib/listings.ts.
-   */
-  grantsVerifiedBadge: boolean
+  /** No third-party ads on the clinic's own page while the plan is live. */
+  adFreePage: boolean
   /** Puts the clinic at the top of its city results, labeled as advertising. */
   grantsFeaturedPlacement: boolean
 }
 
-/**
- * Every plan covers adding the clinic to the directory when it is not listed
- * yet, so a brand new clinic can buy any tier directly instead of buying the
- * one-time add first and then upgrading.
- */
-export const ALL_PLANS_INCLUDE_LISTING = true
-
 /** Maximum number of featured slots sold per city. Scarcity is the product. */
 export const FEATURED_SLOTS_PER_CITY = 3
 
+/**
+ * How many featured clinics a state's results promote at once. A state has
+ * many cities, so when more than this many hold a slot they take turns.
+ */
+export const FEATURED_PER_STATE_PAGE = 6
+
+/** The label on every featured card, everywhere it appears. FTC-facing. */
+export const FEATURED_LABEL = "Featured · Ad"
+
+/** Review and turnaround promises, quoted on the site and in emails. */
+export const TURNAROUND = {
+  /** A free submission for a clinic we have not listed yet. */
+  freeSubmissionDays: 10,
+  /** A new clinic added as part of any paid plan. */
+  paidSubmissionDays: 2,
+  /** Fact corrections from a free claim, once the identity check passes. */
+  freeCorrectionDays: 5,
+  /** Profile changes for Enhanced and Featured subscribers. */
+  paidChangeDays: 1,
+} as const
+
+/** Clinic Group: one discount per location for practices with several. */
+export const CLINIC_GROUP = {
+  percentOff: 20,
+  minLocations: 2,
+  maxLocations: 9,
+} as const
+
+export const CONTACT_EMAIL = "contact@ussleepclinics.com"
+
+export const CLINIC_GROUP_MAILTO = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
+  "Clinic Group pricing"
+)}`
+
+const days = (n: number) => `${n} business ${n === 1 ? "day" : "days"}`
+
 export const PLANS: Plan[] = [
   {
-    id: "priority-add",
-    name: "Priority Listing Add",
-    tagline: "For a clinic that is not in the directory yet.",
-    prices: [
-      {
-        interval: "one-time",
-        amountCents: 9900,
-        priceIdEnv: "STRIPE_PRICE_PRIORITY_ADD",
-        label: "one time",
-      },
-    ],
+    id: "free-listing",
+    name: "Free Listing",
+    tagline: "Every sleep clinic, listed and correctable at no cost.",
+    prices: [{ interval: "free", amountCents: 0, label: "always free" }],
     features: [
-      "Manual review within 48 hours on business days",
-      "A live, indexable page for your clinic",
-      "Services, hours, phone, and website included",
-      '"Listed on US Sleep Clinics" badge for your own site',
-      "Checked against public records before it goes live",
-      "Full refund if we cannot verify and publish your clinic",
+      "Your page with name, address, phone, hours, website, services, and accreditation",
+      `Not listed yet? Submit your clinic free, checked against public records within ${days(TURNAROUND.freeSubmissionDays)}`,
+      "Claim your listing free, after a quick identity check",
+      `Correct your facts free, applied within ${days(TURNAROUND.freeCorrectionDays)}`,
+      '"Details confirmed by the clinic" on your page once you confirm them',
+      "Free badge for your own website",
     ],
-    cta: "Add my clinic",
-    href: "/submit",
-    footnote: "One payment, no subscription. Refunded if we cannot publish you.",
+    cta: "Claim my listing free",
+    href: "/claim",
+    footnote: "No card needed. Staying free never changes how your clinic is listed or ranked.",
     subscription: false,
-    grantsVerifiedBadge: false,
+    adFreePage: false,
     grantsFeaturedPlacement: false,
   },
   {
     id: "claim-verified",
-    name: "Claimed and Verified",
-    tagline: "For a clinic that wants its page verified and kept current.",
+    name: "Enhanced Profile",
+    tagline: "For a clinic that wants a fuller page patients can act on.",
     prices: [
       {
         interval: "year",
         amountCents: 14900,
         priceIdEnv: "STRIPE_PRICE_CLAIM_VERIFIED",
         label: "per year",
+        note: "Renews yearly, cancel any time",
       },
     ],
     features: [
-      "Everything in Priority Listing Add, including adding your clinic if it is not listed yet",
-      '"Verified" badge once we confirm you represent the clinic',
-      "Hours, services, description, and photos kept current for you",
-      "Direct link and call to action to your website",
-      "Send changes any time, applied within one business day",
+      "Everything in the Free Listing",
+      "Up to 10 photos and a full description",
+      "Structured services, equipment, and insurance: in-lab sleep study, home sleep test, titration, CPAP clinic, CBT-I, pediatric, telehealth",
+      "Prominent Call and Visit website buttons",
+      "No third-party ads on your clinic's page",
+      `Changes applied within ${days(TURNAROUND.paidChangeDays)}`,
+      "Monthly report: profile views, website clicks, and call clicks",
+      `Not listed yet? We add your clinic within ${days(TURNAROUND.paidSubmissionDays)}`,
     ],
-    cta: "Claim my listing",
+    cta: "Upgrade my listing",
     href: "/claim",
-    footnote:
-      "The Verified badge appears once we confirm you represent the clinic, usually within 48 hours.",
+    footnote: "Does not change your ranking in search or city results.",
     subscription: true,
-    grantsVerifiedBadge: true,
+    adFreePage: true,
     grantsFeaturedPlacement: false,
   },
   {
@@ -136,17 +164,19 @@ export const PLANS: Plan[] = [
       },
     ],
     features: [
-      "Everything in Claimed and Verified, including adding your clinic if it is not listed yet",
-      `Top of your city and state results, limited to ${FEATURED_SLOTS_PER_CITY} clinics per city`,
-      '"Featured" label on your card everywhere it appears',
-      "Monthly report of views and clicks on your listing",
+      "Everything in Enhanced Profile",
+      `Top of your city page, limited to ${FEATURED_SLOTS_PER_CITY} clinics per city, with a waitlist when full`,
+      `Shown in your state's results, up to ${FEATURED_PER_STATE_PAGE} at a time, rotating`,
+      `"${FEATURED_LABEL}" label everywhere your card appears`,
+      'Never placed above closer clinics in "near me" results',
+      "Monthly report: impressions, profile views, website clicks, and call clicks",
     ],
     cta: "Check my city",
     href: "/claim",
     highlight: true,
     footnote: "Featured placement is paid advertising and is labeled as such.",
     subscription: true,
-    grantsVerifiedBadge: true,
+    adFreePage: true,
     grantsFeaturedPlacement: true,
   },
 ]
@@ -171,7 +201,7 @@ export function getPlanPrice(id: PlanId, interval: BillingInterval): PlanPrice {
   return price
 }
 
-/** "$349" or "$99", no trailing ".00" for whole-dollar amounts. */
+/** "$349" or "$0", no trailing ".00" for whole-dollar amounts. */
 export function formatPrice(amountCents: number): string {
   const dollars = amountCents / 100
   return `$${Number.isInteger(dollars) ? dollars : dollars.toFixed(2)}`

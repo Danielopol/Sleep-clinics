@@ -97,7 +97,7 @@ export function HeroSection() {
           <div className="flex flex-wrap items-center justify-center gap-6 pt-6 text-sm text-slate-300">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-[var(--healing-teal)]" />
-              <span>4,000+ Verified Clinics</span>
+              <span>4,000+ Sleep Clinics Listed</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-[var(--dream-blue)]" />

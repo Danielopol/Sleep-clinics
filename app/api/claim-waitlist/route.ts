@@ -4,9 +4,9 @@ import { addToClaimWaitlist } from "@/lib/listings"
 import { notifyClaimWaitlist } from "@/lib/notifications"
 import { getClinicBySlug } from "@/lib/clinics"
 
-// Waitlist for the Claimed and Verified tier, which is not self-serve yet.
-// Nothing is granted and nothing is charged here: this records the request so
-// the clinic's ownership can be verified by hand.
+// Waitlist for a featured slot, shown once a city's slots are all taken.
+// Nothing is granted and nothing is charged here. (Claiming a listing is free
+// and goes through /api/claim-listing.)
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
 

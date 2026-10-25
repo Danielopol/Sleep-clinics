@@ -46,7 +46,24 @@ export function trackAffiliateClick(details: {
   })
 }
 
-export type ClinicOutboundTarget = "website" | "phone" | "directions" | "fax" | "email"
+/**
+ * Fired once when a paid clinic's card has been at least half on screen for a
+ * second (see useClinicImpression). Feeds the "impressions" line of the
+ * monthly report, next to page views of /clinic/<slug> and clinic_outbound_click.
+ *
+ * Only paid clinics fire it: they are the only ones who get a report, and one
+ * event per card on a long list would multiply event volume for nothing. GA4's
+ * page_location says which list the card was in; `featured` says whether it
+ * was shown as a featured placement there.
+ */
+export function trackClinicImpression(details: { clinicSlug: string; featured: boolean }): void {
+  trackEvent("clinic_card_impression", {
+    clinic_slug: details.clinicSlug,
+    featured: details.featured,
+  })
+}
+
+export type ClinicOutboundTarget ="website" | "phone" | "directions" | "fax" | "email"
 
 /**
  * Where the clicked contact detail sat: "clinic_page" is the clinic's own

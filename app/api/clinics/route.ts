@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server'
 import { readFileSync, existsSync } from 'fs'
 import { join } from 'path'
-import { getListingBadges } from '@/lib/listings'
+import { getListingBadges, rotateFeatured, withListingBadges } from '@/lib/listings'
+import { FEATURED_PER_STATE_PAGE } from '@/lib/pricing'
 
 // Force Node.js runtime for file system access
 export const runtime = 'nodejs'
@@ -155,20 +156,26 @@ export async function GET(request: Request) {
     // patient. It is deliberately not applied to the unfiltered national list,
     // and it never overrides the "near me" distance sort, which answers a
     // different question.
-    if (city || state) {
-      const badges = await getListingBadges()
-      if (badges.featured.size > 0 || badges.verified.size > 0) {
-        filteredClinics = filteredClinics.map((clinic) => {
-          const featured = !!clinic.slug && badges.featured.has(clinic.slug)
-          const verified = !!clinic.slug && badges.verified.has(clinic.slug)
-          return featured || verified
-            ? { ...clinic, ...(featured && { featured }), ...(verified && { verified }) }
-            : clinic
-        })
+    //
+    // A city result promotes every featured clinic (at most
+    // FEATURED_SLOTS_PER_CITY are sold). A state result promotes at most
+    // FEATURED_PER_STATE_PAGE, taking turns daily when more hold a slot; the
+    // rest keep their "Featured · Ad" label in their normal position.
+    const badges = await getListingBadges()
+    const local = Boolean(city || state)
+    if (local) {
+      if (badges.featured.size > 0 || badges.confirmed.size > 0 || badges.paid.size > 0) {
+        filteredClinics = filteredClinics.map((clinic) => withListingBadges(clinic, badges))
         const distanceSorted = lat != null && lng != null && radius != null
         if (!distanceSorted) {
+          const featured = filteredClinics.filter((c) => c.featured)
+          const promoted = new Set(
+            city
+              ? featured
+              : rotateFeatured(featured, FEATURED_PER_STATE_PAGE, (c) => c.slug ?? String(c.id))
+          )
           filteredClinics = [...filteredClinics].sort(
-            (a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured))
+            (a, b) => Number(promoted.has(b)) - Number(promoted.has(a))
           )
         }
       }
@@ -179,7 +186,15 @@ export async function GET(request: Request) {
     const totalPages = Math.ceil(total / limit)
     const startIndex = (page - 1) * limit
     const endIndex = startIndex + limit
-    const paginatedClinics = filteredClinics.slice(startIndex, endIndex)
+    // Outside a local result set nothing is promoted or labeled featured, but
+    // the other flags still go on the page being returned: confirmed is a fact
+    // about the listing, and paid lets a paid clinic's card count impressions
+    // for its monthly report wherever it shows up.
+    const paginatedClinics = local
+      ? filteredClinics.slice(startIndex, endIndex)
+      : filteredClinics
+          .slice(startIndex, endIndex)
+          .map((clinic) => withListingBadges(clinic, badges, { featured: false }))
 
     // Return paginated response
     return NextResponse.json({

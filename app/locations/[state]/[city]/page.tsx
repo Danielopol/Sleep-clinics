@@ -5,7 +5,8 @@ import { JsonLd } from "@/components/json-ld"
 import { getCityData, getTopCityParams, humanList, type CityData } from "@/lib/locations"
 import { FaqList, type FaqItem } from "@/components/faq-list"
 import { GuideLinks } from "@/components/guide-links"
-import { getListingBadges } from "@/lib/listings"
+import { getListingBadges, withListingBadges } from "@/lib/listings"
+import { FEATURED_LABEL } from "@/lib/pricing"
 import { ChevronRight } from "lucide-react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
@@ -107,14 +108,10 @@ export default async function CityPage({
 
   // Paid featured placements go to the top of the list, in the order the data
   // already had them. The rest of the page is untouched, so a city with no
-  // featured clinic renders exactly as before. The verified badge does not
-  // affect ordering: it is a fact about the listing, not an ad slot.
+  // featured clinic renders exactly as before. "Confirmed by the clinic" does
+  // not affect ordering: it is a fact about the listing, not an ad slot.
   const badges = await getListingBadges()
-  const clinics = data.clinics.map((c) => {
-    const featured = !!c.slug && badges.featured.has(c.slug)
-    const verified = !!c.slug && badges.verified.has(c.slug)
-    return featured || verified ? { ...c, ...(featured && { featured }), ...(verified && { verified }) } : c
-  })
+  const clinics = data.clinics.map((c) => withListingBadges(c, badges))
   const hasFeatured = clinics.some((c) => c.featured)
   const orderedClinics = hasFeatured
     ? [...clinics].sort((a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured)))
@@ -188,8 +185,8 @@ export default async function CityPage({
               the order of results. */}
           {hasFeatured && (
             <p className="mt-8 text-sm text-slate-500 dark:text-slate-400">
-              Listings marked "Featured" are paid placements. Paying does not change a clinic's
-              information, its rating, or whether it appears in this directory.
+              Listings marked "{FEATURED_LABEL}" are paid advertising placements. Paying does not
+              change a clinic's information, its rating, or whether it appears in this directory.
             </p>
           )}
 

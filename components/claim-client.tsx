@@ -1,17 +1,22 @@
 "use client"
 
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import Link from "next/link"
-import { Check, Loader2, MapPin, Plus, Search, ShieldCheck, Star } from "lucide-react"
+import { Check, ClipboardCheck, Loader2, MapPin, Plus, Search, Sparkles, Star } from "lucide-react"
 import {
   getPlan,
   getPlanPrice,
   formatPrice,
+  CLINIC_GROUP,
+  CLINIC_GROUP_MAILTO,
+  FEATURED_LABEL,
   FEATURED_SLOTS_PER_CITY,
+  TURNAROUND,
   type SubscriptionPlanId,
 } from "@/lib/pricing"
 
+// "claim-verified" is the Enhanced Profile; the id predates the rename.
 const CLAIM_PLAN = getPlan("claim-verified")
 const FEATURED_PLAN = getPlan("featured-city")
 const CLAIM_YEARLY = getPlanPrice("claim-verified", "year")
@@ -53,6 +58,16 @@ const EMPTY_NEW_CLINIC = {
   description: "",
 }
 
+const EMPTY_CLAIM = {
+  contactName: "",
+  contactRole: "",
+  contactEmail: "",
+  phone: "",
+  corrections: "",
+  // Never shown to people. A bot that fills it is ignored (lib/form-guard.ts).
+  nickname: "",
+}
+
 const fieldClass =
   "w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[var(--healing-teal)]"
 
@@ -79,6 +94,13 @@ export function ClaimClient() {
 
   const [waitlist, setWaitlist] = useState({ contactName: "", contactEmail: "", phone: "", notes: "" })
   const [waitlistState, setWaitlistState] = useState<"idle" | "sending" | "sent" | "error">("idle")
+
+  // Free claim: who is asking, and what they want corrected.
+  const [claim, setClaim] = useState(EMPTY_CLAIM)
+  const [claimState, setClaimState] = useState<"idle" | "sending" | "sent">("idle")
+  const [claimError, setClaimError] = useState<string | null>(null)
+  const [claimReference, setClaimReference] = useState<string | null>(null)
+  const openedAt = useRef(Date.now())
 
   const loadAvailability = useCallback(async (clinicSlug: string) => {
     setAvailability(null)
@@ -122,6 +144,9 @@ export function ClaimClient() {
     setMode("existing")
     setError(null)
     setShowWaitlist(false)
+    setClaimState("idle")
+    setClaimError(null)
+    setClaimReference(null)
     loadAvailability(clinic.slug)
   }
 
@@ -192,6 +217,37 @@ export function ClaimClient() {
     }
   }
 
+  const submitClaim = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!existingClinicSlug) return
+    setClaimState("sending")
+    setClaimError(null)
+    try {
+      const response = await fetch("/api/claim-listing", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          clinicSlug: existingClinicSlug,
+          ...claim,
+          elapsedMs: Date.now() - openedAt.current,
+        }),
+      })
+      const data = await response.json()
+      if (!response.ok || !data.success) {
+        setClaimError(data.error || "We could not send your claim. Please try again.")
+        setClaimState("idle")
+        return
+      }
+      setClaimReference(data.reference ?? null)
+      setClaimState("sent")
+      setClaim(EMPTY_CLAIM)
+    } catch (err) {
+      console.error("Claim failed:", err)
+      setClaimError("We could not send your claim. Please try again.")
+      setClaimState("idle")
+    }
+  }
+
   const featuredPrice = interval === "year" ? FEATURED_YEARLY : FEATURED_MONTHLY
   const featuredBlocked = mode === "existing" && availability?.eligible === false
   const claimBlocked = mode === "existing" && availability?.claimEligible === false
@@ -205,8 +261,8 @@ export function ClaimClient() {
             1. Find your clinic
           </h2>
           <p className="text-slate-500 dark:text-slate-400 mb-6">
-            Search by clinic name or city. We list over 6,000 sleep clinics, so yours is probably
-            already here. If it is not, you can add it as part of any plan below.
+            Search by clinic name or city. We list over 4,000 sleep clinics, so yours is probably
+            already here.
           </p>
 
           <form onSubmit={runSearch} className="flex gap-3 mb-6">
@@ -258,7 +314,7 @@ export function ClaimClient() {
             </ul>
           )}
 
-          {/* Not listed yet: every plan covers adding the clinic. */}
+          {/* Not listed yet: submit free, or add it with a paid plan. */}
           <button
             type="button"
             onClick={() => {
@@ -278,10 +334,22 @@ export function ClaimClient() {
                 My clinic is not listed yet
               </span>
               <span className="block text-sm text-slate-500 dark:text-slate-400">
-                Every plan includes adding it, at no extra charge.
+                Submit it free, or add it with a paid plan below.
               </span>
             </span>
           </button>
+
+          {mode === "new" && (
+            <p className="mt-4 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              Listing is free:{" "}
+              <Link href="/submit" className="text-[var(--healing-teal)] hover:underline">
+                submit your clinic at no cost
+              </Link>{" "}
+              and we review it within {TURNAROUND.freeSubmissionDays} business days. To add it within{" "}
+              {TURNAROUND.paidSubmissionDays} business days as part of a paid plan, fill in its details
+              here and choose a plan below.
+            </p>
+          )}
 
           {mode === "new" && (
             <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -363,13 +431,124 @@ export function ClaimClient() {
       <section className="bg-[image:var(--bg-primary)] pb-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-2">
-            2. Choose your plan
+            2. Claim it free, or upgrade
           </h2>
           <p className="text-slate-500 dark:text-slate-400 mb-6">
             {clinicLabel
               ? `For: ${clinicLabel}`
               : "Pick your clinic above, or add it, and these become available."}
           </p>
+
+          {/* Free claim. Only for a listed clinic: a new one is submitted, not claimed. */}
+          {mode === "existing" && (
+            <div className="mb-10 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-[var(--healing-teal)]/50 p-6">
+              <div className="flex items-center gap-3 mb-2">
+                <span className="p-2 rounded-lg bg-[var(--healing-teal)]/10 text-[var(--healing-teal)]">
+                  <ClipboardCheck className="w-5 h-5" />
+                </span>
+                <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100">
+                  Claim your listing, free
+                </h3>
+              </div>
+              <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-5">
+                Tell us who you are and what to correct. We check that you represent the clinic,
+                either by email at your clinic&apos;s own domain or by calling its listed number, then
+                apply your corrections within {TURNAROUND.freeCorrectionDays} business days. Your
+                page then shows &quot;Details confirmed by the clinic&quot;. No card needed.
+              </p>
+
+              {claimState === "sent" ? (
+                <p
+                  role="status"
+                  className="p-4 rounded-lg bg-green-50 text-green-800 border border-green-200 text-sm"
+                >
+                  Thank you, your claim is in
+                  {claimReference ? ` (reference ${claimReference})` : ""}. We will be in touch to
+                  confirm it is you, usually by replying to your email.
+                </p>
+              ) : (
+                <form onSubmit={submitClaim} className="space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <input
+                      className={fieldClass}
+                      required
+                      placeholder="Your name *"
+                      aria-label="Your name"
+                      value={claim.contactName}
+                      onChange={(e) => setClaim({ ...claim, contactName: e.target.value })}
+                    />
+                    <input
+                      className={fieldClass}
+                      placeholder="Your role, e.g. practice manager"
+                      aria-label="Your role"
+                      value={claim.contactRole}
+                      onChange={(e) => setClaim({ ...claim, contactRole: e.target.value })}
+                    />
+                    <input
+                      type="email"
+                      className={fieldClass}
+                      required
+                      placeholder="Work email *"
+                      aria-label="Work email"
+                      value={claim.contactEmail}
+                      onChange={(e) => setClaim({ ...claim, contactEmail: e.target.value })}
+                    />
+                    <input
+                      type="tel"
+                      className={fieldClass}
+                      placeholder="Phone (optional)"
+                      aria-label="Phone"
+                      value={claim.phone}
+                      onChange={(e) => setClaim({ ...claim, phone: e.target.value })}
+                    />
+                  </div>
+                  <textarea
+                    className={fieldClass}
+                    rows={4}
+                    placeholder="What should we correct? Hours, phone, address, services, website, accreditation..."
+                    aria-label="Corrections"
+                    value={claim.corrections}
+                    onChange={(e) => setClaim({ ...claim, corrections: e.target.value })}
+                  />
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    An email at your clinic&apos;s own website domain is the quickest way for us to
+                    confirm it is you.
+                  </p>
+
+                  {/* Spam trap, hidden from people and from assistive technology. */}
+                  <div aria-hidden="true" className="hidden">
+                    <input
+                      type="text"
+                      name="nickname"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={claim.nickname}
+                      onChange={(e) => setClaim({ ...claim, nickname: e.target.value })}
+                    />
+                  </div>
+
+                  {claimError && (
+                    <p role="alert" className="text-sm text-red-700">
+                      {claimError}
+                    </p>
+                  )}
+
+                  <button
+                    type="submit"
+                    disabled={!existingClinicSlug || claimState === "sending"}
+                    className="w-full sm:w-auto py-3 px-6 rounded-lg border-2 border-[var(--healing-teal)] text-[var(--healing-teal)] hover:bg-[var(--healing-teal)]/10 font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  >
+                    {claimState === "sending" && <Loader2 className="w-4 h-4 animate-spin" />}
+                    {existingClinicSlug ? "Claim it free" : "Pick your clinic first"}
+                  </button>
+                </form>
+              )}
+            </div>
+          )}
+
+          <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-4">
+            Optional paid plans
+          </h3>
 
           <div className="mb-6 max-w-md">
             <input
@@ -392,11 +571,11 @@ export function ClaimClient() {
           )}
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
-            {/* Claimed and Verified */}
+            {/* Enhanced Profile */}
             <div className="bg-slate-50 dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 flex flex-col h-full">
               <div className="flex items-center gap-3 mb-3">
                 <span className="p-2 rounded-lg bg-[var(--healing-teal)]/10 text-[var(--healing-teal)]">
-                  <ShieldCheck className="w-5 h-5" />
+                  <Sparkles className="w-5 h-5" />
                 </span>
                 <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100">
                   {CLAIM_PLAN.name}
@@ -428,7 +607,7 @@ export function ClaimClient() {
                 {claimBlocked
                   ? "This clinic already has a plan"
                   : ready
-                    ? `Claim it, ${formatPrice(CLAIM_YEARLY.amountCents)} ${CLAIM_YEARLY.label}`
+                    ? `Upgrade, ${formatPrice(CLAIM_YEARLY.amountCents)} ${CLAIM_YEARLY.label}`
                     : "Pick your clinic first"}
               </button>
             </div>
@@ -515,15 +694,27 @@ export function ClaimClient() {
               </button>
 
               <p className="text-xs text-slate-400 mt-3 text-center leading-relaxed">
-                Featured placement is paid advertising and is labeled "Featured" on the site.
+                Featured placement is paid advertising and is labeled &quot;{FEATURED_LABEL}&quot; on
+                the site.
               </p>
             </div>
           </div>
 
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-6 leading-relaxed">
-            Payment is handled by Stripe, and you can cancel any time. The "Verified" badge is added
-            once we confirm you represent the clinic, usually within 48 hours on business days, and
-            we refund you in full if we cannot.
+            Payment is handled by Stripe, and you can cancel any time. Paying does not change your
+            ranking or buy any trust marker. Before we change your page we confirm you represent the
+            clinic. If you add a new clinic with a paid plan and we cannot verify it, we refund you
+            in full.
+          </p>
+
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-3 leading-relaxed">
+            Several locations? Clinic Group pricing is {CLINIC_GROUP.percentOff}% off each location
+            for {CLINIC_GROUP.minLocations} to {CLINIC_GROUP.maxLocations} locations, and a quote for
+            more.{" "}
+            <a href={CLINIC_GROUP_MAILTO} className="text-[var(--healing-teal)] hover:underline">
+              Contact us
+            </a>{" "}
+            and we will set it up.
           </p>
 
           {/* Waitlist, only once a city turns out to be full */}
@@ -576,9 +767,9 @@ export function ClaimClient() {
           )}
 
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-8 text-center">
-            Just want a one-time listing instead?{" "}
+            Not listed yet and do not need a paid plan?{" "}
             <Link href="/submit" className="text-[var(--healing-teal)] hover:underline">
-              Add your clinic for {formatPrice(getPlanPrice("priority-add", "one-time").amountCents)}
+              Submit your clinic free
             </Link>
             .
           </p>

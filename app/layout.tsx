@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { AdSense } from "@/components/adsense"
+import { AdFreeGuard } from "@/components/ad-free-guard"
 import { ImpactTag } from "@/components/impact"
 import { GoogleAnalytics } from "@/components/google-analytics"
 import { GrowAnalytics } from "@/components/grow-analytics"
@@ -67,6 +68,8 @@ export default function RootLayout({
           with the one it generates from the Metadata API above. */}
       <head>
         <ImpactTag />
+        {/* Must come before AdSense: it pauses ads on paid clinic pages. */}
+        <AdFreeGuard />
         <AdSense />
       </head>
       <body className={`${inter.className} antialiased`}>

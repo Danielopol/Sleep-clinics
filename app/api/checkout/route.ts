@@ -3,8 +3,6 @@ import { z } from "zod"
 import { getStripeClient, getBaseUrl } from "@/lib/stripe"
 import { getPlan, getPlanPrice, formatPrice, FEATURED_SLOTS_PER_CITY } from "@/lib/pricing"
 import {
-  saveSubmission,
-  submissionRef,
   reserveSubscriptionSlot,
   getCitySlotAvailability,
   getSubscriptionForClinic,
@@ -12,27 +10,15 @@ import {
 } from "@/lib/listings"
 import { getClinicBySlug } from "@/lib/clinics"
 import { getClinicLocationSlugs } from "@/lib/locations"
-import { notifyPriorityAddStarted } from "@/lib/notifications"
 
 // Creates the Stripe Checkout Session for a paid listing. Nothing is granted
 // here: the entitlement is written only by the webhook, after Stripe confirms
 // the money moved. This route just reserves the slot and opens the session.
+//
+// Only the two subscriptions are sold. Listing a clinic and claiming it are
+// free (/api/submit-clinic, /api/claim-listing) and never touch Stripe.
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
-
-const priorityAddSchema = z.object({
-  kind: z.literal("priority-add"),
-  clinicName: z.string().trim().min(2).max(200),
-  address: z.string().trim().min(3).max(300),
-  city: z.string().trim().min(1).max(100),
-  state: z.string().trim().min(2).max(100),
-  zip: z.string().trim().min(3).max(15),
-  phone: z.string().trim().min(7).max(40),
-  specialty: z.string().trim().min(1).max(100),
-  contactEmail: z.string().trim().email().max(200),
-  website: z.string().trim().max(300).optional().or(z.literal("")),
-  description: z.string().trim().max(3000).optional().or(z.literal("")),
-})
 
 /** A clinic that is not in the directory yet, bought alongside a subscription. */
 const newClinicSchema = z.object({
@@ -62,11 +48,7 @@ const subscriptionFields = {
 const claimSchema = z.object({ kind: z.literal("claim-verified"), ...subscriptionFields })
 const featuredSchema = z.object({ kind: z.literal("featured-city"), ...subscriptionFields })
 
-const bodySchema = z.discriminatedUnion("kind", [
-  priorityAddSchema,
-  claimSchema,
-  featuredSchema,
-])
+const bodySchema = z.discriminatedUnion("kind", [claimSchema, featuredSchema])
 
 export async function POST(request: Request) {
   let parsed: z.infer<typeof bodySchema>
@@ -88,74 +70,11 @@ export async function POST(request: Request) {
   const baseUrl = getBaseUrl()
 
   try {
-    if (parsed.kind === "priority-add") {
-      const plan = getPlan("priority-add")
-      const price = getPlanPrice("priority-add", "one-time")
-      const priceId = process.env[price.priceIdEnv]
-
-      const submission = await saveSubmission({
-        clinicName: parsed.clinicName,
-        address: parsed.address,
-        city: parsed.city,
-        state: parsed.state,
-        zip: parsed.zip,
-        phone: parsed.phone,
-        specialty: parsed.specialty,
-        website: parsed.website || undefined,
-        description: parsed.description || undefined,
-        contactEmail: parsed.contactEmail,
-      })
-
-      // When Supabase is not configured the email is the only record of what
-      // was submitted, so send it now rather than after payment.
-      if (!submission.stored) {
-        await notifyPriorityAddStarted({
-          reference: submissionRef(submission.id),
-          submission: parsed,
-        })
-      }
-
-      const session = await stripe.checkout.sessions.create({
-        mode: "payment",
-        line_items: [
-          priceId
-            ? { price: priceId, quantity: 1 }
-            : {
-                quantity: 1,
-                price_data: {
-                  currency: "usd",
-                  unit_amount: price.amountCents,
-                  product_data: {
-                    name: plan.name,
-                    description: `Priority review and publication of ${parsed.clinicName} on US Sleep Clinics.`,
-                  },
-                },
-              },
-        ],
-        customer_email: parsed.contactEmail,
-        client_reference_id: submission.id,
-        allow_promotion_codes: true,
-        billing_address_collection: "required",
-        metadata: {
-          kind: "priority-add",
-          submissionId: submission.id,
-          reference: submissionRef(submission.id),
-          clinicName: parsed.clinicName,
-          city: parsed.city,
-          state: parsed.state,
-        },
-        success_url: `${baseUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${baseUrl}/submit?canceled=1`,
-      })
-
-      return NextResponse.json({ url: session.url })
-    }
-
-    // --- recurring plans: claim-verified and featured-city ---
+    // claim-verified is the Enhanced Profile (the id predates the rename).
     const planId = parsed.kind
     const plan = getPlan(planId)
 
-    // Claimed and Verified is annual only; ignore a monthly interval sent for it
+    // Enhanced Profile is annual only; ignore a monthly interval sent for it
     // rather than throwing on a price that does not exist.
     const interval = plan.prices.some((p) => p.interval === parsed.interval)
       ? parsed.interval
@@ -249,7 +168,7 @@ export async function POST(request: Request) {
     }
 
     const price = getPlanPrice(planId, interval)
-    const priceId = process.env[price.priceIdEnv]
+    const priceId = price.priceIdEnv ? process.env[price.priceIdEnv] : undefined
 
     const metadata: Record<string, string> = {
       kind: planId,
@@ -262,7 +181,7 @@ export async function POST(request: Request) {
 
     const productDescription = plan.grantsFeaturedPlacement
       ? `Featured placement for ${clinicName} on US Sleep Clinics, ${formatPrice(price.amountCents)} ${price.label}.`
-      : `Claimed and verified listing for ${clinicName} on US Sleep Clinics, ${formatPrice(price.amountCents)} ${price.label}.`
+      : `Enhanced Profile for ${clinicName} on US Sleep Clinics, ${formatPrice(price.amountCents)} ${price.label}.`
 
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",

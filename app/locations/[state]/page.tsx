@@ -8,6 +8,9 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import { Metadata } from "next"
 import { OG_IMAGE } from "@/lib/og-image"
+import { ClinicCard } from "@/components/clinic-card"
+import { getListingBadges, rotateFeatured, withListingBadges } from "@/lib/listings"
+import { FEATURED_LABEL, FEATURED_PER_STATE_PAGE } from "@/lib/pricing"
 
 const BASE_URL = "https://www.ussleepclinics.com"
 
@@ -15,6 +18,11 @@ const BASE_URL = "https://www.ussleepclinics.com"
 // rejected by the router with a real 404. Without this, notFound() inside a
 // prerendered page renders the 404 UI but still answers HTTP 200 (a soft 404).
 export const dynamicParams = false
+
+// The featured strip rotates daily (rotateFeatured), so the page is
+// regenerated hourly to pick up the next day's turn. A purchase also
+// revalidates it straight away (the Stripe webhook).
+export const revalidate = 3600
 
 export async function generateStaticParams() {
   return getAllStateSlugs().map((state) => ({ state }))
@@ -96,6 +104,15 @@ export default async function StatePage({
   const data = getStateData(state)
   if (!data) notFound()
 
+  // Paid placements across the state's cities, at most FEATURED_PER_STATE_PAGE
+  // at once, taking turns when more hold a slot.
+  const badges = await getListingBadges()
+  const featuredClinics = rotateFeatured(
+    data.clinics.filter((c) => c.slug && badges.featured.has(c.slug)),
+    FEATURED_PER_STATE_PAGE,
+    (c) => c.slug!
+  ).map((c) => withListingBadges(c, badges))
+
   const servicesSentence =
     data.topServices.length > 0
       ? ` These sleep centers and labs offer services including ${humanList(data.topServices)}.`
@@ -144,6 +161,25 @@ export default async function StatePage({
       {/* City grid */}
       <section className="bg-[image:var(--bg-primary)] min-h-screen py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {featuredClinics.length > 0 && (
+            <div className="mb-12">
+              <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-6">
+                Featured sleep clinics in {data.name}
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                {featuredClinics.map((clinic) => (
+                  <ClinicCard key={clinic.slug} clinic={clinic} />
+                ))}
+              </div>
+              {/* Advertising disclosure, required wherever paid placement is shown. */}
+              <p className="mt-4 text-sm text-slate-500 dark:text-slate-400">
+                Listings marked "{FEATURED_LABEL}" are paid advertising placements and take turns
+                here. Paying does not change a clinic's information, its rating, or whether it
+                appears in this directory.
+              </p>
+            </div>
+          )}
+
           <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-6 flex items-center gap-2">
             <Building2 className="w-6 h-6 text-[var(--healing-teal)]" />
             Cities in {data.name}
