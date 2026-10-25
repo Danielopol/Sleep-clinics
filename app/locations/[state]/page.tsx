@@ -19,10 +19,11 @@ const BASE_URL = "https://www.ussleepclinics.com"
 // prerendered page renders the 404 UI but still answers HTTP 200 (a soft 404).
 export const dynamicParams = false
 
-// The featured strip rotates daily (rotateFeatured), so the page is
-// regenerated hourly to pick up the next day's turn. A purchase also
-// revalidates it straight away (the Stripe webhook).
-export const revalidate = 3600
+// No time-based revalidate, deliberately (each regeneration is a billed ISR
+// write). The featured strip's turn (rotateFeatured) is therefore picked when
+// the page is built: on deploy, or when a purchase or cancellation in the
+// state revalidates it (the Stripe webhook). State search results in
+// /api/clinics are not cached and still rotate daily.
 
 export async function generateStaticParams() {
   return getAllStateSlugs().map((state) => ({ state }))
