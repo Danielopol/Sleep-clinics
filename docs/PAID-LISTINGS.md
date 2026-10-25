@@ -1,25 +1,47 @@
-# Paid listings: how it works and how to turn it on
+# Listings, free and paid: how it works and how to turn it on
 
-Three plans, defined once in `lib/pricing.ts`. Change a price there and the
-pricing page, the buttons, and the amount Stripe charges all move together.
+Three plans, defined once in `lib/pricing.ts`. Change a price or a promise there
+and the pricing page, the claim page, the buttons, and the amount Stripe
+charges all move together.
 
 | Plan | Price | Status | Fulfillment |
 | --- | --- | --- | --- |
-| Priority Listing Add | $99 one time | Live, self serve | Manual: you add the clinic to the Excel file and redeploy |
-| Claimed and Verified | $149 per year | Live, self serve | Manual: verify the owner, then apply their changes by email |
-| Featured in Your City | $349 per year or $39 per month | Live, self serve | Placement is automatic; the badge and any new listing are manual |
+| Free Listing | $0 | Live | Manual: free submissions and free claims arrive by email (and in Supabase) |
+| Enhanced Profile | $149 per year | Live, self serve | Manual: confirm identity, then apply photos, description, and changes by email |
+| Featured in Your City | $349 per year or $39 per month | Live, self serve | Placement and the ad-free page are automatic; profile changes and any new listing are manual |
 
-Every plan includes adding the clinic when it is not in the directory yet, so a
-brand new clinic can buy any tier directly. Those purchases arrive with
-`clinic_slug` empty and the submitted details in `pending_clinic`, and nothing
-renders for them until you create the listing and link it.
+The model (Strategy B, decided 2026-10-24, see
+`us-sleep-clinics-pricing-decision.md` one folder up): being listed, claiming
+a listing, and correcting its facts are free, as on every comparable
+directory. Money buys presentation (Enhanced Profile) and placement (Featured),
+never the listing and never a trust marker. The $99 Priority Listing Add and
+the paid "Verified" badge are retired.
 
-There is no free submission path. `/submit` is checkout for the $99 priority
-add, and the old `POST /api/submit-clinic` endpoint was deleted with it, so
-nothing can drop an unpaid submission into the inbox. The directory still grows
-the way it always has, through your own scraping and research, and the clinics
-already in it stay listed whether they ever pay or not. Keep that true: it is
-what the "What paying does not change" section of `/pricing` promises.
+`claim-verified` is the Enhanced Profile's plan id. It predates the rename and
+stays because it is stored in `featured_listings.plan` and in the metadata of
+every live Stripe subscription. Do not rename it.
+
+## What each tier promises
+
+All of this copy lives in `PLANS` and `TURNAROUND` in `lib/pricing.ts`. Keep
+the fulfillment below in step with it.
+
+- **Free Listing.** The listed page. Free submission for a missing clinic,
+  reviewed within 10 business days. Free claim after an identity check, with
+  corrections applied within 5 business days. "Details confirmed by the
+  clinic on <date>" once confirmed. The free website badge.
+- **Enhanced Profile.** Up to 10 photos, full description, structured
+  services, equipment, and insurance, prominent Call and Visit website
+  buttons, no third-party ads on the clinic's page, changes within 1 business
+  day, a monthly report (profile views, website clicks, call clicks). Does not
+  change ranking. A new clinic added with the plan is published within 2
+  business days.
+- **Featured.** Everything in Enhanced, plus the top of the city page (3 per
+  city, waitlist when full), up to 6 at a time in the state's results
+  (rotating daily), the "Featured · Ad" label everywhere, never promoted in
+  "near me" results, and impressions in the monthly report.
+- **Clinic Group.** 20% off each location for 2 to 9 locations, a quote for
+  10 or more. Handled by email (see below).
 
 ## Setup, in order
 
@@ -39,7 +61,7 @@ Products and Prices in the dashboard are optional. Without them, checkout builds
 the line item from `lib/pricing.ts`. If you do create them, set the matching
 `STRIPE_PRICE_*` env vars, and keep the amounts identical to `lib/pricing.ts`:
 nothing checks that they agree, so a mismatch means advertising one price and
-charging another.
+charging another. `STRIPE_PRICE_PRIORITY_ADD` is no longer read.
 
 Also worth doing in the dashboard: turn on **Stripe Tax** if you want US sales
 tax handled (advertising and directory services are taxable in some states),
@@ -49,9 +71,11 @@ own.
 ### 2. Supabase
 
 1. Create a project.
-2. Run `supabase/schema.sql` in the SQL editor. On a project created before
-   October 2026, run `supabase/migrations/003_key_by_clinic_slug.sql` instead,
-   and run it before deploying code that keys on `clinic_slug`.
+2. Run `supabase/schema.sql` in the SQL editor. On an existing project, run the
+   migrations you have not run yet, in order:
+   - `003_key_by_clinic_slug.sql` (before deploying code that keys on `clinic_slug`)
+   - `004_lead_requests.sql`
+   - `005_free_claims.sql` (before deploying the free claim flow; creates `clinic_claims`)
 3. Copy the project URL into `SUPABASE_URL` and the **service role** key into
    `SUPABASE_SERVICE_ROLE_KEY`. Server only. Never `NEXT_PUBLIC_`.
 
@@ -59,32 +83,45 @@ Row level security is on with no policies, so only the service role key can
 read these tables. That is deliberate: they hold customer emails.
 
 Skipping Supabase is supported. Checkout still works and you still get an email
-for every order, but nothing is recorded, city slot caps cannot be enforced,
-and featured placements have to be set by hand through `FEATURED_CLINIC_SLUGS`.
+for every order, claim, and submission, but nothing is recorded, city slot caps
+cannot be enforced, and featured placements and confirmations have to be set by
+hand through `FEATURED_CLINIC_SLUGS` and `CONFIRMED_CLINIC_SLUGS`.
 
 ### 3. Email
 
-`RESEND_API_KEY` is already used by the contact and submit forms. Two additions:
+`RESEND_API_KEY` is already used by the contact form. Two additions:
 
-- `NOTIFY_EMAIL`: where order notifications land.
+- `NOTIFY_EMAIL`: where order, claim, and submission notifications land.
 - `EMAIL_FROM`: a sender on a domain verified in Resend. Until this is set,
-  customer-facing email (the "we got your listing" note) is skipped, because the
-  Resend sandbox sender can only deliver to your own address. Operator email
-  works either way.
+  customer-facing email (the acknowledgements) is skipped, because the Resend
+  sandbox sender can only deliver to your own address. Operator email works
+  either way.
 
-### 4. Test before going live
+### 4. AdSense: excluded pages
+
+Paid plans promise no third-party ads on the clinic's own page. The site
+pauses AdSense on those pages itself (`components/ad-free-guard.tsx` in the
+root layout's head, `components/ad-free-page.tsx` for client-side
+navigation), but that is best effort. When a clinic subscribes, also add
+`ussleepclinics.com/clinic/<slug>` to **Ads > By site > Auto ads > Excluded
+pages** in AdSense, and remove it when the plan ends.
+
+### 5. Test before going live
 
 ```bash
 npm run dev
 stripe listen --forward-to localhost:3000/api/stripe/webhook
 ```
 
-Buy each plan with card `4242 4242 4242 4242`, any future expiry, any CVC.
+Buy each paid plan with card `4242 4242 4242 4242`, any future expiry, any CVC.
+Send one free claim from `/claim` and one free submission from `/submit`.
 Check that:
 
-- the order email arrives,
-- `clinic_submissions` or `featured_listings` has the row,
-- a featured clinic jumps to the top of its city page with the "Featured" label.
+- the notification emails arrive,
+- `featured_listings`, `clinic_claims`, and `clinic_submissions` have the rows,
+- a featured clinic jumps to the top of its city page with the "Featured · Ad"
+  label, and appears in its state page's featured strip,
+- the clinic page of a paid clinic makes no request to `pagead2.googlesyndication.com/pagead/ads`.
 
 Then swap in the live keys and do one real purchase on a card you own.
 
@@ -97,12 +134,22 @@ request body. Replayed events are ignored via the `stripe_events` table, and a
 failed handler hands the event id back so Stripe's retry is not dropped as a
 duplicate.
 
+The webhook still handles `priority-add` sessions, so a $99 checkout opened
+before that product was retired is recorded if it completes. Fulfill it as a
+free submission with the 48 hour promise it was sold with.
+
 ## Where featured placement shows up
 
-- `/locations/[state]/[city]`: featured clinics first, with an advertising
-  disclosure under the grid.
-- `/api/clinics` when a `city` or `state` filter is active, which is what the
-  homepage search uses.
+- `/locations/[state]/[city]`: every featured clinic first, with an
+  advertising disclosure under the grid.
+- `/locations/[state]`: a "Featured sleep clinics" strip of at most 6
+  (`FEATURED_PER_STATE_PAGE`), with the disclosure. When more than 6 clinics in
+  the state are featured they take turns: `rotateFeatured` in `lib/listings.ts`
+  orders them by slug and advances the window by 6 each UTC day. The page
+  regenerates hourly (`revalidate = 3600`) to pick up the next turn.
+- `/api/clinics` with a `city` filter (all featured first) or a `state` filter
+  (today's 6 first, the rest labeled but in their normal position), which is
+  what the homepage search uses.
 
 Deliberately not applied: the unfiltered national list, and "near me" results,
 where distance is the honest answer to what the patient asked.
@@ -112,106 +159,154 @@ Placements live in Supabase, not in the Excel file, so
 calls `revalidatePath` on the affected city and state pages, so a purchase
 appears within seconds instead of waiting for the next deploy.
 
-`FEATURED_CLINIC_SLUGS` (comma separated clinic slugs, `VERIFIED_CLINIC_SLUGS`
-for the badge) forces a placement without a subscription. Use it for comps,
+`FEATURED_CLINIC_SLUGS` (comma separated clinic slugs) forces a placement
+without a subscription, and `CONFIRMED_CLINIC_SLUGS` (`slug` or
+`slug:YYYY-MM-DD`) forces the confirmed marker. Use them for comps,
 make-goods, and local testing.
 
 **Every paid row is keyed by `clinic_slug`, never by the numeric clinic id.**
 The id is the clinic's row position in the Excel file and shifts whenever rows
 are added or removed, so a badge keyed on it would move to another clinic on the
 next data update. If a clinic's slug ever changes (it is built from name, city
-and state), update `clinic_slug` on its row in the same deploy.
+and state), update `clinic_slug` on its rows in the same deploy.
 
-## What each purchase needs from you
+## "Details confirmed by the clinic"
 
-Every order email leads with a numbered list of what is still outstanding. The
-three tasks that can appear:
+The only trust marker on a listing. It is free, a human grants it, and it is
+never sold: the word "Verified" is not used for anything a clinic can buy.
 
-### 1. Granting the Verified badge (every recurring plan)
+It shows when `clinic_claims.confirmed_at` is set for the clinic's slug (or the
+legacy `featured_listings.verified_at`, from when the paid badge existed, or a
+`CONFIRMED_CLINIC_SLUGS` entry). The clinic page shows the date; the card shows
+"Confirmed by clinic" with the date on hover.
 
-Paying never sets it. The badge is an identity claim on a healthcare listing, so
-a card charge cannot grant it. After each subscription:
+## Fulfillment
 
-1. Confirm the buyer represents the clinic. The intended check is an email from
-   an address on the clinic's own domain, matched against the website already in
-   the data. A call to the clinic's listed number works too.
-2. Grant it by setting `verified_at` on their row:
+### A free claim
+
+The email arrives as "Free claim: <clinic>" with a reference like `CLM-8F3A2C`
+and a red box of steps.
+
+1. **Identity check.** The email says whether the claimant's address is at the
+   clinic's website domain. That is a hint, not proof, since anyone can type
+   any address: reply to it and get an answer. If the domain does not match,
+   call the clinic's listed number and ask for the person named.
+2. **Apply the corrections** to `Prototype_with_descriptions.xlsx`, then
+   `npm run geocode` (if the address changed) and `npm run generate-data`, and
+   deploy. Promised within 5 business days of the check.
+3. **Mark it confirmed:**
+   ```sql
+   update public.clinic_claims
+   set status = 'applied', confirmed_at = now(), updated_at = now()
+   where id = '<row id>';
+   ```
+   The marker appears within a minute (the read cache is 60 seconds) on pages
+   rendered after that; the next deploy covers prerendered ones.
+4. If the check fails, set `status = 'rejected'` and change nothing.
+
+### A free submission
+
+The email arrives as "Free submission: <clinic>" with a reference like
+`SUB-8F3A2C`. Promised within 10 business days.
+
+1. Check the clinic against public records (website, phone, address, NPI).
+   Reject anything that is not a sleep clinic or cannot be confirmed.
+2. Add the row to `Prototype_with_descriptions.xlsx`.
+3. `npm run geocode` then `npm run generate-data`, then deploy.
+4. Email the submitter their page link, and mark the row `published` (or
+   `rejected`) in `clinic_submissions`.
+
+If review time passes 4 hours a week, tighten what the form requires, not the
+price (the decision document's Experiment 7).
+
+### A paid plan (Enhanced or Featured)
+
+Every order email leads with a numbered list of what is still outstanding.
+
+1. **Identity before changes.** Paying grants no trust marker and no right to
+   edit by itself. Confirm the buyer represents the clinic the same way as a
+   free claim before applying anything they send. Once confirmed, you may also
+   set `confirmed_at` on a `clinic_claims` row for them (insert one if they
+   never sent a free claim).
+2. **New clinic.** When the order says NEW CLINIC, the buyer is not in the
+   directory. The details are in the email and in `pending_clinic` on their
+   row. Check it against public records, add it like a free submission, then
+   link it. Promised within 2 business days. If it cannot be verified, refund
+   in full and cancel the subscription.
    ```sql
    update public.featured_listings
-   set verified_at = now(), updated_at = now()
-   where clinic_slug = '<clinic slug>';
+   set clinic_slug = '<new slug>',
+       city_slug = '<city slug>',
+       state_slug = '<state slug>',
+       updated_at = now()
+   where id = '<row id from the email>';
    ```
-3. If you cannot verify them, refund in Stripe and cancel the subscription. The
-   pricing page promises exactly that, so honor it.
+   Anything left in that state:
+   ```sql
+   select id, plan, contact_email, pending_clinic, created_at
+   from public.featured_listings
+   where clinic_slug is null and status in ('active', 'past_due')
+   order by created_at;
+   ```
+3. **Profile changes.** Photos (up to 10), description, services, equipment,
+   insurance, and other changes arrive by email and are applied within 1
+   business day of the identity check. Edit the Excel source, regenerate,
+   deploy.
+4. **AdSense exclusion.** Add the clinic page to the excluded pages (setup
+   step 4).
+5. **Monthly report.** From Google Analytics, filtered to the clinic's slug:
+   - **Impressions** (Featured): `clinic_card_impression` events. One is
+     recorded when a paid clinic's card has been at least half on screen for a
+     second, once per page view of a list (city page, state strip, search
+     results). `featured` says whether it was shown as a placement;
+     `page_location` says which list. Only paid clinics send it.
+   - **Profile views**: page views of `/clinic/<slug>`.
+   - **Website and call clicks**: `clinic_outbound_click` with `target`
+     `website` or `phone`.
 
-The badge appears within a minute (the read cache is 60 seconds) on pages that
-have been regenerated since; a purchase-triggered revalidation or the next
-deploy covers the rest.
+   Send it each month. `clinic_slug` and `featured` must be registered as
+   event-scoped custom dimensions in GA4 (Admin > Custom definitions) to filter
+   on them; GA4 does not backfill, so register them before the first sale.
+   The VA sleep clinics page does not count impressions (VA facilities do not
+   buy plans).
 
-### 2. Creating a listing for a new clinic
+### Clinic Group
 
-When the order says NEW CLINIC, the buyer is not in the directory. The full
-details are in the email and in `pending_clinic` on their row. Add the clinic the
-same way as a priority add (below), then link it:
+A practice with 2 to 9 locations gets 20% off each location's plan; 10 or more
+get a quote. Requests arrive by email (the pricing and claim pages link to
+`mailto:` with the subject "Clinic Group pricing").
 
-```sql
-update public.featured_listings
-set clinic_slug = '<new slug>',
-    city_slug = '<city slug>',
-    state_slug = '<state slug>',
-    updated_at = now()
-where id = '<row id from the email>';
-```
-
-Until that runs, the subscription is paid and live in Stripe but renders nothing.
-To find anything left in that state:
-
-```sql
-select id, plan, contact_email, pending_clinic, created_at
-from public.featured_listings
-where clinic_slug is null and status in ('active', 'past_due')
-order by created_at;
-```
-
-### 3. Applying listing changes (Claimed and Verified, and Featured)
-
-Subscribers send changes by email; the plan promises they are applied within one
-business day. Edit the Excel source, regenerate, deploy.
-
-## Fulfilling a priority add
-
-1. The order email arrives with a reference like `SUB-8F3A2C` and the full
-   submitted details, and the 48 hour clock starts. Nothing reaches you unpaid,
-   so every one of these is a customer waiting.
-2. Verify the clinic is real (website, phone, address).
-3. Add the row to `Prototype_with_descriptions.xlsx`.
-4. `npm run geocode` then `npm run generate-data`, then deploy.
-5. Email the customer their page link, and mark the row `published` in
-   `clinic_submissions`.
-6. If it cannot be verified, refund in Stripe and mark the row `refunded`. The
-   refund promise is on the pricing page, so honor it.
+1. Confirm the locations are one practice (same owner or management).
+2. In Stripe, create a coupon for 20% off, duration "forever", and a
+   promotion code for it restricted to that customer's email or first
+   purchase.
+3. Send them the code. Each location checks out on `/claim` as usual (checkout
+   has `allow_promotion_codes` on), so slots, rows, and the webhook work
+   exactly as for any other clinic.
 
 ## Before charging real money
 
 - **Terms**: `/terms-of-service` says nothing about paid listings. It needs
   refund terms, subscription renewal and cancellation terms, and a statement
-  that paid placement does not affect ratings or editorial content. Have this
-  reviewed rather than copied from a template.
-- **Disclosure**: the "Featured" label and the note under the city grid are the
-  FTC-facing pieces. Do not remove them, and do not let a paid placement appear
-  unlabeled anywhere new.
-- **The verified badge**: it must mean a check you actually perform. See
-  "Granting the Verified badge" above. If you ever find yourself setting
-  `verified_at` in bulk without checking, the badge has stopped meaning anything
-  and becomes a liability rather than a product.
+  that payment does not affect rankings, ratings, or editorial content. Have
+  this reviewed rather than copied from a template.
+- **Disclosure**: the "Featured · Ad" label and the notes under the city grid
+  and the state strip are the FTC-facing pieces. Do not remove them, and do
+  not let a paid placement appear unlabeled anywhere new. An attorney review
+  of the label is recommended.
+- **The confirmed marker**: it must mean a check you actually perform. If you
+  ever find yourself setting `confirmed_at` in bulk without checking, it has
+  stopped meaning anything and becomes a liability.
+- **Claims about results**: the pricing page makes none (no "more patients",
+  rankings, or ROI). Quote directory-wide traffic only, with a date.
 
 ## Not built yet
 
 Accounts and login, automated domain-email verification, a self-serve edit UI,
-and an overrides layer so a clinic's edits survive the next Excel regeneration.
-Until those exist, verification and edits are manual, which is why both are
-priced as yearly plans with a human in the loop rather than instant self-serve.
+photo uploads, and an overrides layer so a clinic's edits survive the next
+Excel regeneration. Until those exist, identity checks, edits, and reports are
+manual, which is why the paid plans are yearly with a human in the loop.
 
-The volume that justifies building them is the number of active rows in
-`featured_listings`. When applying changes by hand starts costing more than an
-afternoon a week, build the editor.
+The volume that justifies building them is the number of open `clinic_claims`
+rows plus active rows in `featured_listings`. When applying changes by hand
+starts costing more than an afternoon a week, build the editor.

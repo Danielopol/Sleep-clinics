@@ -1,9 +1,9 @@
 import { getResendClient } from "./resend"
 import { escapeHtml, escapeHtmlMultiline, safeHttpUrl, singleLineSubject } from "./html-email"
-import { formatPrice } from "./pricing"
+import { formatPrice, TURNAROUND } from "./pricing"
 
 /**
- * Notification emails for the paid listing flows.
+ * Notification emails for the listing flows, free and paid.
  *
  * Two audiences: the operator (every order, so fulfillment can start) and the
  * customer (what they just bought and what happens next). Everything
@@ -90,25 +90,122 @@ function submissionTable(s: SubmissionFields): string {
   `
 }
 
-/** Fired when checkout opens, only when there is no database to hold the payload. */
-export async function notifyPriorityAddStarted(params: {
+/** A free submission for a clinic we have not listed yet. */
+export async function notifyFreeSubmission(params: {
   reference: string
   submission: SubmissionFields
+  storedInDatabase: boolean
 }) {
+  const s = params.submission
   await send({
     to: operatorAddress(),
-    subject: `Priority add started (unpaid): ${params.submission.clinicName}`,
-    replyTo: params.submission.contactEmail,
+    subject: `Free submission: ${s.clinicName} (${s.city}, ${s.state})`,
+    replyTo: s.contactEmail,
     html: `
-      <h2>Priority listing add, payment pending</h2>
+      <h2>Free clinic submission</h2>
       <p>Reference: <strong>${escapeHtml(params.reference)}</strong></p>
-      <p>This clinic opened Stripe Checkout. Wait for the paid confirmation with
-      the same reference before publishing.</p>
-      ${submissionTable(params.submission)}
+      <p>Check it against public records (website, phone, address, NPI) before
+      adding it. Promised within ${TURNAROUND.freeSubmissionDays} business days.
+      Reject anything that is not a sleep clinic or cannot be confirmed.</p>
+      <p>${params.storedInDatabase
+        ? "Saved to clinic_submissions with status pending."
+        : "Not saved: no database is configured. This email is the only record."}</p>
+      ${submissionTable(s)}
     `,
   })
+
+  if (canEmailCustomers()) {
+    await send({
+      to: s.contactEmail,
+      subject: `We received ${s.clinicName}`,
+      html: `
+        <h2>Thank you, your clinic is in review</h2>
+        <p>We have your submission for <strong>${escapeHtml(s.clinicName)}</strong>
+        (${escapeHtml(s.city)}, ${escapeHtml(s.state)}). Your reference is
+        <strong>${escapeHtml(params.reference)}</strong>.</p>
+        <p>A person checks every submission against public records. Free
+        submissions are reviewed within ${TURNAROUND.freeSubmissionDays} business
+        days, and we email you the link when your page is live. Listing is free
+        and stays free.</p>
+        <p>Reply to this email if anything needs correcting.</p>
+      `,
+    })
+  }
 }
 
+/** A free claim: someone at a listed clinic asking to correct its details. */
+export async function notifyFreeClaim(params: {
+  reference: string
+  clinicName: string
+  clinicSlug: string
+  clinicPhone: string | null
+  clinicWebsite: string | null
+  contactName: string
+  contactRole: string | null
+  contactEmail: string
+  phone: string | null
+  corrections: string | null
+  emailDomainMatches: boolean
+  storedInDatabase: boolean
+}) {
+  const listingUrl = `https://www.ussleepclinics.com/clinic/${params.clinicSlug}`
+  const websiteUrl = safeHttpUrl(params.clinicWebsite ?? undefined)
+
+  const identityStep = params.emailDomainMatches
+    ? "The email address is at the clinic's website domain. Confirm by replying to it and getting an answer: the address can be typed by anyone, so the reply is the check."
+    : `The email address is NOT at the clinic's website domain. Confirm by calling the clinic's listed number${
+        params.clinicPhone ? ` (${escapeHtml(params.clinicPhone)})` : ""
+      } and asking for the person named here.`
+
+  await send({
+    to: operatorAddress(),
+    subject: `Free claim: ${params.clinicName}`,
+    replyTo: params.contactEmail,
+    html: `
+      <div style="padding:12px;border:2px solid #b91c1c;color:#b91c1c">
+        <strong>Before applying anything:</strong>
+        <ol>
+          <li>${identityStep}</li>
+          <li>Apply the corrections to the Excel source, regenerate, deploy. Promised within ${TURNAROUND.freeCorrectionDays} business days of the check.</li>
+          <li>Set confirmed_at on the clinic_claims row (docs/PAID-LISTINGS.md). That shows "Details confirmed by the clinic" on the page.</li>
+        </ol>
+      </div>
+      <h2>Free listing claim</h2>
+      <p>Reference: <strong>${escapeHtml(params.reference)}</strong></p>
+      <p><strong>Clinic:</strong> ${escapeHtml(params.clinicName)} (${escapeHtml(params.clinicSlug)})</p>
+      <p><strong>Listing:</strong> <a href="${escapeHtml(listingUrl)}">${escapeHtml(listingUrl)}</a></p>
+      ${websiteUrl ? `<p><strong>Clinic website:</strong> ${escapeHtml(websiteUrl)}</p>` : ""}
+      <p><strong>Name:</strong> ${escapeHtml(params.contactName)}</p>
+      <p><strong>Role:</strong> ${escapeHtml(params.contactRole ?? "not provided")}</p>
+      <p><strong>Email:</strong> ${escapeHtml(params.contactEmail)}</p>
+      <p><strong>Phone:</strong> ${escapeHtml(params.phone ?? "not provided")}</p>
+      ${params.corrections ? `<p><strong>Corrections:</strong><br>${escapeHtmlMultiline(params.corrections)}</p>` : "<p>No corrections sent.</p>"}
+      <p>${params.storedInDatabase ? "Saved to clinic_claims." : "Not saved: no database configured, or migration 005 has not run."}</p>
+    `,
+  })
+
+  if (canEmailCustomers()) {
+    await send({
+      to: params.contactEmail,
+      subject: `We received your claim for ${params.clinicName}`,
+      html: `
+        <h2>Thank you, your claim is in</h2>
+        <p>Your reference is <strong>${escapeHtml(params.reference)}</strong>.</p>
+        <p>Before we change a listing we check that the request comes from the
+        clinic. We may reply to this email, or call the number listed for
+        <strong>${escapeHtml(params.clinicName)}</strong>. Once that check passes,
+        your corrections go live within ${TURNAROUND.freeCorrectionDays} business days,
+        and your page shows that its details were confirmed by the clinic.</p>
+        <p>Claiming and correcting your listing is always free.</p>
+      `,
+    })
+  }
+}
+
+/**
+ * Legacy: the $99 priority add was retired on 2026-10-24. Kept so a checkout
+ * opened before the change is still recorded and fulfilled if it completes.
+ */
 export async function notifyPriorityAddPaid(params: {
   reference: string
   clinicName: string
@@ -220,11 +317,11 @@ export async function notifySubscriptionActivated(params: {
   }
   if (params.isNewClinic) {
     todo.push(
-      "This clinic is NOT in the directory yet. Add it to the Excel file, run the geocode and generate-data scripts, deploy, then link the new clinic slug onto this subscription row (see docs/PAID-LISTINGS.md)."
+      `This clinic is NOT in the directory yet. Check it against public records, add it to the Excel file, run the geocode and generate-data scripts, deploy, then link the new clinic slug onto this subscription row (see docs/PAID-LISTINGS.md). Promised within ${TURNAROUND.paidSubmissionDays} business days. If it cannot be verified, refund in full and cancel.`
     )
   }
   todo.push(
-    "Confirm this buyer actually represents the clinic, then grant the Verified badge. Paying does not grant it."
+    "Confirm this buyer represents the clinic before applying any profile change (an email at the clinic's domain, or a call to its listed number). Paying grants no trust marker: set confirmed_at on a clinic_claims row only after that check."
   )
 
   const todoBlock = `<div style="padding:12px;border:2px solid #b91c1c;color:#b91c1c">
@@ -274,18 +371,22 @@ export async function notifySubscriptionActivated(params: {
         <h2>Thank you, your plan is active</h2>
         ${featuredLive
           ? `<p><strong>${escapeHtml(params.clinicName)}</strong> now appears at the top of its
-             city and state results, labeled as featured.
+             city page, labeled "Featured · Ad", and takes turns in its state's results.
              <a href="${escapeHtml(cityUrl)}">See it here</a>.</p>`
           : params.isNewClinic
             ? `<p>We are adding <strong>${escapeHtml(params.clinicName)}</strong> to the directory
-               now. Your page goes live within 48 hours on business days and we will email
-               you the link.</p>`
-            : `<p>Your plan for <strong>${escapeHtml(params.clinicName)}</strong> is active.</p>`}
-        <p>Next, we confirm you represent the clinic so we can add the Verified badge.
-        We may reply to this email to check. That usually takes under 48 hours on
-        business days, and we refund you in full if we cannot verify it.</p>
-        <p>Send us any changes to your hours, services, description, or photos and we
-        apply them within one business day.</p>
+               now. We check it against public records and publish your page within
+               ${TURNAROUND.paidSubmissionDays} business days, then email you the link. If we
+               cannot verify your clinic, we refund you in full.</p>`
+            : `<p>Your plan for <strong>${escapeHtml(params.clinicName)}</strong> is active, and
+               your clinic's page no longer shows third-party ads.</p>`}
+        <p>Before we change your page we confirm you represent the clinic. We may reply
+        to this email, or call the number listed for the clinic.</p>
+        <p>Send us your photos (up to 10), full description, services, equipment, and
+        insurance, and any other changes. We apply them within
+        ${TURNAROUND.paidChangeDays} business day once that check passes.</p>
+        <p>Each month we email you a report of your profile views, website clicks, and
+        call clicks.</p>
         <p>Manage or cancel your plan any time from the billing portal link in your
         Stripe receipt, or reply to this email and we will handle it.</p>
       `,
@@ -331,10 +432,11 @@ export async function notifyClaimWaitlist(params: {
 
   await send({
     to: operatorAddress(),
-    subject: `Claim request: ${params.clinicName ?? params.contactEmail}`,
+    subject: `Featured waitlist: ${params.clinicName ?? params.contactEmail}`,
     replyTo: params.contactEmail,
     html: `
-      <h2>Listing claim request</h2>
+      <h2>Waitlist for a featured slot</h2>
+      <p>This clinic's city has no featured slot open. Email them when one frees up.</p>
       <p><strong>Clinic:</strong> ${escapeHtml(params.clinicName ?? "not specified")} (${escapeHtml(params.clinicSlug ?? "n/a")})</p>
       ${listingUrl ? `<p><strong>Listing:</strong> <a href="${escapeHtml(listingUrl)}">${escapeHtml(listingUrl)}</a></p>` : ""}
       <p><strong>Name:</strong> ${escapeHtml(params.contactName ?? "not provided")}</p>
@@ -342,7 +444,6 @@ export async function notifyClaimWaitlist(params: {
       <p><strong>Phone:</strong> ${escapeHtml(params.phone ?? "not provided")}</p>
       ${params.notes ? `<p><strong>Notes:</strong><br>${escapeHtmlMultiline(params.notes)}</p>` : ""}
       <p>${params.storedInDatabase ? "Saved to claim_waitlist." : "Not saved: no database configured."}</p>
-      <p>Verify that the sender controls the clinic's domain before granting anything.</p>
     `,
   })
 }

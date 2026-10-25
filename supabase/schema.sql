@@ -11,9 +11,9 @@
 -- routes in app/api/ can read or write these tables. Do not add a permissive
 -- policy without thinking it through: these rows hold customer emails.
 
--- Clinic submissions. Every new row is a paid priority add; 'free' stays in the
--- check constraint only so rows written before the free queue was removed still
--- read back.
+-- Clinic submissions. New rows are free submissions (tier 'free', status
+-- 'pending'). 'priority' rows are the retired $99 priority add, which was paid
+-- (status 'awaiting_payment' then 'paid'); they still read back.
 create table if not exists public.clinic_submissions (
   id uuid primary key default gen_random_uuid(),
   tier text not null check (tier in ('free', 'priority')),
@@ -43,17 +43,19 @@ create index if not exists clinic_submissions_status_idx
 -- Paid listing subscriptions: one row per recurring plan for one clinic.
 --
 -- Historically this held featured placements only, hence the name. It now holds
--- both recurring plans; `plan` says which.
+-- both recurring plans; `plan` says which. 'claim-verified' is the Enhanced
+-- Profile: the id predates the rename and stays because live Stripe
+-- subscriptions carry it in their metadata.
 --
--- Three columns gate what renders, and they are deliberately independent:
+-- Two columns gate what renders, and they are deliberately independent:
 --   * status       mirrors the Stripe subscription, nothing else
 --   * clinic_slug  null until the clinic exists in the directory. A brand new
 --                  clinic can buy any plan, but nothing can render against it
 --                  until the listing is created and this is filled in.
---   * verified_at  null until a human confirms the buyer represents the clinic.
---                  Paying never sets this. The "Verified" badge is an identity
---                  claim on a healthcare listing, so a card charge cannot grant
---                  it. Featured placement is advertising and does not wait.
+--
+-- verified_at is legacy: it was the paid "Verified" badge, which is no longer
+-- sold. Rows that have it still show "Details confirmed by the clinic". New
+-- confirmations go on clinic_claims.confirmed_at instead.
 --
 -- clinic_slug is the clinic's public URL slug, the only stable key a clinic
 -- has. Never key on Clinic.id from data/clinics.json: it is a row position in
@@ -114,7 +116,39 @@ create index if not exists featured_listings_unlinked_slug_idx
 create index if not exists featured_listings_city_idx
   on public.featured_listings (state_slug, city_slug, status);
 
--- Waitlist for the Claimed and Verified tier, which is not self-serve yet.
+-- Free claims: a clinic asking to correct its listing. Nothing is granted on
+-- insert. A human checks the claimant (an email at the clinic's own domain, or
+-- a call to its listed number), applies the corrections, then sets
+-- confirmed_at, which shows "Details confirmed by the clinic on <date>" on the
+-- page. That marker is free and is never sold. email_domain_matches is a hint
+-- computed on submit, not proof: anyone can type any address.
+create table if not exists public.clinic_claims (
+  id uuid primary key default gen_random_uuid(),
+  clinic_slug text not null,
+  clinic_name text,
+  contact_name text not null,
+  contact_role text,
+  contact_email text not null,
+  phone text,
+  corrections text,
+  email_domain_matches boolean not null default false,
+  status text not null default 'new'
+    check (status in ('new', 'identity_confirmed', 'applied', 'rejected')),
+  confirmed_at timestamptz,
+  notes text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists clinic_claims_status_idx
+  on public.clinic_claims (status, created_at desc);
+
+create index if not exists clinic_claims_confirmed_idx
+  on public.clinic_claims (clinic_slug)
+  where confirmed_at is not null;
+
+-- Waitlist for a featured slot in a city that is full. Rows written before
+-- October 2026 are claim requests from when claiming was not self-serve.
 create table if not exists public.claim_waitlist (
   id uuid primary key default gen_random_uuid(),
   clinic_slug text,
@@ -142,4 +176,5 @@ create table if not exists public.stripe_events (
 alter table public.clinic_submissions enable row level security;
 alter table public.featured_listings enable row level security;
 alter table public.claim_waitlist enable row level security;
+alter table public.clinic_claims enable row level security;
 alter table public.stripe_events enable row level security;

@@ -8,12 +8,12 @@ import { OG_IMAGE } from "@/lib/og-image"
 export const metadata: Metadata = {
   title: "Claim Your Sleep Clinic Listing",
   description:
-    "Claim your sleep clinic's listing on US Sleep Clinics. Get a verified badge, edit your details, and take a featured placement at the top of your city's results.",
+    "Claim your sleep clinic's listing on US Sleep Clinics for free and correct your details. Optional Enhanced Profile and featured placement in your city.",
   alternates: { canonical: "https://www.ussleepclinics.com/claim" },
   openGraph: {
     title: "Claim Your Sleep Clinic Listing",
     description:
-      "Verify your clinic, control your listing, and appear at the top of your city on US Sleep Clinics.",
+      "Claim your listing free, correct your details, and optionally upgrade on US Sleep Clinics.",
     url: "https://www.ussleepclinics.com/claim",
     images: OG_IMAGE,
   },
@@ -30,8 +30,8 @@ export default function ClaimPage() {
             Claim Your Listing
           </h1>
           <p className="text-lg text-slate-200 leading-relaxed mt-5">
-            Find your clinic in the directory, then choose how you want it to appear. Claiming a
-            listing never changes its reviews or its rating.
+            Find your clinic, then claim it free to correct your details, or upgrade how it
+            appears. Claiming a listing never changes its reviews or its rating.
           </p>
         </div>
       </section>

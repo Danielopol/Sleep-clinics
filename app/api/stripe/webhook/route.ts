@@ -63,6 +63,9 @@ function revalidateFeaturedPages(stateSlug?: string | null, citySlug?: string | 
 async function handleCheckoutCompleted(session: Stripe.Checkout.Session, stripe: Stripe) {
   const kind = session.metadata?.kind
 
+  // Legacy: the $99 priority add was retired on 2026-10-24 (submission is free
+  // now). Still handled so a checkout opened before the change, and completed
+  // after it, is recorded and fulfilled rather than dropped.
   if (kind === "priority-add") {
     const submissionId = session.metadata?.submissionId ?? session.client_reference_id
     if (!submissionId) {

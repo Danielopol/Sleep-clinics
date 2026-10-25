@@ -2,9 +2,9 @@ import { Metadata } from "next"
 import { OG_IMAGE } from "@/lib/og-image"
 
 export const metadata: Metadata = {
-  title: "Add Your Sleep Clinic - Priority Listing in 48 Hours",
+  title: "Add Your Sleep Clinic Free",
   description:
-    "Add your sleep clinic to US Sleep Clinics with a manual review within 48 hours. Reach patients searching for sleep care in your city, refunded if we cannot publish you.",
+    "Add your sleep clinic to US Sleep Clinics at no cost. A person checks every submission against public records, and listing stays free.",
   alternates: {
     canonical: "https://www.ussleepclinics.com/submit",
   },
